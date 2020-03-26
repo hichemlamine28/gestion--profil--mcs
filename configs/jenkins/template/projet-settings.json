@@ -1,0 +1,97 @@
+{
+    "application": {
+        "name": "gestion-profil-mcs",
+        "image": {
+            "type": "docker",
+            "file_path": "./build_scripts/Dockerfile"
+        }
+    },
+    "jenkins": {
+        "node": "LABEL",
+        "gcp": {
+            "credentialsId": "SECRET_FILE_GOOGLE_CLOUD_CREDENTIAL"
+        },
+        "mail_notif": "EMAIL",
+        "scm": {
+            "credentialsId": "USERNAME_CAN_USE_SVN"
+        },
+        "sonar": {
+            "active": true
+        },
+        "maven": {
+            "settings": {
+                "credentialId": "SECRET_FILE_MAVEN_SETTING"
+            },
+            "build": {
+                "params": "clean package -s ${MAVEN_SETTINGS} -Dmaven.test.failure.ignore=true -DskipTests "
+            },
+            "sonar": {
+                "params": "org.sonarsource.scanner.maven:sonar-maven-plugin:3.5.0.1254:sonar -s ${MAVEN_SETTINGS}"
+            },
+            "release": {
+                "params": "-B release:clean release:prepare -DskipTests -s ${MAVEN_SETTINGS} -Dnexus.url=${NEXUS_URL} -Dnexus.repository.url=${NEXUS_REPOSITORY_URL} -Dnexus.repository.id=${NEXUS_REPOSITORY_ID}"
+            },
+            "publish": {
+                "params": "clean deploy -s ${MAVEN_SETTINGS} -Dnexus.url=${NEXUS_URL} -Dnexus.repository.url=${NEXUS_REPOSITORY_URL} -Dnexus.repository.id=${NEXUS_REPOSITORY_ID}"
+            }
+        },
+        "nexus": {
+            "url": "NEXUS_URL",
+            "repository": {
+                "id": "ID_IN_MAVEN_SETTING?",
+                "url": "NEXUS_REPOSITORY_URL"
+            }
+        }
+    },
+    "gcp": {
+        "credentialsId": "SECRET_FILE_GOOGLE_CLOUD_CREDENTIAL",
+        "compute_service_account": "SERVICE_ACCOUNT_IN_SECRET_FILE_GOOGLE_CLOUD_CREDENTIAL",
+        "container_registry": {
+            "location": "eu.gcr.io"
+        },
+        "kubernetes": {
+            "name": "THE_NAME",
+            "zone": "THE_ZONE",
+            "services": {
+                "NAME": {
+                    "eip_address_name": "GCP_EIP_ADDRESS_NAME"
+                }
+            }
+        }
+    },
+    "docker": {
+        "image": {
+            "build_image": {
+                "name": "cloudsdk-maven-java8-docker-svn",
+                "tag": "latest",
+                "full": "cloudsdk-maven-java8-docker-svn",
+                "scm": "https://tools.arkeup.com/svn/com.arkeup.docker/branches/cloudsdk-maven-java8-docker-svn"
+            },
+            "packager_image": {
+                "name": "java-oracle-11.0.2",
+                "tag": "latest",
+                "full": "java-oracle-11.0.2:latest",
+                "scm": "https://tools.arkeup.com/svn/com.arkeup.docker/branches/java-oracle-11.0.2"
+            },
+            "push_image": {
+                "name": "google/cloud-sdk",
+                "tag": "latest",
+                "full": "google/cloud-sdk:latest"
+            },
+            "kubernetes": {
+                "name": "google/cloud-sdk",
+                "tag": "latest",
+                "full": "google/cloud-sdk:latest"
+            }
+        }
+    },
+    "configs": {
+        "kubernetes": {
+            "repository": "SVN_URL_OF_KUBENETES_MANIFESTS"
+        }
+    },
+    "targets": {
+        "default": "dev",
+        "available": "dev\nqualif"
+    }
+}

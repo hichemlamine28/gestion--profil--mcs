@@ -1,0 +1,97 @@
+{
+    "application": {
+        "name": "gestion-profil-mcs",
+        "image": {
+            "type": "docker",
+            "file_path": "./build_scripts/Dockerfile"
+        }
+    },
+    "jenkins": {
+        "node": "slave",
+        "gcp": {
+            "credentialsId": "file-linkinnov-221611-1b9d82fcb573.json"
+        },
+        "mail_notif": "infra@arkeup.com",
+        "scm": {
+            "credentialsId": "jenkins"
+        },
+        "sonar": {
+            "active": false
+        },
+        "maven": {
+            "settings": {
+                "credentialId": "TEMP_LINKINNOV_MAVEN_SETTINGS"
+            },
+            "build": {
+                "params": "clean package -s ${MAVEN_SETTINGS} -Dmaven.test.failure.ignore=true -DskipTests "
+            },
+            "sonar": {
+                "params": "org.sonarsource.scanner.maven:sonar-maven-plugin:3.5.0.1254:sonar -s ${MAVEN_SETTINGS}"
+            },
+            "release": {
+                "params": "-B release:clean release:prepare -DskipTests -s ${MAVEN_SETTINGS} -Dnexus.url=${NEXUS_URL} -Dnexus.repository.url=${NEXUS_REPOSITORY_URL} -Dnexus.repository.id=${NEXUS_REPOSITORY_ID}"
+            },
+            "publish": {
+                "params": "clean deploy -s ${MAVEN_SETTINGS} -Dnexus.url=${NEXUS_URL} -Dnexus.repository.url=${NEXUS_REPOSITORY_URL} -Dnexus.repository.id=${NEXUS_REPOSITORY_ID}"
+            }
+        },
+        "nexus": {
+            "url": "http://10.132.15.219:8081/",
+            "repository": {
+                "id": "linkinnov_repository_v3",
+                "url": "http://10.132.15.219:8081/repository/linkinnov/"
+            }
+        }
+    },
+    "gcp": {
+        "credentialsId": "linkinnov-221611-1b9d82fcb573.json",
+        "compute_service_account": "298882591464-compute@developer.gserviceaccount.com",
+        "container_registry": {
+            "location": "eu.gcr.io"
+        },
+        "kubernetes": {
+            "name": "linkinnov",
+            "zone": "europe-west1-b",
+            "services": {
+                "gestion_profil_mcs_lb": {
+                    "eip_address_name": "ip-linkinnov-dev-3"
+                }
+            }
+        }
+    },
+    "docker": {
+        "image": {
+            "build_image": {
+                "name": "cloudsdk-maven-java8-docker-svn",
+                "tag": "latest",
+                "full": "cloudsdk-maven-java8-docker-svn",
+                "scm": "https://svn.arkeup.com/com.arkeup.docker/branches/cloudsdk-maven-java8-docker-svn"
+            },
+            "packager_image": {
+                "name": "java-oracle-11.0.2",
+                "tag": "latest",
+                "full": "java-oracle-11.0.2:latest",
+                "scm": "https://svn.arkeup.com/com.arkeup.docker/branches/java-oracle-11.0.2"
+            },
+            "push_image": {
+                "name": "google/cloud-sdk",
+                "tag": "latest",
+                "full": "google/cloud-sdk:latest"
+            },
+            "kubernetes": {
+                "name": "google/cloud-sdk",
+                "tag": "latest",
+                "full": "google/cloud-sdk:latest"
+            }
+        }
+    },
+    "configs": {
+        "kubernetes": {
+            "repository": "https://svn.arkeup.com/com.link-innov.platform/trunk/"
+        }
+    },
+    "targets": {
+        "default": "dev",
+        "available": "dev\nqualif\npreprod\nprod"
+    }
+}

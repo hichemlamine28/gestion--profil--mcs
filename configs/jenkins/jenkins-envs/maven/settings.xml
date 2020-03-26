@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <profiles>
+    <profile>
+      <id>togethup_repo</id>
+      <repositories>
+        <repository>
+          <id>togethup_public_repository</id>
+          <name>Togethup Public Maven Repository Group</name>
+          <url>https://tools.arkeup.com/nexus/content/groups/public/</url>
+        </repository>
+      </repositories>
+    </profile>
+
+    <profile>
+      <id>linkinnov_repo_v3</id>
+      <repositories>
+        <repository>
+          <id>linkinnov_repository_v3</id>
+          <name>Linkinnov v3 Maven Repository Group</name>
+          <url>https://nexus.linkinnov.com/repository/linkinnov/</url>
+        </repository>
+      </repositories>
+    </profile>
+
+  </profiles>
+
+  <servers>
+    <server>
+      <id>linkinnov_repository_v3</id>
+      <username>USERNAME</username>
+      <password>PASSWORD</password>
+    </server>
+  </servers>
+
+  <activeProfiles>
+    <activeProfile>togethup_repo</activeProfile>
+    <activeProfile>linkinnov_repo_v3</activeProfile>
+  </activeProfiles>
+</settings>
