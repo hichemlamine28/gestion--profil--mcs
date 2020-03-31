@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.skill;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class SkillRSMImpl implements SkillRSM {
 	@Override
 	public Page<Skill> findSkill(String name, Pageable pageable) {
 		return skillRepository.findSkill(name, pageable);
+	}
+
+	@Override
+	public List<Skill> findByLabel(String label) {
+		return skillRepository.findByName(label);
 	}
 }
