@@ -134,4 +134,19 @@ public class SkillRSAImpl implements SkillRSA {
 
 		return result;
 	}
+
+	@Override
+	public List<String> findUsersBySkillLabel(String label) {
+		List<Skill> skillResult = skillRSM.findByLabel(label);
+		List<String> profileIds = new ArrayList<>();
+		for (Skill skillRst : skillResult) {
+			if (skillRst != null) {
+
+				profileIds.add(skillRst.getUserId());
+			}
+
+		}
+
+		return profileIds;
+	}
 }
