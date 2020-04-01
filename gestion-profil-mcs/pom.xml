@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.arkeup.link_innov</groupId>
 	<artifactId>gestion-profil-mcs</artifactId>
@@ -26,11 +28,10 @@
 		<pmdVersion>6.8.0</pmdVersion>
 		<!-- automatically run annotation processors within the incremental compilation -->
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
-		<!--	scm:svn:https://tools.arkeup.com/svn/{path to repo}-->
+		<!-- scm:svn:https://tools.arkeup.com/svn/{path to repo} -->
 		<!-- DO NOT CHANGE THE custom.scm VALUES !!!!! -->
-		<!-- these values muse be set using mvn. example :
-				mvn -Dcustom.scm.connection=url -Dcustom.scm.developerConnection=url -Dcustom.scm.url=url clean package
-		 -->
+		<!-- these values muse be set using mvn. example : mvn -Dcustom.scm.connection=url 
+			-Dcustom.scm.developerConnection=url -Dcustom.scm.url=url clean package -->
 		<custom.scm.connection>null</custom.scm.connection> <!-- DO NOT CHANGE !!!!! -->
 		<custom.scm.developerConnection>null</custom.scm.developerConnection> <!-- DO NOT CHANGE !!!!! -->
 		<custom.scm.url>null</custom.scm.url> <!-- DO NOT CHANGE !!!!! -->
@@ -106,7 +107,7 @@
 									<token>mongodb.default.password=(.*)</token>
 									<value>mongodb.default.password=${mongodb.default.password}</value>
 								</replacement>
-								
+
 								<replacement>
 									<token>mongodb.oauth2.host=(.*)</token>
 									<value>mongodb.oauth2.host=${mongodb.oauth2.host}</value>
@@ -123,7 +124,7 @@
 									<token>mongodb.oauth2.password=(.*)</token>
 									<value>mongodb.oauth2.password=${mongodb.oauth2.password}</value>
 								</replacement>
-								
+
 								<replacement>
 									<token>mongodb.secure=(.*)</token>
 									<value>mongodb.secure=${mongodb.secure}</value>
@@ -132,7 +133,7 @@
 									<token>mongodb.admin=(.*)</token>
 									<value>mongodb.admin=${mongodb.admin}</value>
 								</replacement>
-								
+
 
 								<replacement>
 									<token>es.host=(.*)</token>
@@ -234,7 +235,7 @@
 									<token>abonnement.mcs.url=(.*)</token>
 									<value>abonnement.mcs.url=${abonnement.mcs.url}</value>
 								</replacement>
-								
+
 								<replacement>
 									<token>spring.servlet.multipart.max-file-size=(.*)</token>
 									<value>spring.servlet.multipart.max-file-size=${spring.servlet.multipart.max-file-size}</value>
@@ -263,7 +264,8 @@
 		</url>
 	</scm>
 	<!-- MAVEN COMMAND TO DEPLOY -->
-	<!-- mvn clean deploy -Dnexus.url=https://nexus3.arkeup.com/ -Dnexus.repository.url=https://nexus3.arkeup.com/repository/arkeup/ -Dnexus.repository.id=arkeup_repository_v3  -->
+	<!-- mvn clean deploy -Dnexus.url=https://nexus3.arkeup.com/ -Dnexus.repository.url=https://nexus3.arkeup.com/repository/arkeup/ 
+		-Dnexus.repository.id=arkeup_repository_v3 -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>${nexus.repository.id}</id>
@@ -283,7 +285,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<!--  SECURITY -->
+		<!-- SECURITY -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -316,20 +318,20 @@
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 			<version>2.0.2.RELEASE</version>
 		</dependency>
-		<!-- 		<dependency> -->
-		<!-- 			<groupId>org.springframework.security</groupId> -->
-		<!-- 			<artifactId>spring-security-oauth2-client</artifactId> -->
-		<!-- 		</dependency> -->
-		<!--<dependency>-->
-		<!--<groupId>org.springframework.security</groupId>-->
-		<!--<artifactId>spring-security-oauth2-jose</artifactId>-->
-		<!--</dependency>-->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.security</groupId> -->
+		<!-- <artifactId>spring-security-oauth2-client</artifactId> -->
+		<!-- </dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.springframework.security</groupId> -->
+		<!--<artifactId>spring-security-oauth2-jose</artifactId> -->
+		<!--</dependency> -->
 		<dependency>
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.0.5.RELEASE</version>
 		</dependency>
-		<!--  SECURITY -->
+		<!-- SECURITY -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
@@ -366,17 +368,17 @@
 			<artifactId>jackson-dataformat-csv</artifactId>
 			<version>${com.fasterxml.jackson.core.version}</version>
 		</dependency>
-		<!--  mongodb dependencies-->
+		<!-- mongodb dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>com.github.mongobee</groupId>
-            <artifactId>mongobee</artifactId>
-            <version>0.13</version>
-        </dependency>
-		<!--  Elastic Search dependencies-->
+			<groupId>com.github.mongobee</groupId>
+			<artifactId>mongobee</artifactId>
+			<version>0.13</version>
+		</dependency>
+		<!-- Elastic Search dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
@@ -386,17 +388,17 @@
 			<artifactId>transport</artifactId>
 			<version>${elasticsearch.version}</version>
 		</dependency>
-		<!--  LDAP dependencies-->
+		<!-- LDAP dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-ldap</artifactId>
 		</dependency>
-		<!-- Neo4j dependencies-->
+		<!-- Neo4j dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
-		<!--  mapper un objet vers un autre -->
+		<!-- mapper un objet vers un autre -->
 		<dependency>
 			<groupId>com.googlecode.jmapper-framework</groupId>
 			<artifactId>jmapper-core</artifactId>
@@ -412,7 +414,7 @@
 			<artifactId>mapstruct-processor</artifactId>
 			<version>${org.mapstruct.version}</version>
 		</dependency>
-		<!--nécessaire pour fonctionner sur java 9+-->
+		<!--nécessaire pour fonctionner sur java 9+ -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -473,7 +475,9 @@
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency>
-		<!-- Notification Data : to use this dependency get notification data from svn and build it locally, this will automatically add the jar to the maven repository-->
+		<!-- Notification Data : to use this dependency get notification data from 
+			svn and build it locally, this will automatically add the jar to the maven 
+			repository -->
 		<dependency>
 			<groupId>com.arkeup.link_innov</groupId>
 			<artifactId>notification-data</artifactId>
@@ -490,9 +494,9 @@
 			<version>0.40.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.opencsv</groupId>
-		    <artifactId>opencsv</artifactId>
-		    <version>4.5</version>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>4.5</version>
 		</dependency>
 
 		<dependency>
@@ -523,11 +527,11 @@
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>3.9</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.arkeup.modules</groupId>
-		    <artifactId>logging</artifactId>
-		    <version>0.0.1</version>
+			<groupId>com.arkeup.modules</groupId>
+			<artifactId>logging</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 		<!-- End library Apache POI -->
 	</dependencies>
@@ -605,6 +609,7 @@
 					</rulesets>
 					<excludes>
 						<exclude>**/SSLUtilities.java</exclude>
+						<exclude>**/User**.java</exclude>
 					</excludes>
 				</configuration>
 				<dependencies>
