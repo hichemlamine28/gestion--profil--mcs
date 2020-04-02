@@ -1,6 +1,5 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +7,21 @@ import org.springframework.stereotype.Service;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions;
-import com.arkeup.link_innov.gestion_profil_mcs.service.repository.mongo.mcs.UserHistoryRepository;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserHistoryDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.service.repository.mongo.mcs.UserHistoryMongoRepository;
+
 
 @Service
 public class UserHistoryServiceImpl implements UserHistoryService {
 
 	@Autowired
-	private UserHistoryRepository userHistoryRepository;
+	private UserHistoryMongoRepository userHistoryRepository;
+	
 
 	// Create operation
 	@Override
-	public UserHistory create(Date actionDate, List<UserHistoryActions> actions) {
+	public UserHistory create(String actionDate, List<UserHistoryActions> actions) {
+
 		return userHistoryRepository.save(new UserHistory(actionDate, actions));
 	}
 
@@ -26,6 +29,11 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 	@Override
 	public List<UserHistory> getAll() {
 		return userHistoryRepository.findAll();
+	}
+
+	@Override
+	public List<UserHistory> getAllByDate(String actionDate) {
+		return userHistoryRepository.findByactionDate(actionDate);
 	}
 
 //	@Override

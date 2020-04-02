@@ -1,6 +1,5 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil;
 
-import java.util.Date;
 import java.util.List;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
@@ -8,9 +7,10 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions
 
 public interface UserHistoryService {
 
-	public UserHistory create(Date actionDate, List<UserHistoryActions> actions);
+	public UserHistory create(String actionDate, List<UserHistoryActions> actions);
 
 	List<UserHistory> getAll();
+	List<UserHistory> getAllByDate(String actionDate);
 
 //	UserHistory getByFirstName(String firstName);
 

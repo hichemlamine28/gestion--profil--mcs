@@ -1,7 +1,7 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +24,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.MediaType;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Category;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Corporation;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CorporationDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsHasMediaUpdatedDTO;
@@ -178,21 +179,26 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 				"userTestPremium@yopmail.com", "www.user-test-premium.com", "userPremium", "userpremium");
 		profilCUDSM.update(entity);
 
-		List<String> ac = new ArrayList<>();
-		ac.add("Update");
-		ac.add("Creation");
-		UserHistoryActions actions = new UserHistoryActions("userID1188", ac);
+		
+		List<UserHistory> histories = userHistoryService.getAll();
+		
+		if (histories == null || histories.isEmpty()) {
+			List<String> userId = new ArrayList<>();
+			userId.add("125");
+			userId.add("333");
+			UserHistoryActions actions = new UserHistoryActions("1", "Connecte", userId);
+			List<String> userIdd = new ArrayList<>();
+			userIdd.add("951");
+			userIdd.add("3278");
+			UserHistoryActions actionss = new UserHistoryActions("2", "update", userIdd);
+	
+			List<UserHistoryActions> listActions = new ArrayList<>();
+			listActions.add(actions);
+			listActions.add(actionss);
+	
+			userHistoryService.create("02-12-1900", listActions);
+		}
 
-		List<String> acc = new ArrayList<>();
-		ac.add("Update");
-		ac.add("Connect");
-		UserHistoryActions actionss = new UserHistoryActions("userID1189", acc);
-
-		List<UserHistoryActions> listActions = new ArrayList<>();
-		listActions.add(actions);
-		listActions.add(actionss);
-
-		userHistoryService.create(new Date(), listActions);
 	}
 
 	public Profil initProfil(String uuid, String username, String email, String webSite, String lastName,

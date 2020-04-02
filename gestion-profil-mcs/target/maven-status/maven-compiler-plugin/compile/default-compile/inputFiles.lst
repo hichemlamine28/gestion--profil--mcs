@@ -236,6 +236,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/FunctionalOperationDeniedException.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/role/RoleRSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/activitysector/ActivitySectorRSM.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/UserHistoryRepository.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/validator/UserAuthDTOValidator.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/RoomDTO.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/GroupESRepository.java
@@ -250,6 +251,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/UserRSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/ProfileView.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/dynamic_page/DynamicPageCUDSMImpl.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistoryDTO.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/utils/HelpPageable.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/referential/numberofemployee/NumberOfEmployeeRSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/referential/NumberOfEmployee.java
@@ -559,6 +561,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProductionHasMediaDTO.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/productions/ProductionCUDSAImpl.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/ClassificationRepositoryImpl.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/UserHistoryMongoRepository.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/favorite/FavoriteMapper.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/group/GroupDTORequestPartHttpMessageConverter.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/ActivitySectorMongoRepository.java
@@ -575,6 +578,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil_views/ProfilViewsRSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/UserHistoryServiceImpl.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/UserConnexion.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistoryActionsDTO.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/mongo/changesets/def/PatentUpdates.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/productions/other/OtherRSMImpl.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CorporationHasMediaDTO.java
@@ -598,6 +602,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/productions/other/OtherCUDSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/technique/rabbitmq/RabbitMqCommunicationST.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/UserInformationRepositoryImpl.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistory.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/businessdelegate/SubscriptionDTO.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/ExternalSignUpSA.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CustomListDTO.java
@@ -651,6 +656,7 @@
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/commun/config/SwaggerConfig.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/favorite/FavoriteCUDSM.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/group/GroupCUDSM.java
+/home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/UserHistoryESRepository.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/corporation/CorporationController.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/ActivitySectorRepositoryImpl.java
 /home/bp1/WorkSTS/NOTIF_Intelligente/GestionProfilMCS/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Category.java

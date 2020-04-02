@@ -86,6 +86,7 @@ com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/production/Productio
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/ldap/RoleRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Role.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CustomSortDTO.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistory.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CorporationIdsDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/referential/classification/ClassificationRSA.class
 com/arkeup/link_innov/gestion_profil_mcs/commun/logging/LoggerAspect$VariableMCDLogEnum.class
@@ -340,6 +341,7 @@ com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProductionHasMediaDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/RegistrationFactory.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/keyword/KeywordRSMImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/SkillRepositoryImpl.class
+com/arkeup/link_innov/gestion_profil_mcs/service/repository/UserHistoryRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/parcours/ParcoursCUDSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/user_auth/UserAuthCUDSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/group/GroupMapperImpl.class
@@ -440,6 +442,7 @@ com/arkeup/link_innov/gestion_profil_mcs/service/repository/ActivitySectorReposi
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Productions.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/PatentMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/referential/classification/ClassificationCUDSMImpl.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistoryActionsDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/technique/rabbitmq/RabbitMqCommunicationST.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/keyword/KeywordRSM.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/ParcoursRepositoryImpl.class
@@ -461,6 +464,7 @@ com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/UserI
 com/arkeup/link_innov/gestion_profil_mcs/donnee/constants/DownloadStatus.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/CategoryRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/neo4j/User.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistoryDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/production/ProductionMapper.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/group_consultation/GroupConsultationCUDSA.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/PostDTO.class
@@ -569,6 +573,7 @@ com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/UserHistor
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/TypologyRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProfilViewersDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/favorite/FavoriteMapperImpl.class
+com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/UserHistoryESRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/infrastructure/favorite/FavoriteController.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/RabbitMQUserDTOFactory.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/validator/EmailValidator.class
@@ -659,6 +664,7 @@ com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/productions/pat
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/profil/ProfilCUDSMImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsFriendDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/parcours/ParcoursFactory.class
+com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/UserHistoryMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/ProjectRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/infrastructure/admin/AdminController.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/SignUpSA.class
