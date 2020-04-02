@@ -1,6 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.donnee.domain;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -12,49 +12,26 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.commun.BaseDTO;
 public class UserHistory extends BaseDTO {
 	@Id
 	String id;
-	Date actionDate;
+	String actionDate;
 	List<UserHistoryActions> userHistoryActions;
-//	List<String> actions;
-//	String firstName;
-//	String lastName;
-//	int age;
 
-	public UserHistory(Date actionDate, List<UserHistoryActions> actions) {
+	public UserHistory() {
+	}
+
+	public UserHistory(String actionDate, List<UserHistoryActions> acns) {
 		this.actionDate = actionDate;
-		this.userHistoryActions = actions;
-//		this.age = age;
+		if (acns == null) {
+			userHistoryActions = new ArrayList<>();
+		}
+		this.userHistoryActions = acns;
 
 	}
 
-//	public String getFirstName() {
-//		return firstName;
-//	}
-
-//	public void setFirstName(String firstName) {
-//		this.firstName = firstName;
-//	}
-
-//	public String getLastName() {
-//		return lastName;
-//	}
-
-//	public void setLastName(String lastName) {
-//		this.lastName = lastName;
-//	}
-
-//	public int getAge() {
-//		return age;
-//	}
-
-//	public void setAge(int age) {
-//		this.age = age;
-//	}
-
-	public Date getActionDate() {
+	public String getActionDate() {
 		return actionDate;
 	}
 
-	public void setActionDate(Date actionDate) {
+	public void setActionDate(String actionDate) {
 		this.actionDate = actionDate;
 	}
 
