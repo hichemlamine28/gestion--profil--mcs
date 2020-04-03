@@ -3,11 +3,16 @@
  */
 package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.inscription;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,20 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.UserAuthDTOValidator;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserAuthDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.SignUpSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @RestController
 @Api("Validation de Compte")
 @RequestMapping(value = "/account")
 public class AccountValidationController {
-
+	
     @Autowired
     private SignUpSA signUpSA;
 

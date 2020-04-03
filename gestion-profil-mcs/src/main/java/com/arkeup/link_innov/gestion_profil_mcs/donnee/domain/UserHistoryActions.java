@@ -13,6 +13,7 @@ public class UserHistoryActions {
 	private String action_id;
 	private String action_Name;
 	private List<String> userId;
+	private int occurence = 1;
 
 	public UserHistoryActions() {
 	}
@@ -51,6 +52,14 @@ public class UserHistoryActions {
 
 	public void setUserId(List<String> userId) {
 		this.userId = userId;
+	}
+
+	public int getOccurence() {
+		return occurence;
+	}
+
+	public void setOccurence(int occurence) {
+		this.occurence = occurence;
 	}
 
 }

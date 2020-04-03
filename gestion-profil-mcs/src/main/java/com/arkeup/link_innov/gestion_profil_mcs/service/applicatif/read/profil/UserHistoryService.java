@@ -12,6 +12,10 @@ public interface UserHistoryService {
 	List<UserHistory> getAll();
 	List<UserHistory> getAllByDate(String actionDate);
 
+	UserHistory update(String actionDate, List<UserHistoryActions> actions);
+
+	void addOrUbdateHistory(String userID, String actionName);
+
 //	UserHistory getByFirstName(String firstName);
 
 //	UserHistory update(String firstName, String lastName, int age);

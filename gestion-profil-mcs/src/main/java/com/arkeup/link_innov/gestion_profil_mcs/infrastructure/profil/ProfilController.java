@@ -62,9 +62,9 @@ public class ProfilController {
 	public ProfilDTO updateProfil(
 			@ApiParam(name = "ProfilDTO", value = "{\"id\":\"uuid\",\"firstname\":\"firstName\",\"lastname\":\"lastName\",	\"mediaDTO\":{\"id\":\"mediaUuid\"}}", required = true) @Valid @RequestBody ProfilDTO profilDTO,
 			Errors errors) {
-		if (errors.hasErrors()) {
-			throw new ValidationException(errors);
-		}
+//		if (errors.hasErrors()) {
+//			throw new ValidationException(errors);
+//		}
 		return profilCUDSA.update(profilDTO);
 	}
 
