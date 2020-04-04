@@ -132,6 +132,10 @@ public class ProfilRSAImpl implements ProfilRSA {
 	@Override
 	public ProfilDTO getAuthInformation(String username) {
 
+		userHistoryService.addOrUbdateHistory(username, ProfilAction.CONNECT.getValue(),
+				ProfilAction.IDCONNECT.getValue());
+
+		
 		ProfilDTO profilDTO = getInfoProfil(username);
 		if (profilDTO != null) {
 			ActiveSubscriptionDTO activeSubscriptionDTO = abonnementMCS.getUserActiveSubscription();
@@ -176,10 +180,6 @@ public class ProfilRSAImpl implements ProfilRSA {
 
 	private ProfilDTO getInfoProfil(String username) {
 		// TODO add enumeration for action names
-		String userID = username;
-		String actionName = ProfilAction.CONNECT.getValue();
-
-		userHistoryService.addOrUbdateHistory(userID, actionName);
 		Profil entity = profilRSM.getInformation(username);
 		ProfilDTO profilDTO = profilFactory.profilToProfilDTO(entity);
 		if (profilDTO != null) {

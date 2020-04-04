@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,8 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 
 	@Autowired
 	private UserHistoryMongoRepository userHistoryRepository;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserHistoryServiceImpl.class);
 
 	// Create operation
 	@Override
@@ -38,12 +44,6 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 		return userHistoryRepository.findByactionDate(actionDate);
 	}
 
-//	@Override
-//	public UserHistory getByFirstName(String firstName) {
-//		return personRepository.findByFirstName(firstName);
-//	}
-
-	// Update operation
 	@Override
 	public UserHistory update(String actionDate, List<UserHistoryActions> actions) {
 		List<UserHistory> p = userHistoryRepository.findByactionDate(actionDate);
@@ -51,46 +51,89 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 		history.setActions(actions);
 		return userHistoryRepository.save(history);
 	}
-@Override
-	public void addOrUbdateHistory(String userID, String actionName) {
+
+	@Override
+	public void addOrUbdateHistory(String userID, String actionName, String actionId) {
 		String pattern = "dd/MM/yyyy";
 		DateFormat df = new SimpleDateFormat(pattern);
 		Date today = Calendar.getInstance().getTime();
+
+		// Today
 		String historyDate = df.format(today);
-		List<String> userIDs = new ArrayList<>();
-		userIDs.add(userID);
 
+		// Get History by date
 		List<UserHistory> historiesAll = getAllByDate(historyDate);
-		if (historiesAll.isEmpty() || historiesAll == null) {
 
-			UserHistoryActions action = new UserHistoryActions("2", actionName, userIDs);
+		if (historiesAll.isEmpty() || historiesAll == null) {
+			// if we don't have UserHistory so create a new UserHistory
+			Map<String, Integer> userIDs = new HashMap<>();
+			userIDs.put(userID, 1);
+			UserHistoryActions action = new UserHistoryActions(actionId, actionName, userIDs);
 			List<UserHistoryActions> actions = new ArrayList<>();
 			actions.add(action);
+			// Create a new UserHistory
 			create(historyDate, actions);
+			LOGGER.info("Create new UserHistory date :" + historyDate + " The first Action Name :" + actionName);
 		} else {
+			// We have one UserHistory in this day so update the existing UserHistory
+
+			// Get UserHistory
 			UserHistory existingHistory = historiesAll.get(0);
+
+			// Get all actions
 			List<UserHistoryActions> actions = existingHistory.getActions();
+
+			boolean isnew = true;
 			for (UserHistoryActions userHistoryActions : actions) {
+
 				if (userHistoryActions.getAction_Name().equals(actionName)) {
+
+					// Action name exist so update the user list
 					System.out.println("Action exist add user");
-					List<String> ExistinguserIDs = new ArrayList<>();
-					int newOccurence = userHistoryActions.getOccurence()+1;
-					ExistinguserIDs = userHistoryActions.getUserId();
-					ExistinguserIDs.addAll(userIDs);
+
+					// increment the occurence value
+//					int newOccurence = userHistoryActions.getOccurence() + 1;
+
+					// Get existing User IDs
+					Map<String, Integer> ExistinguserIDs = userHistoryActions.getUserId();
+
+					updateOccurence(userID, ExistinguserIDs);
+
+//					ExistinguserIDs.addAll(userIDs);
+
+					// Aliment the new list of users
 					userHistoryActions.setUserId(ExistinguserIDs);
-					userHistoryActions.setOccurence(newOccurence);
+
+					// Aliment the Occurence value
+//					userHistoryActions.setOccurence(newOccurence);
 					update(historyDate, actions);
-				} else {
-					System.out.println("New Action");
-					UserHistoryActions newAction = new UserHistoryActions();
-					newAction.setAction_Name(actionName);
-					List<String> newserIDs = new ArrayList<>();
-					newserIDs.addAll(userIDs);
-					newAction.setUserId(newserIDs);
-					actions.add(newAction);
-					update(historyDate, actions);
+					isnew = false;
+					LOGGER.info("Update existing Action for UserHistory date :" + historyDate + " Action Name :"
+							+ actionName);
+					break;
 				}
 			}
+			if (isnew) {
+				// Action name note exist
+				System.out.println("New Action");
+
+				// Create new action
+				UserHistoryActions newAction = new UserHistoryActions();
+
+				Map<String, Integer> userIDs = new HashMap<>();
+				userIDs.put(userID, 1);
+
+				// Add Users to the new action
+				newAction.setUserId(userIDs);
+				// Set action name
+				newAction.setAction_Name(actionName);
+				newAction.setAction_id(actionId);
+				actions.add(newAction);
+				// Udate history
+				update(historyDate, actions);
+				LOGGER.info("Create new Action for UserHistory date :" + historyDate + " Action Name :" + actionName);
+			}
+
 		}
 	}
 	// Delete operation
@@ -98,6 +141,25 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 //	public void deleteAll() {
 //		personRepository.deleteAll();
 //	}
+
+	private void updateOccurence(String userID, Map<String, Integer> ExistinguserIDs) {
+		boolean userisNew = true;
+
+		for (Map.Entry<String, Integer> entry : ExistinguserIDs.entrySet()) {
+
+			if ((entry.getKey()).equals(userID)) {
+				LOGGER.info("Update the occurence value of  User : " + entry.getKey());
+				ExistinguserIDs.replace(entry.getKey(), entry.getValue() + 1);
+				userisNew = false;
+				break;
+			}
+
+		}
+
+		if (userisNew) {
+			ExistinguserIDs.put(userID, 1);
+		}
+	}
 
 //	@Override
 //	public void delete(String firstName) {

@@ -104,11 +104,8 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	@Override
 	public ProfilDTO update(ProfilDTO profilDTO) {
 
-		
-		String userID = profilDTO.getId();
-		String actionName = ProfilAction.UPDATE.getValue();
-
-		personService.addOrUbdateHistory(userID, actionName);
+		personService.addOrUbdateHistory(profilDTO.getId(), ProfilAction.UPDATE.getValue(),
+				ProfilAction.IDUPDATE.getValue());
 
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();

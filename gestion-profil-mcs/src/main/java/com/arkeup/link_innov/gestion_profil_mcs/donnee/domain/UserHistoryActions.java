@@ -1,7 +1,7 @@
 package com.arkeup.link_innov.gestion_profil_mcs.donnee.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 
@@ -12,19 +12,19 @@ public class UserHistoryActions {
 	@Id
 	private String action_id;
 	private String action_Name;
-	private List<String> userId;
-	private int occurence = 1;
+	private Map<String, Integer> userId = new HashMap<>();
+//	private int occurence = 1;
 
 	public UserHistoryActions() {
 	}
 
-	public UserHistoryActions(String action_id, String action_Name, List<String> userId) {
+	public UserHistoryActions(String action_id, String action_Name, Map<String, Integer> userId) {
 		super();
 		this.action_id = action_id;
 		this.action_Name = action_Name;
 		if (userId == null) {
-			userId = new ArrayList<>();
-			userId.add("non");
+			userId = new HashMap<>();
+			userId.put("non", 0);
 
 		}
 		this.userId = userId;
@@ -46,20 +46,20 @@ public class UserHistoryActions {
 		this.action_Name = action_Name;
 	}
 
-	public List<String> getUserId() {
+	public Map<String, Integer> getUserId() {
 		return userId;
 	}
 
-	public void setUserId(List<String> userId) {
+	public void setUserId(Map<String, Integer> userId) {
 		this.userId = userId;
 	}
 
-	public int getOccurence() {
-		return occurence;
-	}
-
-	public void setOccurence(int occurence) {
-		this.occurence = occurence;
-	}
+//	public int getOccurence() {
+//		return occurence;
+//	}
+//
+//	public void setOccurence(int occurence) {
+//		this.occurence = occurence;
+//	}
 
 }

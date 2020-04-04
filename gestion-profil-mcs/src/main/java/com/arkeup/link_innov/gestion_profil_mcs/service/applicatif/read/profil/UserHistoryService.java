@@ -14,7 +14,7 @@ public interface UserHistoryService {
 
 	UserHistory update(String actionDate, List<UserHistoryActions> actions);
 
-	void addOrUbdateHistory(String userID, String actionName);
+	void addOrUbdateHistory(String userID, String actionName, String actionId);
 
 //	UserHistory getByFirstName(String firstName);
 
