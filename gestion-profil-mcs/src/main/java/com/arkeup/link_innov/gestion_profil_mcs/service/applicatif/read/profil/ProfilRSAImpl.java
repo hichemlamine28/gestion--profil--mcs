@@ -16,6 +16,8 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -123,6 +125,8 @@ public class ProfilRSAImpl implements ProfilRSA {
 
 	public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MMMM/yyyy HH:mm");
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilRSAImpl.class);
+
 	/**
 	 * Ticket : http://jira.arkeup.com/browse/LKV-2402
 	 *
@@ -132,10 +136,11 @@ public class ProfilRSAImpl implements ProfilRSA {
 	@Override
 	public ProfilDTO getAuthInformation(String username) {
 
-		userHistoryService.addOrUbdateHistory(username, ProfilAction.CONNECT.getValue(),
-				ProfilAction.IDCONNECT.getValue());
+//		LOGGER.info("GetAuthInformation : Begin to save user history from connection");
+//		userHistoryService.addOrUbdateHistory(username, ProfilAction.CONNECT.getValue(),
+//				ProfilAction.IDCONNECT.getValue());
+//		LOGGER.info("GetAuthInformation : End to save user history from connection");
 
-		
 		ProfilDTO profilDTO = getInfoProfil(username);
 		if (profilDTO != null) {
 			ActiveSubscriptionDTO activeSubscriptionDTO = abonnementMCS.getUserActiveSubscription();

@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.*;
-import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.contact_consultation.ContactConsultationCUDSA;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -14,16 +14,38 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.ProfilDTOValidator;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsHasMediaUpdatedDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PageContactsDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PostDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilAdminDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilHasMediaDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PublicProfilDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserValidatorDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.commun.CustomPageDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.contact_consultation.ContactConsultationCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil.ProfilCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.information.UserInformationRSAImpl;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -51,6 +73,11 @@ public class ProfilController {
 	@Autowired
 	private ProfilDTOValidator profilDTOValidator;
 
+	@Autowired
+	private UserHistoryService userHistoryService;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilController.class);
+
 	@InitBinder("profilDTO")
 	protected void initProfilDTOBinder(WebDataBinder binder) {
 		binder.setValidator(profilDTOValidator);
@@ -74,6 +101,11 @@ public class ProfilController {
 	public ProfilDTO getAuthInformation() {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
+		// Save User History
+		LOGGER.info("GetAuthInformation : Begin to save user history from connection");
+		userHistoryService.addOrUbdateHistory(userName, ProfilAction.CONNECT.getValue(),
+				ProfilAction.IDCONNECT.getValue());
+		LOGGER.info("GetAuthInformation : End to save user history from connection");
 		return profilRSA.getProfil(userName);
 	}
 
@@ -278,7 +310,7 @@ public class ProfilController {
 				.getUsername();
 		return profilRSA.getExportFileUrl(userName);
 	}
-	
+
 	@ApiOperation(value = "get new subscribed users informations", notes = "This WS is used to get new subscribed users informations.")
 	@GetMapping(value = { "/last/subscribed/users" }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public CustomPageDTO<ProfilDTO> getNewSubscribedUsers(Pageable pageable) {
@@ -311,7 +343,7 @@ public class ProfilController {
 
 	@ApiOperation(value = "update profil has Media", notes = "WS update profil has Media")
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEADMIN)
-	@PutMapping(value = {"/update_all_has_media/{type}"})
+	@PutMapping(value = { "/update_all_has_media/{type}" })
 	@ResponseBody
 	public IsHasMediaUpdatedDTO updateAllHasMedia(@PathVariable("type") String type) {
 		return this.profilCUDSA.updateAllHasMedia(type);

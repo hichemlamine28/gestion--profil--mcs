@@ -1,12 +1,13 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +25,6 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Category;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Corporation;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CorporationDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsHasMediaUpdatedDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MapMediaDTO;
@@ -101,11 +100,15 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	@Autowired
 	private UserHistoryServiceImpl personService;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilCUDSAImpl.class);
+
 	@Override
 	public ProfilDTO update(ProfilDTO profilDTO) {
 
+		LOGGER.info("update : Begin to save user history from connection");
 		personService.addOrUbdateHistory(profilDTO.getId(), ProfilAction.UPDATE.getValue(),
 				ProfilAction.IDUPDATE.getValue());
+		LOGGER.info("update : End to save user history from connection");
 
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
