@@ -106,7 +106,7 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	public ProfilDTO update(ProfilDTO profilDTO) {
 
 		LOGGER.info("update : Begin to save user history from connection");
-		personService.addOrUbdateHistory(profilDTO.getId(), ProfilAction.UPDATE.getValue(),
+		personService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.UPDATE.getValue(),
 				ProfilAction.IDUPDATE.getValue());
 		LOGGER.info("update : End to save user history from connection");
 
