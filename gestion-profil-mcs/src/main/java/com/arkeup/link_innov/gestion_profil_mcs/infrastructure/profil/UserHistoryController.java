@@ -29,11 +29,11 @@ public class UserHistoryController {
 	@Autowired
 	private UserHistoryServiceImpl personService;
 
-	@RequestMapping("/create")
-	public String create(@RequestParam String actionDate, @RequestParam List<UserHistoryActions> actions) {
-		UserHistory p = personService.create(actionDate, actions);
-		return p.toString();
-	}
+//	@RequestMapping("/create")
+//	public String create(@RequestParam String actionDate, @RequestParam List<UserHistoryActions> actions) {
+//		UserHistory p = personService.create(actionDate, actions);
+//		return p.toString();
+//	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/getAll")
