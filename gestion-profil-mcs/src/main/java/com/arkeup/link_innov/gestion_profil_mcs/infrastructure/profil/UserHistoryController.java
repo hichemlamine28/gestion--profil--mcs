@@ -46,7 +46,7 @@ public class UserHistoryController {
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/findByDate")
 	public List<UserHistoryDTO> findByDate(
-			@ApiParam(name = "RecommandationDTO", value = "{\"skillId\":\"uid\", \"username\":\"username\"}", required = true) @RequestBody UserHistoryDTO userHistoryDTO) {
+			@ApiParam(name = "RecommandationDTO", value = "{\"actionDate\":\"uid\"}", required = true) @RequestBody UserHistoryDTO userHistoryDTO) {
 
 		List<UserHistory> histories = personService.getAllByDate(userHistoryDTO.getActionDate());
 
