@@ -105,10 +105,6 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	@Override
 	public ProfilDTO update(ProfilDTO profilDTO) {
 
-		LOGGER.info("update : Begin to save user history from connection");
-		personService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.UPDATE.getValue(),
-				ProfilAction.IDUPDATE.getValue());
-		LOGGER.info("update : End to save user history from connection");
 
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();

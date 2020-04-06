@@ -77,7 +77,7 @@ public class ProfilController {
 
 	@Autowired
 	private UserHistoryService userHistoryService;
-	
+
 	@Autowired
 	private ProfilRSM profilRSM;
 
@@ -97,6 +97,11 @@ public class ProfilController {
 //		if (errors.hasErrors()) {
 //			throw new ValidationException(errors);
 //		}
+
+		LOGGER.info("update : Begin to save user history from connection");
+		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.UPDATE.getValue(),
+				ProfilAction.IDUPDATE.getValue());
+		LOGGER.info("update : End to save user history from connection userName is " + profilDTO.getUsername());
 		return profilCUDSA.update(profilDTO);
 	}
 
