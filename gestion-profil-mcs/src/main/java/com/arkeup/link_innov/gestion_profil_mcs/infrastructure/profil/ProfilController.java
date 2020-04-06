@@ -30,6 +30,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.ProfilDTOValidator;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsHasMediaUpdatedDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PageContactsDTO;
@@ -46,6 +47,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil.Pr
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.information.UserInformationRSAImpl;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryService;
+import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -75,6 +77,9 @@ public class ProfilController {
 
 	@Autowired
 	private UserHistoryService userHistoryService;
+	
+	@Autowired
+	private ProfilRSM profilRSM;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilController.class);
 
@@ -102,8 +107,9 @@ public class ProfilController {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
 		// Save User History
+		Profil entity = profilRSM.getInformation(userName);
 		LOGGER.info("GetAuthInformation : Begin to save user history from connection");
-		userHistoryService.addOrUbdateHistory(userName, ProfilAction.CONNECT.getValue(),
+		userHistoryService.addOrUbdateHistory(entity.getUsername(), ProfilAction.CONNECT.getValue(),
 				ProfilAction.IDCONNECT.getValue());
 		LOGGER.info("GetAuthInformation : End to save user history from connection");
 		return profilRSA.getProfil(userName);
