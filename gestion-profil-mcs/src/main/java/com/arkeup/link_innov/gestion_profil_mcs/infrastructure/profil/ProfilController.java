@@ -111,6 +111,16 @@ public class ProfilController {
 	public ProfilDTO getAuthInformation() {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
+
+		return profilRSA.getProfil(userName);
+	}
+	//************* mast be called in login 
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@ApiOperation(value = "get user auth information", notes = "This WS is used to get user auth information.")
+	@GetMapping(value = { "/getAuth" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ProfilDTO getAuth() {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
 		// Save User History
 		Profil entity = profilRSM.getInformation(userName);
 		LOGGER.info("GetAuthInformation : Begin to save user history from connection");
@@ -119,6 +129,11 @@ public class ProfilController {
 		LOGGER.info("GetAuthInformation : End to save user history from connection");
 		return profilRSA.getProfil(userName);
 	}
+	//******************
+	
+	
+	
+	
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user information", notes = "This WS is used to get user information.")
