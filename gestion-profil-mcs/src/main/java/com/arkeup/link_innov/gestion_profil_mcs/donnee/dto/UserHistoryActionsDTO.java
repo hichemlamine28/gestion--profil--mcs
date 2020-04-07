@@ -10,26 +10,26 @@ import com.googlecode.jmapper.annotations.JGlobalMap;
 public class UserHistoryActionsDTO extends BaseDTO {
 
 	@JsonInclude
-	private String action_id;
+	private String actionId;
 	@JsonInclude
 	private String actionName;
 	@JsonInclude
 	private List<String> userId;
 
-	public String getAction_id() {
-		return action_id;
+	public String getActionId() {
+		return actionId;
 	}
 
-	public void setAction_id(String action_id) {
-		this.action_id = action_id;
+	public void setAction_id(String actionId) {
+		this.actionId = actionId;
 	}
 
-	public String getAction_Name() {
+	public String getActionName() {
 		return actionName;
 	}
 
-	public void setAction_Name(String action_Name) {
-		this.actionName = action_Name;
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
 	}
 
 	public List<String> getUserId() {

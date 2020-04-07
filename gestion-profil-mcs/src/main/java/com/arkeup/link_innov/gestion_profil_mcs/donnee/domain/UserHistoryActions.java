@@ -10,18 +10,18 @@ import org.springframework.data.annotation.Id;
 public class UserHistoryActions {
 
 	@Id
-	private String action_id;
-	private String action_Name;
+	private String actionId;
+	private String actionName;
 	private Map<String, Integer> userId = new HashMap<>();
 //	private int occurence = 1;
 
 	public UserHistoryActions() {
 	}
 
-	public UserHistoryActions(String action_id, String action_Name, Map<String, Integer> userId) {
+	public UserHistoryActions(String actionId, String actionName, Map<String, Integer> userId) {
 		super();
-		this.action_id = action_id;
-		this.action_Name = action_Name;
+		this.actionId = actionId;
+		this.actionName = actionName;
 		if (userId == null) {
 			userId = new HashMap<>();
 			userId.put("non", 0);
@@ -30,20 +30,20 @@ public class UserHistoryActions {
 		this.userId = userId;
 	}
 
-	public String getAction_id() {
-		return action_id;
+	public String getActionId() {
+		return actionId;
 	}
 
-	public void setAction_id(String action_id) {
-		this.action_id = action_id;
+	public void setActionId(String actionId) {
+		this.actionId = actionId;
 	}
 
-	public String getAction_Name() {
-		return action_Name;
+	public String getActionName() {
+		return actionName;
 	}
 
-	public void setAction_Name(String action_Name) {
-		this.action_Name = action_Name;
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
 	}
 
 	public Map<String, Integer> getUserId() {

@@ -80,7 +80,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 			List<UserHistoryActions> actions = existingHistory.getActions();
 			boolean isnew = true;
 			for (UserHistoryActions userHistoryActions : actions) {
-				if (userHistoryActions.getAction_Name().equals(actionName)) {
+				if (userHistoryActions.getActionName().equals(actionName)) {
 					// Action name exist so update the user list
 					// Get existing User IDs
 					Map<String, Integer> ExistinguserIDs = userHistoryActions.getUserId();
@@ -103,8 +103,8 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 				// Add Users to the new action
 				newAction.setUserId(userIDs);
 				// Set action name
-				newAction.setAction_Name(actionName);
-				newAction.setAction_id(actionId);
+				newAction.setActionName(actionName);
+				newAction.setActionId(actionId);
 				actions.add(newAction);
 				// Udate history
 				update(historyDate, actions);
