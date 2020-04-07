@@ -45,6 +45,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.Rabb
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ReseauSocialUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.InscriptionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.SignUpDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.inscription.SignUpController;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.notification.NotificationSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.user_auth.UserAuthCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.CorporationRSA;
@@ -153,7 +154,9 @@ public class SignUpSAImpl implements SignUpSA {
 
     @Autowired
     CategoryCUDSA categoryCUDSA;
-
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SignUpController.class);
+    
     /*
      * (non-Javadoc)
      *
@@ -167,6 +170,7 @@ public class SignUpSAImpl implements SignUpSA {
         Registration registration = null;
         RabbitMQUserDTO rabbitMQUserDTO = null;
         ProfilDTO result = new ProfilDTO();
+        LOGGER.info(""+signUpdto.toString()+" Language is :"+signUpdto.getLanguage());
 
         try {
 
@@ -201,6 +205,10 @@ public class SignUpSAImpl implements SignUpSA {
             profil.setMediaId(UUID.randomUUID().toString());
             profil.setBackgroundId(UUID.randomUUID().toString());
             profil.setExportId(UUID.randomUUID().toString());
+
+            //Update Creation date 
+            profil.setCreationDate(new Date());
+            
             // Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
             // lors de la création de groupe de discussion
             profil.setChatId(userAuthDto.getPseudoName());
