@@ -26,14 +26,12 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserHistoryServiceImpl.class);
 
-	// Create operation
 	@Override
 	public UserHistory create(String actionDate, List<UserHistoryActions> actions) {
 
 		return userHistoryRepository.save(new UserHistory(actionDate, actions));
 	}
 
-	// Retrieve operation
 	@Override
 	public List<UserHistory> getAll() {
 		return userHistoryRepository.findAll();
@@ -76,36 +74,19 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 			LOGGER.info("Create new UserHistory date :" + historyDate + " The first Action Name :" + actionName);
 		} else {
 			// We have one UserHistory in this day so update the existing UserHistory
-
 			// Get UserHistory
 			UserHistory existingHistory = historiesAll.get(0);
-
 			// Get all actions
 			List<UserHistoryActions> actions = existingHistory.getActions();
-
 			boolean isnew = true;
 			for (UserHistoryActions userHistoryActions : actions) {
-
 				if (userHistoryActions.getAction_Name().equals(actionName)) {
-
 					// Action name exist so update the user list
-					System.out.println("Action exist add user");
-
-					// increment the occurence value
-//					int newOccurence = userHistoryActions.getOccurence() + 1;
-
 					// Get existing User IDs
 					Map<String, Integer> ExistinguserIDs = userHistoryActions.getUserId();
-
 					updateOccurence(userID, ExistinguserIDs);
-
-//					ExistinguserIDs.addAll(userIDs);
-
 					// Aliment the new list of users
 					userHistoryActions.setUserId(ExistinguserIDs);
-
-					// Aliment the Occurence value
-//					userHistoryActions.setOccurence(newOccurence);
 					update(historyDate, actions);
 					isnew = false;
 					LOGGER.info("Update existing Action for UserHistory date :" + historyDate + " Action Name :"
@@ -115,14 +96,10 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 			}
 			if (isnew) {
 				// Action name note exist
-				System.out.println("New Action");
-
 				// Create new action
 				UserHistoryActions newAction = new UserHistoryActions();
-
 				Map<String, Integer> userIDs = new HashMap<>();
 				userIDs.put(userID, 1);
-
 				// Add Users to the new action
 				newAction.setUserId(userIDs);
 				// Set action name

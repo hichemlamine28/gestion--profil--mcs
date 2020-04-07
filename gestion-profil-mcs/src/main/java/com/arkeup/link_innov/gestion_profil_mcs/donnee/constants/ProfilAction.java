@@ -1,9 +1,9 @@
 package com.arkeup.link_innov.gestion_profil_mcs.donnee.constants;
 
 public enum ProfilAction {
-	CONNECT("Connection"), UPDATE("Update"),
+	PROFILCONNECT("Profil_Connection"), PROFILUPDATE("Profil_Update"),
 //
-	IDCONNECT("1"), IDUPDATE("2");
+	PROFILIDCONNECT("1"), PROFILIDUPDATE("2");
 
 	private String value;
 

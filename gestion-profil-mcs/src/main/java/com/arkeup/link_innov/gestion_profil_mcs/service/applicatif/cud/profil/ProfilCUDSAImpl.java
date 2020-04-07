@@ -21,7 +21,6 @@ import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.Profil
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.reseausocial.ReseauSocialUserDTOFactory;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.AttachPMActionType;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.MediaType;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Category;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Corporation;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
@@ -105,7 +104,6 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	@Override
 	public ProfilDTO update(ProfilDTO profilDTO) {
 
-
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
 
@@ -160,45 +158,6 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 		return profilDTO;
 	}
 
-//	private void addOrUbdateHistory(String userID, String actionName) {
-//		String pattern = "dd/MM/yyyy";
-//		DateFormat df = new SimpleDateFormat(pattern);
-//		Date today = Calendar.getInstance().getTime();
-//		String historyDate = df.format(today);
-//		List<String> userIDs = new ArrayList<>();
-//		userIDs.add(userID);
-//
-//		List<UserHistory> historiesAll = personService.getAllByDate(historyDate);
-//		if (historiesAll.isEmpty() || historiesAll == null) {
-//
-//			UserHistoryActions action = new UserHistoryActions("2", actionName, userIDs);
-//			List<UserHistoryActions> actions = new ArrayList<>();
-//			actions.add(action);
-//			personService.create(historyDate, actions);
-//		} else {
-//			UserHistory existingHistory = historiesAll.get(0);
-//			List<UserHistoryActions> actions = existingHistory.getActions();
-//			for (UserHistoryActions userHistoryActions : actions) {
-//				if (userHistoryActions.getAction_Name().equals(actionName)) {
-//					System.out.println("Action exist add user");
-//					List<String> ExistinguserIDs = new ArrayList<>();
-//					ExistinguserIDs = userHistoryActions.getUserId();
-//					ExistinguserIDs.addAll(userIDs);
-//					userHistoryActions.setUserId(ExistinguserIDs);
-//					personService.update(historyDate, actions);
-//				} else {
-//					System.out.println("New Action");
-//					UserHistoryActions newAction = new UserHistoryActions();
-//					newAction.setAction_Name(actionName);
-//					List<String> newserIDs = new ArrayList<>();
-//					newserIDs.addAll(userIDs);
-//					newAction.setUserId(newserIDs);
-//					personService.update(historyDate, actions);
-//				}
-//			}
-//		}
-//	}
-
 	@Override
 	public void initProfiles() {
 
@@ -224,25 +183,6 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 		entity = initProfil("uuid-user-test-for-abonnement-premium", "uuid-user-test-for-abonnement-premium",
 				"userTestPremium@yopmail.com", "www.user-test-premium.com", "userPremium", "userpremium");
 		profilCUDSM.update(entity);
-
-//		List<UserHistory> histories = userHistoryService.getAll();
-//
-//		if (histories == null || histories.isEmpty()) {
-//			List<String> userId = new ArrayList<>();
-//			userId.add("125");
-//			userId.add("333");
-//			UserHistoryActions actions = new UserHistoryActions("1", "Connecte", userId);
-//			List<String> userIdd = new ArrayList<>();
-//			userIdd.add("951");
-//			userIdd.add("3278");
-//			UserHistoryActions actionss = new UserHistoryActions("2", "update", userIdd);
-//
-//			List<UserHistoryActions> listActions = new ArrayList<>();
-//			listActions.add(actions);
-//			listActions.add(actionss);
-//
-//			userHistoryService.create("02-12-1900", listActions);
-//		}
 
 	}
 

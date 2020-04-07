@@ -12,7 +12,7 @@ public class UserHistoryActionsDTO extends BaseDTO {
 	@JsonInclude
 	private String action_id;
 	@JsonInclude
-	private String action_Name;
+	private String actionName;
 	@JsonInclude
 	private List<String> userId;
 
@@ -25,11 +25,11 @@ public class UserHistoryActionsDTO extends BaseDTO {
 	}
 
 	public String getAction_Name() {
-		return action_Name;
+		return actionName;
 	}
 
 	public void setAction_Name(String action_Name) {
-		this.action_Name = action_Name;
+		this.actionName = action_Name;
 	}
 
 	public List<String> getUserId() {

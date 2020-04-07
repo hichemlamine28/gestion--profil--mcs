@@ -99,8 +99,8 @@ public class ProfilController {
 //		}
 
 		LOGGER.info("update : Begin to save user history from connection");
-		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.UPDATE.getValue(),
-				ProfilAction.IDUPDATE.getValue());
+		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.PROFILUPDATE.getValue(),
+				ProfilAction.PROFILIDUPDATE.getValue());
 		LOGGER.info("update : End to save user history from connection userName is " + profilDTO.getUsername());
 		return profilCUDSA.update(profilDTO);
 	}
@@ -124,8 +124,8 @@ public class ProfilController {
 		// Save User History
 		Profil entity = profilRSM.getInformation(userName);
 		LOGGER.info("GetAuthInformation : Begin to save user history from connection");
-		userHistoryService.addOrUbdateHistory(entity.getUsername(), ProfilAction.CONNECT.getValue(),
-				ProfilAction.IDCONNECT.getValue());
+		userHistoryService.addOrUbdateHistory(entity.getUsername(), ProfilAction.PROFILCONNECT.getValue(),
+				ProfilAction.PROFILIDCONNECT.getValue());
 		LOGGER.info("GetAuthInformation : End to save user history from connection");
 		return profilRSA.getProfil(userName);
 	}

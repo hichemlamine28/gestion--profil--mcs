@@ -10,6 +10,7 @@ public interface UserHistoryService {
 	public UserHistory create(String actionDate, List<UserHistoryActions> actions);
 
 	List<UserHistory> getAll();
+
 	List<UserHistory> getAllByDate(String actionDate);
 
 	UserHistory update(String actionDate, List<UserHistoryActions> actions);
