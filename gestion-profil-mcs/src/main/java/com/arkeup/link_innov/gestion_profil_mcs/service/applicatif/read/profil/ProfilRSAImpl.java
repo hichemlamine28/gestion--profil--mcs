@@ -37,7 +37,6 @@ import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.Profil
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.PublicProfilMapper;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.DownloadStatus;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.MediaType;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserAuth;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.neo4j.User;
@@ -768,5 +767,13 @@ public class ProfilRSAImpl implements ProfilRSA {
 		}
 
 		throw new ObjetNotFoundException(new ProfilDTO(), ErrorsEnum.ERR_MCS_PROFIL_0082);
+	}
+
+	// TODO
+	@Override
+	public ProfilDTO getProfilById(String userId) {
+		Profil profil = profilRSM.getProfilById(userId);
+		return profilFactory.profilToProfilDTO(profil);
+
 	}
 }

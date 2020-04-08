@@ -59,4 +59,7 @@ public interface ProfilRSA {
 
     ProfilDTO getProfilByUsername(String username);
 
+    //TODO
+	public ProfilDTO getProfilById(String userId);
+
 }

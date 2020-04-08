@@ -114,7 +114,8 @@ public class ProfilController {
 
 		return profilRSA.getProfil(userName);
 	}
-	//************* mast be called in login 
+
+	// ************* mast be called in login
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user auth information", notes = "This WS is used to get user auth information.")
 	@GetMapping(value = { "/getAuth" }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -129,11 +130,7 @@ public class ProfilController {
 		LOGGER.info("GetAuthInformation : End to save user history from connection");
 		return profilRSA.getProfil(userName);
 	}
-	//******************
-	
-	
-	
-	
+	// ******************
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user information", notes = "This WS is used to get user information.")
@@ -374,5 +371,13 @@ public class ProfilController {
 	public IsHasMediaUpdatedDTO updateAllHasMedia(@PathVariable("type") String type) {
 		return this.profilCUDSA.updateAllHasMedia(type);
 	}
+
+	// TODO
+	@PutMapping(path = "/getProfils/{userId}")
+	public ProfilDTO getProfils(@PathVariable("userId") String userId) {
+//		return profilRSA.getProfilById(userId);
+		return profilRSA.getProfilByUsername(userId);
+		// return "Profils ...!!!";
+	};
 
 }
