@@ -282,6 +282,8 @@ public class SignUpSAImpl implements SignUpSA {
             }
             profil = profilFactory.getEntityInstance(signUpDTO);
 
+            profil.setCreationDate(new Date());
+            
             profil.setMediaId(UUID.randomUUID().toString());
             profil.setBackgroundId(UUID.randomUUID().toString());
             profil.setExportId(UUID.randomUUID().toString());
@@ -635,7 +637,11 @@ public class SignUpSAImpl implements SignUpSA {
 
     @Override
     public ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO) {
-
+    	
+    	
+    	 LOGGER.info(""+signUpDTO.toString()+" Language is :"+signUpDTO.getLanguage());
+    	 
+    	 
         //Check if data is empty
         if (StringUtils.isEmpty(signUpDTO.getLastName())
                 || StringUtils.isEmpty(signUpDTO.getFirstName())
