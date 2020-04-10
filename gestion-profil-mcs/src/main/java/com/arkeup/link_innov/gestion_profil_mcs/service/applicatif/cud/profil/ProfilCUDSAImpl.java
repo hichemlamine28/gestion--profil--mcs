@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.arkeup.link_innov.gestion_profil_mcs.ConvertMongoToDate;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ErrorsEnum;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.FunctionalInvalidDataException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ObjectSaveException;
@@ -183,9 +184,28 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 		entity = initProfil("uuid-user-test-for-abonnement-premium", "uuid-user-test-for-abonnement-premium",
 				"userTestPremium@yopmail.com", "www.user-test-premium.com", "userPremium", "userpremium");
 		profilCUDSM.update(entity);
+		
+		udateCreationDate();
 
 	}
 
+	
+	private List<Profil> udateCreationDate() {
+		List<Profil> profils = profilRSM.findAll();
+		ConvertMongoToDate test = new ConvertMongoToDate();
+		profils.stream().filter(filtredProfile -> (filtredProfile.getCreationDate() == null)).forEach(profil -> {
+			System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+			if (!profil.getId().contains("-")) {
+				System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+				profil.setCreationDate(test.convertToDateFrom(profil.getId()));
+				System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+				profilCUDSM.update(profil);
+			}
+//			+ " " + test.convertToDateFrom(profil.getId())
+		});
+		return profils;
+	}
+	
 	public Profil initProfil(String uuid, String username, String email, String webSite, String lastName,
 			String chatId) {
 
