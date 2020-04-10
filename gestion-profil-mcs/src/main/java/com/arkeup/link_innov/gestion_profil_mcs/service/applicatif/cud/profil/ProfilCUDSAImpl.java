@@ -184,28 +184,31 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 		entity = initProfil("uuid-user-test-for-abonnement-premium", "uuid-user-test-for-abonnement-premium",
 				"userTestPremium@yopmail.com", "www.user-test-premium.com", "userPremium", "userpremium");
 		profilCUDSM.update(entity);
-		
-		udateCreationDate();
+		try {
+
+			udateCreationDate();
+		} catch (Exception e) {
+			LOGGER.error("Error update profil creation date");
+		}
 
 	}
 
-	
 	private List<Profil> udateCreationDate() {
 		List<Profil> profils = profilRSM.findAll();
 		ConvertMongoToDate test = new ConvertMongoToDate();
 		profils.stream().filter(filtredProfile -> (filtredProfile.getCreationDate() == null)).forEach(profil -> {
-			System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+			System.out.println(profil.getId() + "  " + profil.getCreationDate());
 			if (!profil.getId().contains("-")) {
-				System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+				System.out.println(profil.getId() + "  " + profil.getCreationDate());
 				profil.setCreationDate(test.convertToDateFrom(profil.getId()));
-				System.out.println(profil.getId() + "  " + profil.getCreationDate() );
+				System.out.println(profil.getId() + "  " + profil.getCreationDate());
 				profilCUDSM.update(profil);
 			}
 //			+ " " + test.convertToDateFrom(profil.getId())
 		});
 		return profils;
 	}
-	
+
 	public Profil initProfil(String uuid, String username, String email, String webSite, String lastName,
 			String chatId) {
 
