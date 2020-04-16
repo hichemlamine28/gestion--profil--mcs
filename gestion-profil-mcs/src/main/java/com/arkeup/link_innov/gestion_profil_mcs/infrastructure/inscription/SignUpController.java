@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,6 +79,8 @@ public class SignUpController {
 	@Autowired
 	private UploadBetaTestBDL uploadBetaTestBDL;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SignUpController.class);
+
 	@InitBinder("signUp")
 	protected void dataSignUpBinding(WebDataBinder binder) {
 
@@ -99,7 +103,9 @@ public class SignUpController {
 	public ProfilDTO signUp(
 			@ApiParam(name = "SignUpDTO", value = "{\"language\": \"fr\",\"lastName\": \"DeLaFuente\", \"firstName\": \"Jean\", \"mail\": \"abc@yopmail.com\", \"employer\": { \"id\": \"employer_id\", \"name\": \"Universite de France\" }, \"type\": { \"id\": \"uuid-category-academique\", \"name\":\"Académique\", \"male\":\"true\"}}", required = true) @Valid @RequestBody SignUpDTO signUpDTO,
 			Errors errors) {
-
+		LOGGER.info("/register logger is ... : " + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage() + " Type value : "
+				+ signUpDTO.getType() + " Catégorie name is : " + signUpDTO.getType().getName());
+		
 		if (errors.hasErrors()) {
 			throw new ValidationException(errors);
 		}

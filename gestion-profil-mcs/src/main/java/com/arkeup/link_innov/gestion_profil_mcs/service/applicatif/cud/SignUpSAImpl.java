@@ -63,633 +63,630 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.Profi
 @Service
 public class SignUpSAImpl implements SignUpSA {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${security.jwt.client-id}")
-    private String clientId;
+	@Value("${security.jwt.client-id}")
+	private String clientId;
 
-    @Value("${security.jwt.client-secret}")
-    private String clientSecret;
+	@Value("${security.jwt.client-secret}")
+	private String clientSecret;
 
-    @Autowired
-    private UserAuthCUDSA userAuthCUDSA;
+	@Autowired
+	private UserAuthCUDSA userAuthCUDSA;
 
-    @Autowired
-    private ProfilCUDSM profilCUDSM;
+	@Autowired
+	private ProfilCUDSM profilCUDSM;
 
-    @Autowired
-    private ProfilRSM profilRSM;
+	@Autowired
+	private ProfilRSM profilRSM;
 
-    @Autowired
-    private ProfilFactory profilFactory;
+	@Autowired
+	private ProfilFactory profilFactory;
 
-    @Autowired
-    private ProfilMapper profilMapper;
+	@Autowired
+	private ProfilMapper profilMapper;
 
-    @Autowired
-    private RegistrationFactory registrationFactory;
+	@Autowired
+	private RegistrationFactory registrationFactory;
 
-    @Autowired
-    private RegistrationCUDSM registrationCUDSM;
+	@Autowired
+	private RegistrationCUDSM registrationCUDSM;
 
-    @Autowired
-    private UserAuthCUDSM userAuthCUDSM;
+	@Autowired
+	private UserAuthCUDSM userAuthCUDSM;
 
-    @Autowired
-    private RabbitMQUsersMCS rabbitMQUsersMCS;
+	@Autowired
+	private RabbitMQUsersMCS rabbitMQUsersMCS;
 
-    @Autowired
-    private RabbitMQUserDTOFactory rabbitMQUserDTOFactory;
+	@Autowired
+	private RabbitMQUserDTOFactory rabbitMQUserDTOFactory;
 
-    @Autowired
-    private NotificationSA notificationSA;
+	@Autowired
+	private NotificationSA notificationSA;
 
-    @Autowired
-    private NotificationMCS notificationMCS;
+	@Autowired
+	private NotificationMCS notificationMCS;
 
-    @Autowired
-    private ReseauxSociauxOAuthCredentialsMCS reseauxSociauxOAuthCredentialsMCS;
+	@Autowired
+	private ReseauxSociauxOAuthCredentialsMCS reseauxSociauxOAuthCredentialsMCS;
 
-    @Autowired
-    private MailParametersDTOFactory mailParametersDTOFactory;
+	@Autowired
+	private MailParametersDTOFactory mailParametersDTOFactory;
 
-    @Autowired
-    private ReseauSocialUserDTOFactory reseauSocialUserDTOFactory;
+	@Autowired
+	private ReseauSocialUserDTOFactory reseauSocialUserDTOFactory;
 
-    @Autowired
-    private CorporationRSA corporationRSA;
+	@Autowired
+	private CorporationRSA corporationRSA;
 
-    @Autowired
-    private UserAuthCUDSM userCUDSM;
+	@Autowired
+	private UserAuthCUDSM userCUDSM;
 
-    @Autowired
-    private UserAuthRSM userAuthRSM;
+	@Autowired
+	private UserAuthRSM userAuthRSM;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserAuthRSA userAuthRSA;
+	@Autowired
+	private UserAuthRSA userAuthRSA;
 
-    @Autowired
-    private UserAuthMapper userAuthMapper;
+	@Autowired
+	private UserAuthMapper userAuthMapper;
 
-    @Autowired
-    private ReseauxSociauxMCS reseauxSociauxMCS;
+	@Autowired
+	private ReseauxSociauxMCS reseauxSociauxMCS;
 
-    @Autowired
-    private AbonnementMCS abonnementMCS;
+	@Autowired
+	private AbonnementMCS abonnementMCS;
 
-    @Value("${ldap.spring.peopleBase}")
-    private String peopleDN;
+	@Value("${ldap.spring.peopleBase}")
+	private String peopleDN;
 
-    @Autowired
-    private MediaMCS mediaMCS;
+	@Autowired
+	private MediaMCS mediaMCS;
 
-    @Autowired
-    private ProfilRSA profilRSA;
+	@Autowired
+	private ProfilRSA profilRSA;
 
-    @Autowired
-    CategoryRSA categoryRSA;
+	@Autowired
+	CategoryRSA categoryRSA;
 
-    @Autowired
-    CategoryCUDSA categoryCUDSA;
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(SignUpController.class);
-    
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.SignUpSA#
-     * doSignUp(com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SignUpDTO)
-     */
-    @Override
-    public ProfilDTO doSignUp(SignUpDTO signUpdto) {
-        Profil profil = null;
-        Registration registration = null;
-        RabbitMQUserDTO rabbitMQUserDTO = null;
-        ProfilDTO result = new ProfilDTO();
-        LOGGER.info(""+signUpdto.toString()+" Language is :"+signUpdto.getLanguage());
+	@Autowired
+	CategoryCUDSA categoryCUDSA;
 
-        try {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SignUpSAImpl.class);
 
-            // Create ldap user and check if mail and pseudo already exist
-            UserAuthDTO userAuthDto = userAuthCUDSA.create(signUpdto);
-            if (userAuthDto.isError()) {
-                result.setEmail(signUpdto.getMail());
-                result.setError(true);
-                result.setErrorCode(userAuthDto.getErrorCode());
-                result.setErrorMessage(userAuthDto.getErrorMessage());
-                return result;
-            }
-            signUpdto.setUsername(userAuthDto.getUsername());// get the username generated value
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.SignUpSA#
+	 * doSignUp(com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SignUpDTO)
+	 */
+	@Override
+	public ProfilDTO doSignUp(SignUpDTO signUpdto) {
+		Profil profil = null;
+		Registration registration = null;
+		RabbitMQUserDTO rabbitMQUserDTO = null;
+		ProfilDTO result = new ProfilDTO();
+		LOGGER.info("" + signUpdto.toString() + " Language is :" + signUpdto.getLanguage() + "Type value : "
+				+ signUpdto.getType());
 
-            // Create profil
-            // send attach person moral action
-            CorporationDTO corporationDTO = signUpdto.getEmployer();
-            if (corporationDTO != null) {
-                if (StringUtils.isNotEmpty(corporationDTO.getId())) {
-                    CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
-                    if (!res.isError()) {
-                        notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
-                                AttachPMActionType.ADD_PM.name());
-                    }
-                } else {
-                    corporationDTO.setId(UUID.randomUUID().toString());
-                }
+		try {
 
-            }
-            profil = profilFactory.getEntityInstance(signUpdto);
+			// Create ldap user and check if mail and pseudo already exist
+			UserAuthDTO userAuthDto = userAuthCUDSA.create(signUpdto);
+			if (userAuthDto.isError()) {
+				result.setEmail(signUpdto.getMail());
+				result.setError(true);
+				result.setErrorCode(userAuthDto.getErrorCode());
+				result.setErrorMessage(userAuthDto.getErrorMessage());
+				return result;
+			}
+			signUpdto.setUsername(userAuthDto.getUsername());// get the username generated value
 
-            profil.setMediaId(UUID.randomUUID().toString());
-            profil.setBackgroundId(UUID.randomUUID().toString());
-            profil.setExportId(UUID.randomUUID().toString());
+			// Create profil
+			// send attach person moral action
+			CorporationDTO corporationDTO = signUpdto.getEmployer();
+			if (corporationDTO != null) {
+				if (StringUtils.isNotEmpty(corporationDTO.getId())) {
+					CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
+					if (!res.isError()) {
+						notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
+								AttachPMActionType.ADD_PM.name());
+					}
+				} else {
+					corporationDTO.setId(UUID.randomUUID().toString());
+				}
 
-            //Update Creation date 
-            profil.setCreationDate(new Date());
-            
-            // Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
-            // lors de la création de groupe de discussion
-            profil.setChatId(userAuthDto.getPseudoName());
-            profilCUDSM.update(profil);
+			}
+			profil = profilFactory.getEntityInstance(signUpdto);
 
-            // Create a registration mongo collection
-            registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
-            registrationCUDSM.save(registration);
+			profil.setMediaId(UUID.randomUUID().toString());
+			profil.setBackgroundId(UUID.randomUUID().toString());
+			profil.setExportId(UUID.randomUUID().toString());
 
-            // Create RabbitMq user credential
-            rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
-            rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
+			// Update Creation date
+			profil.setCreationDate(new Date());
+
+			// Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
+			// lors de la création de groupe de discussion
+			profil.setChatId(userAuthDto.getPseudoName());
+			profilCUDSM.update(profil);
+
+			// Create a registration mongo collection
+			registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
+			registrationCUDSM.save(registration);
+
+			// Create RabbitMq user credential
+			rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
+			rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
 
 //			// Create Neo4j node 
-            ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
-            reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
-
-            // Send Notification mail.
-            MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(), profil.getEmail(),
-                    registration.getId(), profil.getUsername(), profil.getFirstname());
-            notificationMCS.sendEmail(mailParametersDTO);
-
-            // send new Person Physique Action
-            notificationSA.sendNewPPHAction(userAuthDto.getUsername());
-
-        } catch (Exception e) {
-            log.error("Error signing up", e);
-            // Gérer manuellement la suppression des données enregistrées en cas d'erreur
-            this.undoSignUp(signUpdto.getUsername(), profil == null ? null : profil.getId(),
-                    registration == null ? null : registration.getId());
-            throw e;
-        }
-        return profilMapper.profilToProfilDTO(profil);
-    }
-
-    private ProfilDTO doSignUpBetaTest(SignUpDTO signUpDTO, boolean isInLandingPage) {
-        Profil profil = null;
-        Registration registration = null;
-        RabbitMQUserDTO rabbitMQUserDTO = null;
-        ProfilDTO result = new ProfilDTO();
-
-        try {
-            UserAuthDTO userAuthDto = userAuthCUDSA.findUserAuthByUserName(signUpDTO.getUsername());
-            // Create ldap user and check if mail and pseudo already exist
-            if (userAuthDto == null) {
-                userAuthDto = userAuthCUDSA.create(signUpDTO);
-                if (userAuthDto.isError()) {
-                    result.setEmail(signUpDTO.getMail());
-                    result.setError(true);
-                    result.setErrorCode(userAuthDto.getErrorCode());
-                    result.setErrorMessage(userAuthDto.getErrorMessage());
-                    return result;
-                }
-            }
-            signUpDTO.setUsername(userAuthDto.getUsername());// get the username generated value
-
-            // Create profil
-            // send attach person moral action
-            CorporationDTO corporationDTO = signUpDTO.getEmployer();
-            if (corporationDTO != null) {
-                if (StringUtils.isNotEmpty(corporationDTO.getId())) {
-                    CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
-                    if (!res.isError()) {
-                        notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
-                                AttachPMActionType.ADD_PM.name());
-                    }
-                } else {
-                    corporationDTO.setId(UUID.randomUUID().toString());
-                }
-
-            }
-            profil = profilFactory.getEntityInstance(signUpDTO);
-
-            profil.setCreationDate(new Date());
-            
-            profil.setMediaId(UUID.randomUUID().toString());
-            profil.setBackgroundId(UUID.randomUUID().toString());
-            profil.setExportId(UUID.randomUUID().toString());
-            // Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
-            // lors de la création de groupe de discussion
-            profil.setChatId(userAuthDto.getPseudoName());
-            profilCUDSM.update(profil);
-
-
-            // Create a registration mongo collection
-            registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
-            registrationCUDSM.save(registration);
-
-            // Create RabbitMq user credential
-            rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
-            rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
-
-            // Create Neo4j node
-            ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
-            reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
-
-            // Send Notification mail.
-            MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance((!isInLandingPage) ? 1 : 3, signUpDTO.getLanguage(), profil.getEmail(),
-                    registration.getId(), profil.getUsername(), profil.getFirstname());
-            notificationMCS.sendEmail(mailParametersDTO);
-
-            // send new Person Physique Action
-            notificationSA.sendNewPPHAction(userAuthDto.getUsername());
-
-
-            abonnementMCS.subscribeUser("uuid-subscription-premium", profil.getUsername(), true);
-
-
-        } catch (Exception e) {
-            log.error("Error signing up", e);
-            // Gérer manuellement la suppression des données enregistrées en cas d'erreur
-            this.undoSignUp(signUpDTO.getUsername(), profil == null ? null : profil.getId(),
-                    registration == null ? null : registration.getId());
-            throw e;
-        }
-        return profilMapper.profilToProfilDTO(profil);
-    }
-
-    @Override
-    public ProfilDTO doSignUp(InscriptionDTO inscriptionDTO) {
-        Profil profil = null;
-        Registration registration = null;
-        RabbitMQUserDTO rabbitMQUserDTO = null;
-        ProfilDTO result = new ProfilDTO();
-
-        try {
-
-            // Create ldap user and check if mail and pseudo already exist
-            UserAuthDTO userAuthDto = userAuthCUDSA.create(inscriptionDTO);
-            if (userAuthDto.isError()) {
-                result.setEmail(inscriptionDTO.getMail());
-                result.setError(true);
-                result.setErrorCode(userAuthDto.getErrorCode());
-                result.setErrorMessage(userAuthDto.getErrorMessage());
-                return result;
-            }
-            inscriptionDTO.setUsername(userAuthDto.getUsername());// get the username generated value
-
-            // Create profil
-            // send attach person moral action
-            CorporationDTO corporationDTO = inscriptionDTO.getEmployer();
-            if (corporationDTO != null) {
-                if (StringUtils.isNotEmpty(corporationDTO.getId())) {
-                    CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
-                    if (!res.isError()) {
-                        notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
-                                AttachPMActionType.ADD_PM.name());
-                    }
-                } else {
-                    corporationDTO.setId(UUID.randomUUID().toString());
-                }
-
-            }
-            profil = profilFactory.getEntityInstance(inscriptionDTO);
-
-            profil.setMediaId(UUID.randomUUID().toString());
-            profil.setBackgroundId(UUID.randomUUID().toString());
-            profil.setExportId(UUID.randomUUID().toString());
-            // Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
-            // lors de la création de groupe de discussion
-            profil.setChatId(userAuthDto.getPseudoName());
-            profilCUDSM.update(profil);
-
-            // Create a registration mongo collection
-            registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
-            registration = registrationCUDSM.save(registration);
-
-            // Create RabbitMq user credential
-            rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
-            rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
-
-            // Create Neo4j node
-            ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
-            reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
-
-            // Send Notification mail.
-            MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(), profil.getEmail(),
-                    registration.getId(), profil.getUsername(), profil.getFirstname());
-            notificationMCS.sendEmail(mailParametersDTO);
-
-            // send new Person Physique Action
-            notificationSA.sendNewPPHAction(userAuthDto.getUsername());
-
-            // send contact invitation if exists
-            if (inscriptionDTO.getGuestUsers() != null && !inscriptionDTO.getGuestUsers().isEmpty()) {
-                inscriptionDTO.getGuestUsers().forEach(userId -> reseauxSociauxMCS.sendContactRequest(inscriptionDTO.getUsername(), userId));
-            }
-
-            // Affect user to default user subscription : freemium
-            abonnementMCS.subscribeToFreemium(profil.getUsername());
-
-        } catch (Exception e) {
-            log.error("Error signing up", e);
-            // Gérer manuellement la suppression des données enregistrées en cas d'erreur
-            this.undoSignUp(inscriptionDTO.getUsername(), profil == null ? null : profil.getId(),
-                    registration == null ? null : registration.getId());
-            throw e;
-        }
-        return profilRSA.getProfilAnonymous(profil.getUsername());
-    }
-
-    private void undoSignUp(String useruid, String profilId, String registrationId) {
-        // rollback signup insertions
-        try {
-            userAuthCUDSM.deleteByUsername(useruid);
-            profilCUDSM.deleteById(profilId);
-            registrationCUDSM.deleteByUseruid(useruid);
-            rabbitMQUsersMCS.deleteUser(useruid);
-        } catch (Exception e) {
-            // TODO: Qu'est ce qu'on fait en cas d'exception lors de la suppression ?
-        }
-    }
-
-    @Override
-    public UserAuthDTO choosePassword(UserAuthDTO userAuthDTO, Boolean validateAccount) {
-        UserAuthDTO result = userAuthCUDSA.choosePassword(userAuthDTO, validateAccount);
-        if (validateAccount && !result.isError()) {
-            // On Supprime les données de registration
-            registrationCUDSM.deleteByUseruid(result.getUsername());
-            // Update creation date of activated user
-            Profil profil = profilRSM.getInformation(userAuthDTO.getUsername());
-            if (profil != null) {
-                profil.setCreationDate(new Date());
-                profilCUDSM.update(profil);
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public UserAuthDTO updatePassword(UserAuthDTO userAuthDTO, Boolean validateAccount) {
-        return userAuthCUDSA.updatePassword(userAuthDTO, validateAccount);
-    }
-
-    @Override
-    public UserAuthDTO retrievePassword(UserAuthDTO userAuthDTO) {
-        if (StringUtils.isEmpty(userAuthDTO.getMail())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_PASSWORD_RECOVERY");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY);
-        }
-
-        // check if mail exist
-        UserAuth user = userCUDSM.findByMail(userAuthDTO.getMail());
-        if (user == null || StringUtils.isEmpty(user.getMail())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_PASSWORD_RECOVERY");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY);
-        }
-
-        if (user.getRoles().contains(RoleEnum.INACTIF.getValue())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INACTIVE_ACCOUNT");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT);
-        }
-
-        if (user.getRoles().contains(RoleEnum.BLOCKED.getValue())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_BLOCKED_ACCOUNT");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT);
-        }
-
-        Profil profil = profilRSM.getInformation(user.getUsername());
-        if (profil == null) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
-            throw new ObjetNotFoundException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-        }
-        Registration registration = null;
-
-        // Create a registration mongo collection
-        registration = registrationFactory.getEntityInstance(user.getUsername(), user.getMail());
-        registration = registrationCUDSM.save(registration);
-
-        // Send Notification mail for changing mdp.
-        MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(2, userAuthDTO.getLanguage(), user.getMail(),
-                registration.getId(), user.getUsername(), profil.getFirstname());
-        notificationMCS.sendEmail(mailParametersDTO);
-
-        userAuthDTO.setError(false);
-        userAuthDTO.setMessage("password recovery succefull");
-
-        return userAuthDTO;
-    }
-
-    @Override
-    public UserAuthDTO updateMail(String userName, UserAuthDTO userAuthDTO) {
-        // check if mail exist
-        if (StringUtils.isEmpty(userAuthDTO.getMail()) || userCUDSM.isMailExist(userAuthDTO.getMail())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_MAIL_ALREADY_EXIST");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_MAIL_ALREADY_EXIST.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_MAIL_ALREADY_EXIST);
-        }
-
-        // Use ldap as datasource
-        UserAuthDTO userDTO = userAuthRSA.findByUserName(userName);
-        if (userDTO == null) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-        }
-
-        if (userDTO.getRoles().contains(RoleEnum.INACTIF.getValue())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INACTIVE_ACCOUNT");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT);
-        }
-
-        if (userDTO.getRoles().contains(RoleEnum.BLOCKED.getValue())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_BLOCKED_ACCOUNT");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT);
-        }
-
-        if (!passwordEncoder.matches(userAuthDTO.getPassword(), userDTO.getPassword())) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INVALID_PASSWORD");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INVALID_PASSWORD.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INVALID_PASSWORD);
-        }
-
-        Profil profil = profilRSM.getInformation(userName);
-        if (profil == null) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
-            throw new ObjetNotFoundException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-        }
-
-        // update ldap
-        userDTO.setMail(userAuthDTO.getMail());
-        userDTO.setPassword(passwordEncoder.encode(userAuthDTO.getPassword()));
-        UserAuth user = userAuthMapper.userAuthDTOtoUserAuth(userDTO);
-        user.setId(LdapUtils.newLdapName("uid=" + userAuthDTO.getUsername() + "," + peopleDN));
-
-        try {
-            userCUDSM.create(user);
-        } catch (NameAlreadyBoundException e) {
-            userAuthDTO.setError(true);
-            userAuthDTO.setPassword(null);
-            userAuthDTO.setErrorCode("ERR_MCS_USER_ALREADY_EXIST");
-            userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_USER_ALREADY_EXIST.getErrorMessage());
-            throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_USER_ALREADY_EXIST);
-        }
-
-        // update mongo & ES
-        profil.setEmail(userAuthDTO.getMail());
-        profilCUDSM.update(profil);
-
-        userAuthDTO.setUsername(profil.getUsername());
-        userAuthDTO.setPassword(null);
-        userAuthDTO.setError(false);
-        userAuthDTO.setMessage("mail modified succefully");
-        return userAuthDTO;
-    }
-
-    @Override
-    public UserAuthDTO validateAccount(UserAuthDTO userAuthDTO) {
-        UserAuthDTO result = userAuthCUDSA.validateAccount(userAuthDTO);
-        // On Supprime les données de registration
-        registrationCUDSM.deleteByUseruid(result.getUsername());
-        // Update creation date of activated user
-        Profil profil = profilRSM.getInformation(userAuthDTO.getUsername());
-        if (profil != null) {
-            profil.setCreationDate(new Date());
-            profilCUDSM.update(profil);
-        }
-        return result;
-    }
-
-    @Override
-    public void importBetaTesteurs(List<SignUpDTO> signUpDTOS) {
-        signUpDTOS.forEach(signUpDTO -> doSignUpBetaTest(signUpDTO, false));
-    }
-
-    @Override
-    public IsMailSendDTO reSendMailValidate(String userId) {
-        IsMailSendDTO isMailSendDTO = new IsMailSendDTO();
-        if (StringUtils.isEmpty(userId))
-            throw new FunctionalInvalidDataException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0023);
-
-        Profil profil = profilRSM.getInformation(userId);
-
-        if (profil == null)
-            throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-
-        UserAuth userAuth = userAuthRSM.findByUserName(userId);
-
-        if (userAuth == null) {
-            throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-        }
-
-        Registration registration = null;
-
-        // Create a registration mongo collection
-        registration = registrationFactory.getEntityInstance(userAuth.getUsername(), userAuth.getMail());
-        registration = registrationCUDSM.save(registration);
-
-        // Send Notification mail.
-        MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
-                registration.getId(), profil.getUsername(), profil.getFirstname());
-        notificationMCS.sendEmail(mailParametersDTO);
-
-        // send new Person Physique Action
-        notificationSA.sendNewPPHAction(userAuth.getUsername());
-        isMailSendDTO.setMailSend(true);
-
-        return isMailSendDTO;
-    }
-
-    @Override
-    public ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO) {
-    	
-    	
-    	 LOGGER.info(""+signUpDTO.toString()+" Language is :"+signUpDTO.getLanguage());
-    	 
-    	 
-        //Check if data is empty
-        if (StringUtils.isEmpty(signUpDTO.getLastName())
-                || StringUtils.isEmpty(signUpDTO.getFirstName())
-                || StringUtils.isEmpty(signUpDTO.getMail())
-                || signUpDTO.getType() == null || StringUtils.isEmpty(signUpDTO.getType().getName())
-        ) throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_DATA_BETATESTEUR);
-
-        //Check mail if is good format
-        Pattern regexForValiMailAddress =
-                Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-        Matcher matcher = regexForValiMailAddress.matcher(signUpDTO.getMail());
-        boolean isMailValid = matcher.find();
-
-        if (!isMailValid)
-            throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_00041);
-
-        //Check if user already exist
-        UserAuthDTO userAuthDTO = userAuthRSA.findByUserName(signUpDTO.getMail());
-        if (userAuthDTO != null)
-            throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_0403);
-
-        CategoryDTO categoryDTO = categoryRSA.findByName(signUpDTO.getType().getName());
-
-        if (categoryDTO == null) {
-            categoryDTO = new CategoryDTO();
-            categoryDTO.setId("uuid-category-academique");
-            categoryDTO.setName("Académique");
-        }
-
-        signUpDTO.setType(categoryDTO);
-
-        return doSignUpBetaTest(signUpDTO, true);
-    }
-
-    @Override
-    public MediaDTO generatePictureToken(String userId) {
-        MediaDTO mediaDTO = null;
-        Profil profil = profilRSM.getInformation(userId);
-        if (profil != null) {
-            mediaDTO = mediaMCS.generateProfilPictureToken(userId, MediaType.PICTURE.toString());
-            if (mediaDTO == null) {
-                throw new ObjectSaveException(new MediaDTO(), ErrorsEnum.ERR_MCS_PROFIL_0051);
-            }
-        } else {
-            throw new ObjetNotFoundException(new MediaDTO(), ErrorsEnum.ERR_MCS_PROFIL_0040);
-        }
-
-        return mediaDTO;
-    }
+			ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
+			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
+
+			// Send Notification mail.
+			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+			notificationMCS.sendEmail(mailParametersDTO);
+
+			// send new Person Physique Action
+			notificationSA.sendNewPPHAction(userAuthDto.getUsername());
+
+		} catch (Exception e) {
+			log.error("Error signing up", e);
+			// Gérer manuellement la suppression des données enregistrées en cas d'erreur
+			this.undoSignUp(signUpdto.getUsername(), profil == null ? null : profil.getId(),
+					registration == null ? null : registration.getId());
+			throw e;
+		}
+		return profilMapper.profilToProfilDTO(profil);
+	}
+
+	private ProfilDTO doSignUpBetaTest(SignUpDTO signUpDTO, boolean isInLandingPage) {
+		Profil profil = null;
+		Registration registration = null;
+		RabbitMQUserDTO rabbitMQUserDTO = null;
+		ProfilDTO result = new ProfilDTO();
+
+		try {
+			UserAuthDTO userAuthDto = userAuthCUDSA.findUserAuthByUserName(signUpDTO.getUsername());
+			// Create ldap user and check if mail and pseudo already exist
+			if (userAuthDto == null) {
+				userAuthDto = userAuthCUDSA.create(signUpDTO);
+				if (userAuthDto.isError()) {
+					result.setEmail(signUpDTO.getMail());
+					result.setError(true);
+					result.setErrorCode(userAuthDto.getErrorCode());
+					result.setErrorMessage(userAuthDto.getErrorMessage());
+					return result;
+				}
+			}
+			signUpDTO.setUsername(userAuthDto.getUsername());// get the username generated value
+
+			// Create profil
+			// send attach person moral action
+			CorporationDTO corporationDTO = signUpDTO.getEmployer();
+			if (corporationDTO != null) {
+				if (StringUtils.isNotEmpty(corporationDTO.getId())) {
+					CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
+					if (!res.isError()) {
+						notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
+								AttachPMActionType.ADD_PM.name());
+					}
+				} else {
+					corporationDTO.setId(UUID.randomUUID().toString());
+				}
+
+			}
+			profil = profilFactory.getEntityInstance(signUpDTO);
+
+			profil.setCreationDate(new Date());
+
+			profil.setMediaId(UUID.randomUUID().toString());
+			profil.setBackgroundId(UUID.randomUUID().toString());
+			profil.setExportId(UUID.randomUUID().toString());
+			// Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
+			// lors de la création de groupe de discussion
+			profil.setChatId(userAuthDto.getPseudoName());
+			profilCUDSM.update(profil);
+
+			// Create a registration mongo collection
+			registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
+			registrationCUDSM.save(registration);
+
+			// Create RabbitMq user credential
+			rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
+			rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
+
+			// Create Neo4j node
+			ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
+			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
+
+			// Send Notification mail.
+			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance((!isInLandingPage) ? 1 : 3,
+					signUpDTO.getLanguage(), profil.getEmail(), registration.getId(), profil.getUsername(),
+					profil.getFirstname());
+			notificationMCS.sendEmail(mailParametersDTO);
+
+			// send new Person Physique Action
+			notificationSA.sendNewPPHAction(userAuthDto.getUsername());
+
+			abonnementMCS.subscribeUser("uuid-subscription-premium", profil.getUsername(), true);
+
+		} catch (Exception e) {
+			log.error("Error signing up", e);
+			// Gérer manuellement la suppression des données enregistrées en cas d'erreur
+			this.undoSignUp(signUpDTO.getUsername(), profil == null ? null : profil.getId(),
+					registration == null ? null : registration.getId());
+			throw e;
+		}
+		return profilMapper.profilToProfilDTO(profil);
+	}
+
+	@Override
+	public ProfilDTO doSignUp(InscriptionDTO inscriptionDTO) {
+		Profil profil = null;
+		Registration registration = null;
+		RabbitMQUserDTO rabbitMQUserDTO = null;
+		ProfilDTO result = new ProfilDTO();
+
+		try {
+
+			// Create ldap user and check if mail and pseudo already exist
+			UserAuthDTO userAuthDto = userAuthCUDSA.create(inscriptionDTO);
+			if (userAuthDto.isError()) {
+				result.setEmail(inscriptionDTO.getMail());
+				result.setError(true);
+				result.setErrorCode(userAuthDto.getErrorCode());
+				result.setErrorMessage(userAuthDto.getErrorMessage());
+				return result;
+			}
+			inscriptionDTO.setUsername(userAuthDto.getUsername());// get the username generated value
+
+			// Create profil
+			// send attach person moral action
+			CorporationDTO corporationDTO = inscriptionDTO.getEmployer();
+			if (corporationDTO != null) {
+				if (StringUtils.isNotEmpty(corporationDTO.getId())) {
+					CorporationDTO res = corporationRSA.getCorporation(corporationDTO.getId());
+					if (!res.isError()) {
+						notificationSA.sendAttachPMAction(userAuthDto.getUsername(), res.getId(), null,
+								AttachPMActionType.ADD_PM.name());
+					}
+				} else {
+					corporationDTO.setId(UUID.randomUUID().toString());
+				}
+
+			}
+			profil = profilFactory.getEntityInstance(inscriptionDTO);
+
+			profil.setMediaId(UUID.randomUUID().toString());
+			profil.setBackgroundId(UUID.randomUUID().toString());
+			profil.setExportId(UUID.randomUUID().toString());
+			// Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
+			// lors de la création de groupe de discussion
+			profil.setChatId(userAuthDto.getPseudoName());
+			profilCUDSM.update(profil);
+
+			// Create a registration mongo collection
+			registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
+			registration = registrationCUDSM.save(registration);
+
+			// Create RabbitMq user credential
+			rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
+			rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
+
+			// Create Neo4j node
+			ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);
+			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
+
+			// Send Notification mail.
+			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
+					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+			notificationMCS.sendEmail(mailParametersDTO);
+
+			// send new Person Physique Action
+			notificationSA.sendNewPPHAction(userAuthDto.getUsername());
+
+			// send contact invitation if exists
+			if (inscriptionDTO.getGuestUsers() != null && !inscriptionDTO.getGuestUsers().isEmpty()) {
+				inscriptionDTO.getGuestUsers()
+						.forEach(userId -> reseauxSociauxMCS.sendContactRequest(inscriptionDTO.getUsername(), userId));
+			}
+
+			// Affect user to default user subscription : freemium
+			abonnementMCS.subscribeToFreemium(profil.getUsername());
+
+		} catch (Exception e) {
+			log.error("Error signing up", e);
+			// Gérer manuellement la suppression des données enregistrées en cas d'erreur
+			this.undoSignUp(inscriptionDTO.getUsername(), profil == null ? null : profil.getId(),
+					registration == null ? null : registration.getId());
+			throw e;
+		}
+		return profilRSA.getProfilAnonymous(profil.getUsername());
+	}
+
+	private void undoSignUp(String useruid, String profilId, String registrationId) {
+		// rollback signup insertions
+		try {
+			userAuthCUDSM.deleteByUsername(useruid);
+			profilCUDSM.deleteById(profilId);
+			registrationCUDSM.deleteByUseruid(useruid);
+			rabbitMQUsersMCS.deleteUser(useruid);
+		} catch (Exception e) {
+			// TODO: Qu'est ce qu'on fait en cas d'exception lors de la suppression ?
+		}
+	}
+
+	@Override
+	public UserAuthDTO choosePassword(UserAuthDTO userAuthDTO, Boolean validateAccount) {
+		UserAuthDTO result = userAuthCUDSA.choosePassword(userAuthDTO, validateAccount);
+		if (validateAccount && !result.isError()) {
+			// On Supprime les données de registration
+			registrationCUDSM.deleteByUseruid(result.getUsername());
+			// Update creation date of activated user
+			Profil profil = profilRSM.getInformation(userAuthDTO.getUsername());
+			if (profil != null) {
+				profil.setCreationDate(new Date());
+				profilCUDSM.update(profil);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public UserAuthDTO updatePassword(UserAuthDTO userAuthDTO, Boolean validateAccount) {
+		return userAuthCUDSA.updatePassword(userAuthDTO, validateAccount);
+	}
+
+	@Override
+	public UserAuthDTO retrievePassword(UserAuthDTO userAuthDTO) {
+		if (StringUtils.isEmpty(userAuthDTO.getMail())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_PASSWORD_RECOVERY");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY);
+		}
+
+		// check if mail exist
+		UserAuth user = userCUDSM.findByMail(userAuthDTO.getMail());
+		if (user == null || StringUtils.isEmpty(user.getMail())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_PASSWORD_RECOVERY");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_PASSWORD_RECOVERY);
+		}
+
+		if (user.getRoles().contains(RoleEnum.INACTIF.getValue())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INACTIVE_ACCOUNT");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT);
+		}
+
+		if (user.getRoles().contains(RoleEnum.BLOCKED.getValue())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_BLOCKED_ACCOUNT");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT);
+		}
+
+		Profil profil = profilRSM.getInformation(user.getUsername());
+		if (profil == null) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
+			throw new ObjetNotFoundException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+		}
+		Registration registration = null;
+
+		// Create a registration mongo collection
+		registration = registrationFactory.getEntityInstance(user.getUsername(), user.getMail());
+		registration = registrationCUDSM.save(registration);
+
+		// Send Notification mail for changing mdp.
+		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(2, userAuthDTO.getLanguage(),
+				user.getMail(), registration.getId(), user.getUsername(), profil.getFirstname());
+		notificationMCS.sendEmail(mailParametersDTO);
+
+		userAuthDTO.setError(false);
+		userAuthDTO.setMessage("password recovery succefull");
+
+		return userAuthDTO;
+	}
+
+	@Override
+	public UserAuthDTO updateMail(String userName, UserAuthDTO userAuthDTO) {
+		// check if mail exist
+		if (StringUtils.isEmpty(userAuthDTO.getMail()) || userCUDSM.isMailExist(userAuthDTO.getMail())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_MAIL_ALREADY_EXIST");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_MAIL_ALREADY_EXIST.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_MAIL_ALREADY_EXIST);
+		}
+
+		// Use ldap as datasource
+		UserAuthDTO userDTO = userAuthRSA.findByUserName(userName);
+		if (userDTO == null) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+		}
+
+		if (userDTO.getRoles().contains(RoleEnum.INACTIF.getValue())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INACTIVE_ACCOUNT");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INACTIVE_ACCOUNT);
+		}
+
+		if (userDTO.getRoles().contains(RoleEnum.BLOCKED.getValue())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_BLOCKED_ACCOUNT");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_BLOCKED_ACCOUNT);
+		}
+
+		if (!passwordEncoder.matches(userAuthDTO.getPassword(), userDTO.getPassword())) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_INVALID_PASSWORD");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_INVALID_PASSWORD.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_INVALID_PASSWORD);
+		}
+
+		Profil profil = profilRSM.getInformation(userName);
+		if (profil == null) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_PROFIL_0007");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
+			throw new ObjetNotFoundException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+		}
+
+		// update ldap
+		userDTO.setMail(userAuthDTO.getMail());
+		userDTO.setPassword(passwordEncoder.encode(userAuthDTO.getPassword()));
+		UserAuth user = userAuthMapper.userAuthDTOtoUserAuth(userDTO);
+		user.setId(LdapUtils.newLdapName("uid=" + userAuthDTO.getUsername() + "," + peopleDN));
+
+		try {
+			userCUDSM.create(user);
+		} catch (NameAlreadyBoundException e) {
+			userAuthDTO.setError(true);
+			userAuthDTO.setPassword(null);
+			userAuthDTO.setErrorCode("ERR_MCS_USER_ALREADY_EXIST");
+			userAuthDTO.setErrorMessage(ErrorsEnum.ERR_MCS_USER_ALREADY_EXIST.getErrorMessage());
+			throw new FunctionalInvalidDataException(new UserAuthDTO(), ErrorsEnum.ERR_MCS_USER_ALREADY_EXIST);
+		}
+
+		// update mongo & ES
+		profil.setEmail(userAuthDTO.getMail());
+		profilCUDSM.update(profil);
+
+		userAuthDTO.setUsername(profil.getUsername());
+		userAuthDTO.setPassword(null);
+		userAuthDTO.setError(false);
+		userAuthDTO.setMessage("mail modified succefully");
+		return userAuthDTO;
+	}
+
+	@Override
+	public UserAuthDTO validateAccount(UserAuthDTO userAuthDTO) {
+		UserAuthDTO result = userAuthCUDSA.validateAccount(userAuthDTO);
+		// On Supprime les données de registration
+		registrationCUDSM.deleteByUseruid(result.getUsername());
+		// Update creation date of activated user
+		Profil profil = profilRSM.getInformation(userAuthDTO.getUsername());
+		if (profil != null) {
+			profil.setCreationDate(new Date());
+			profilCUDSM.update(profil);
+		}
+		return result;
+	}
+
+	@Override
+	public void importBetaTesteurs(List<SignUpDTO> signUpDTOS) {
+		signUpDTOS.forEach(signUpDTO -> doSignUpBetaTest(signUpDTO, false));
+	}
+
+	@Override
+	public IsMailSendDTO reSendMailValidate(String userId) {
+		IsMailSendDTO isMailSendDTO = new IsMailSendDTO();
+		if (StringUtils.isEmpty(userId))
+			throw new FunctionalInvalidDataException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0023);
+
+		Profil profil = profilRSM.getInformation(userId);
+
+		if (profil == null)
+			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+
+		UserAuth userAuth = userAuthRSM.findByUserName(userId);
+
+		if (userAuth == null) {
+			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+		}
+
+		Registration registration = null;
+
+		// Create a registration mongo collection
+		registration = registrationFactory.getEntityInstance(userAuth.getUsername(), userAuth.getMail());
+		registration = registrationCUDSM.save(registration);
+
+		// Send Notification mail.
+		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
+				registration.getId(), profil.getUsername(), profil.getFirstname());
+		notificationMCS.sendEmail(mailParametersDTO);
+
+		// send new Person Physique Action
+		notificationSA.sendNewPPHAction(userAuth.getUsername());
+		isMailSendDTO.setMailSend(true);
+
+		return isMailSendDTO;
+	}
+
+	@Override
+	public ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO) {
+
+		LOGGER.info("" + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage());
+
+		// Check if data is empty
+		if (StringUtils.isEmpty(signUpDTO.getLastName()) || StringUtils.isEmpty(signUpDTO.getFirstName())
+				|| StringUtils.isEmpty(signUpDTO.getMail()) || signUpDTO.getType() == null
+				|| StringUtils.isEmpty(signUpDTO.getType().getName()))
+			throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_DATA_BETATESTEUR);
+
+		// Check mail if is good format
+		Pattern regexForValiMailAddress = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+				Pattern.CASE_INSENSITIVE);
+
+		Matcher matcher = regexForValiMailAddress.matcher(signUpDTO.getMail());
+		boolean isMailValid = matcher.find();
+
+		if (!isMailValid)
+			throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_00041);
+
+		// Check if user already exist
+		UserAuthDTO userAuthDTO = userAuthRSA.findByUserName(signUpDTO.getMail());
+		if (userAuthDTO != null)
+			throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_0403);
+
+		CategoryDTO categoryDTO = categoryRSA.findByName(signUpDTO.getType().getName());
+
+		if (categoryDTO == null) {
+			categoryDTO = new CategoryDTO();
+			categoryDTO.setId("uuid-category-academique");
+			categoryDTO.setName("Académique");
+		}
+
+		signUpDTO.setType(categoryDTO);
+
+		return doSignUpBetaTest(signUpDTO, true);
+	}
+
+	@Override
+	public MediaDTO generatePictureToken(String userId) {
+		MediaDTO mediaDTO = null;
+		Profil profil = profilRSM.getInformation(userId);
+		if (profil != null) {
+			mediaDTO = mediaMCS.generateProfilPictureToken(userId, MediaType.PICTURE.toString());
+			if (mediaDTO == null) {
+				throw new ObjectSaveException(new MediaDTO(), ErrorsEnum.ERR_MCS_PROFIL_0051);
+			}
+		} else {
+			throw new ObjetNotFoundException(new MediaDTO(), ErrorsEnum.ERR_MCS_PROFIL_0040);
+		}
+
+		return mediaDTO;
+	}
 }
