@@ -40,4 +40,23 @@ public class GroupDTOValidator implements Validator {
 
 	}
 
+	public GroupDTO validateDTO(Object target) {
+
+		GroupDTO groupDTO = (GroupDTO) target;
+
+		if (StringUtils.isBlank(groupDTO.getName())) {
+			groupDTO.setErrorCode(ErrorsEnum.ERR_MCS_PROFIL_0072.getErrorMessage());
+		}
+
+		if (StringUtils.isNotEmpty(groupDTO.getName()) && groupDTO.getName().length() > 50) {
+			groupDTO.setErrorCode(ErrorsEnum.ERR_MCS_PROFIL_0071.getErrorMessage());
+		}
+
+		if (StringUtils.isNotEmpty(groupDTO.getDescription()) && groupDTO.getDescription().length() > 2000) {
+
+			groupDTO.setErrorCode(ErrorsEnum.ERR_MCS_PROFIL_0046.getErrorMessage());
+		}
+		return groupDTO;
+	}
+
 }

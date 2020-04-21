@@ -3,6 +3,9 @@ package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.group;
 import javax.validation.Valid;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.GroupDTOValidator;
+import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.corporation.CorporationController;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.group.GroupCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.group_consultation.GroupConsultationCUDSA;
@@ -53,6 +57,7 @@ public class GroupController {
 	@Autowired
 	private GroupDTOValidator groupDTOValidator;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroupController.class);
 	@InitBinder("groupDTO")
 	protected void initGroupDTOBinder(WebDataBinder binder) {
 		binder.setValidator(groupDTOValidator);
@@ -65,6 +70,19 @@ public class GroupController {
 			@ApiParam(name = "groupDTO", value = "{\"groupName\":\"Nom de groupe\", \"isMembersAllowedToPost\":\"true\"}", required = true) @RequestBody GroupDTO groupDTO,
 			Errors errors) {
 		groupDTOValidator.validate(groupDTO, errors);
+		
+		
+		// Get client error
+				if (errors.hasErrors()) {
+					GroupDTO errorsDTO = groupDTOValidator.validateDTO(groupDTO);
+					if (errorsDTO != null && errorsDTO.getErrorCode() != null && !errorsDTO.getErrorCode().isEmpty()) {
+						LOGGER.error("No save more then errors...");
+						return errorsDTO;
+					}
+					LOGGER.error("Throw validation exeption " + errors.getErrorCount() + " errors...");
+					throw new ValidationException(errors);
+				}
+		
 		if (errors.hasErrors()) {
 			throw new ValidationException(errors);
 		}
