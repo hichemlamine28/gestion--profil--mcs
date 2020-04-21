@@ -3,17 +3,12 @@
  */
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.FunctionalInvalidDataException;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Corporation;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.*;
-import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.category.CategoryCUDSA;
-import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.category.CategoryRSA;
-import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.*;
-import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.user_auth.UserAuthRSM;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ErrorsEnum;
+import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.FunctionalInvalidDataException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ObjectSaveException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ObjetNotFoundException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.MailParametersDTOFactory;
@@ -40,21 +36,35 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.RoleEnum;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Registration;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserAuth;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CategoryDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CorporationDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsMailSendDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserAuthDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.MailParametersDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.RabbitMQUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ReseauSocialUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.InscriptionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.SignUpDTO;
-import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.inscription.SignUpController;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.category.CategoryCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.notification.NotificationSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.user_auth.UserAuthCUDSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.category.CategoryRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.CorporationRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.user_auth.UserAuthRSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.AbonnementMCS;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.MediaMCS;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.NotificationMCS;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.RabbitMQUsersMCS;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.ReseauxSociauxMCS;
+import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.ReseauxSociauxOAuthCredentialsMCS;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.RegistrationCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.user_auth.UserAuthCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
+import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.user_auth.UserAuthRSM;
 
 /**
  * @author mikajy
@@ -638,7 +648,8 @@ public class SignUpSAImpl implements SignUpSA {
 	@Override
 	public ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO) {
 
-		LOGGER.info("" + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage());
+		LOGGER.info("" + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage() + "Type value : "
+				+ signUpDTO.getType().getName());
 
 		// Check if data is empty
 		if (StringUtils.isEmpty(signUpDTO.getLastName()) || StringUtils.isEmpty(signUpDTO.getFirstName())
@@ -661,7 +672,17 @@ public class SignUpSAImpl implements SignUpSA {
 		if (userAuthDTO != null)
 			throw new FunctionalInvalidDataException(new SignUpDTO(), ErrorsEnum.ERR_MCS_PROFIL_0403);
 
-		CategoryDTO categoryDTO = categoryRSA.findByName(signUpDTO.getType().getName());
+		String typeName = "";
+		if (signUpDTO.getType().getName().equals("0")) {
+			typeName = "Industriel";
+		} else if (signUpDTO.getType().getName().equals("1")) {
+			typeName = "Académique";
+		} else if (signUpDTO.getType().getName().equals("2")) {
+			typeName = "Autres acteurs de l'innovation";
+		} else {
+			typeName = signUpDTO.getType().getName();
+		}
+		CategoryDTO categoryDTO = categoryRSA.findByName(typeName);
 
 		if (categoryDTO == null) {
 			categoryDTO = new CategoryDTO();

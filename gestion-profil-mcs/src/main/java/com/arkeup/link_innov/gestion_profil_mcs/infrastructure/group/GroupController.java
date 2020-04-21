@@ -2,8 +2,6 @@ package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.group;
 
 import javax.validation.Valid;
 
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.GroupDTOValidator;
-import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.corporation.CorporationController;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.GroupConsultationDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.GroupDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.GroupHasMediaDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.GroupsDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PostDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.RepairRightsResultDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.group.GroupCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.group_consultation.GroupConsultationCUDSA;
