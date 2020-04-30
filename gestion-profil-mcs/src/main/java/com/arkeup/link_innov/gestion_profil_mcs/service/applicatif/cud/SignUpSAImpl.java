@@ -682,6 +682,8 @@ public class SignUpSAImpl implements SignUpSA {
 		} else {
 			typeName = signUpDTO.getType().getName();
 		}
+
+		LOGGER.info("Type name : " + typeName);
 		CategoryDTO categoryDTO = categoryRSA.findByName(typeName);
 
 		if (categoryDTO == null) {
