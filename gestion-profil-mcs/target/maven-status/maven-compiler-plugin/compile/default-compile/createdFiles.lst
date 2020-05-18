@@ -86,7 +86,6 @@ com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/production/Productio
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/ldap/RoleRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Role.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CustomSortDTO.class
-com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/UserHistory.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CorporationIdsDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/referential/classification/ClassificationRSA.class
 com/arkeup/link_innov/gestion_profil_mcs/commun/logging/LoggerAspect$VariableMCDLogEnum.class
@@ -224,6 +223,7 @@ com/arkeup/link_innov/gestion_profil_mcs/contrainte/validator/UserAuthDTORGValid
 com/arkeup/link_innov/gestion_profil_mcs/donnee/constants/RequestSenderEnum.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/PageContactsDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CorporationAdminDTO.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/constants/ProfilAction.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/OtherProductionESRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/ExternalSignUpSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/UserESRepository.class
@@ -491,7 +491,6 @@ com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/skill/SkillRSA.
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/inscription/RegistrationDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/FavoriteStatusDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/dynamic_page/DynamicPageRSMImpl.class
-com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/Snippet.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/RecommandationDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/typology/TypologyRSM.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/productions/other/OtherRSAImpl.class
@@ -568,6 +567,7 @@ com/arkeup/link_innov/gestion_profil_mcs/infrastructure/qualification/Qualificat
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/reseausocial/ReseauSocialUserDTOFactoryImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/dynamic_page/DynamicPageRSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/UserHistoryService.class
+com/arkeup/link_innov/gestion_profil_mcs/ConvertMongoToDate.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/DynamicPage.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/UserHistoryRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/TypologyRepository.class
