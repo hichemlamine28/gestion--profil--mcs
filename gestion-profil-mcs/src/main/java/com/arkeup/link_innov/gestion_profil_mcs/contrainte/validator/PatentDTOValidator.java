@@ -51,15 +51,15 @@ public class PatentDTOValidator implements Validator {
 					"Patent title non confidential cannot be null.");
 		}
 
-		if (StringUtils.isNotEmpty(patent.getTitleNonConfidential())
-				&& patent.getTitleNonConfidential().length() > 120) {
-			e.rejectValue("description", "patent.titleNonConfidential.exceed",
-					"The title not confidential must not exceed 120 characters.");
-		}
+//		if (StringUtils.isNotEmpty(patent.getTitleNonConfidential())
+//				&& patent.getTitleNonConfidential().length() > 120) {
+//			e.rejectValue("description", "patent.titleNonConfidential.exceed",
+//					"The title not confidential must not exceed 120 characters.");
+//		}
 
-		if (StringUtils.isNotEmpty(patent.getTitle()) && patent.getTitle().length() > 120) {
-			e.rejectValue("title", "patent.title.exceed", "The title must not exceed 120 characters.");
-		}
+//		if (StringUtils.isNotEmpty(patent.getTitle()) && patent.getTitle().length() > 120) {
+//			e.rejectValue("title", "patent.title.exceed", "The title must not exceed 120 characters.");
+//		}
 
 		if (StringUtils.isNotEmpty(patent.getUrl()) && !pattern.matcher(patent.getUrl()).matches()) {
 			e.rejectValue("url", "patent.url.invalid", "Patent url must be a valid URL.");
