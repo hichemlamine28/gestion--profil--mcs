@@ -140,10 +140,10 @@ public class ProductionController {
 	@GetMapping(path = "/list/inviteSuggestions")
 	@ResponseBody
 	public List<Profil> getInviteSuggestions() {
-//		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		String userName = user.getUsername();
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
 
-		return productionRSM.suggerInvitations("7fecfa5b-52c3-42b8-ab19-1d35be976f49");
+		return productionRSM.suggerInvitations("userName");
 	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
@@ -151,10 +151,8 @@ public class ProductionController {
 	@GetMapping(path = "/list/subscribeSuggestions")
 	@ResponseBody
 	public List<String> getSubscribeSuggestions() {
-//		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		String userName = user.getUsername();
-		return productionRSM.suggerSubscription("7fecfa5b-52c3-42b8-ab19-1d35be976f49");
-//		7fecfa5b-52c3-42b8-ab19-1d35be976f49
-//		return productionRSM.suggerSubscription(userName);
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+		return productionRSM.suggerSubscription(userName);
 	}
 }
