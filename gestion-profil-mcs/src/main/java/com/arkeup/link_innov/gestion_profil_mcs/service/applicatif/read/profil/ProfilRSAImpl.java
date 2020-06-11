@@ -776,4 +776,13 @@ public class ProfilRSAImpl implements ProfilRSA {
 		return profilFactory.profilToProfilDTO(profil);
 
 	}
+
+	@Override
+	public List<Profil> getListProfilByFirstName(User sugUser) {
+		if (sugUser != null) {
+			List<Profil> profils = profilRSM.getProfilsInformationsFirstName(sugUser.getFirstName());
+			return profils;
+		} else
+			return null;
+	}
 }

@@ -55,4 +55,6 @@ public interface ProfilMongoRepository extends MongoRepository<Profil, String> {
     Optional<Profil>findByEmail(String mail);
 
     List<Profil> findAll();
+
+	List<Profil> findByfirstname(String firstName);
 }

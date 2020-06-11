@@ -23,71 +23,77 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.repository.ldap.UserAuth
 @Service
 public class ProfilRSMImpl implements ProfilRSM {
 
-    @Value("${dataflow.search.admin.role}")
-    private String adminRole;
+	@Value("${dataflow.search.admin.role}")
+	private String adminRole;
 
-    @Value("${dataflow.search.etl.role}")
-    private String etlRole;
+	@Value("${dataflow.search.etl.role}")
+	private String etlRole;
 
-    @Autowired
-    private ProfilRepository profilRepository;
+	@Autowired
+	private ProfilRepository profilRepository;
 
-    @Autowired
-    private UserAuthLdapRepository userAuthLdapRepository;
+	@Autowired
+	private UserAuthLdapRepository userAuthLdapRepository;
 
-    @Override
-    public Profil getInformation(String username) {
-        return profilRepository.getInformation(username);
-    }
+	@Override
+	public Profil getInformation(String username) {
+		return profilRepository.getInformation(username);
+	}
 
-    @Override
-    public Page<Profil> getContactInformationsByIds(List<String> ids, String type, String filter, Pageable pageable) {
-        return profilRepository.getContactInformationsByIds(ids, type, filter, pageable);
-    }
+	@Override
+	public Page<Profil> getContactInformationsByIds(List<String> ids, String type, String filter, Pageable pageable) {
+		return profilRepository.getContactInformationsByIds(ids, type, filter, pageable);
+	}
 
-    @Override
-    public List<Profil> getProfilsInformationsByIds(List<String> userIds) {
-        return profilRepository.getProfilsInformationsByIds(userIds);
-    }
+	@Override
+	public List<Profil> getProfilsInformationsByIds(List<String> userIds) {
+		return profilRepository.getProfilsInformationsByIds(userIds);
+	}
 
-    @Override
-    public Page<Profil> getPaginatedProfilsInformationsByIds(List<String> userIds, Pageable pageable) {
-        return profilRepository.getProfilsInformationsByIds(userIds, pageable);
-    }
+	@Override
+	public Page<Profil> getPaginatedProfilsInformationsByIds(List<String> userIds, Pageable pageable) {
+		return profilRepository.getProfilsInformationsByIds(userIds, pageable);
+	}
 
-    @Override
-    public Page<Profil> getNewSubscribedUsers(Pageable pageable) {
-        Optional<List<UserAuth>> optionalAdmins = userAuthLdapRepository.findByRolesLikeIgnoreCase(adminRole);
-        Optional<List<UserAuth>> optionalDataflowUsers = userAuthLdapRepository.findByRolesLikeIgnoreCase(etlRole);
-        List<String> adminIds = new ArrayList<>(0);
-        if (optionalAdmins.isPresent()) {
-            List<UserAuth> admins = optionalAdmins.get();
-            adminIds = admins.stream().map(UserAuth::getUsername).collect(Collectors.toList());
-        }
-        if (optionalDataflowUsers.isPresent()) {
-            List<UserAuth> dataflowUsers = optionalDataflowUsers.get();
-            adminIds.addAll(dataflowUsers.stream().map(UserAuth::getUsername).collect(Collectors.toList()));
-        }
-        return profilRepository.getNewSubscribedUsers(adminIds, pageable);
-    }
+	@Override
+	public Page<Profil> getNewSubscribedUsers(Pageable pageable) {
+		Optional<List<UserAuth>> optionalAdmins = userAuthLdapRepository.findByRolesLikeIgnoreCase(adminRole);
+		Optional<List<UserAuth>> optionalDataflowUsers = userAuthLdapRepository.findByRolesLikeIgnoreCase(etlRole);
+		List<String> adminIds = new ArrayList<>(0);
+		if (optionalAdmins.isPresent()) {
+			List<UserAuth> admins = optionalAdmins.get();
+			adminIds = admins.stream().map(UserAuth::getUsername).collect(Collectors.toList());
+		}
+		if (optionalDataflowUsers.isPresent()) {
+			List<UserAuth> dataflowUsers = optionalDataflowUsers.get();
+			adminIds.addAll(dataflowUsers.stream().map(UserAuth::getUsername).collect(Collectors.toList()));
+		}
+		return profilRepository.getNewSubscribedUsers(adminIds, pageable);
+	}
 
-    @Override
-    public Profil getProfilById(String id) {
-        return profilRepository.findById(id).orElse(null);
-    }
+	@Override
+	public Profil getProfilById(String id) {
+		return profilRepository.findById(id).orElse(null);
+	}
 
-    @Override
-    public Page<Profil> getPaginatedProfilsInformations(List<String> userIds, String filter, String categorie, Pageable pageable) {
-        return profilRepository.getProfilsInformationsByIds(userIds, filter, categorie, pageable);
-    }
+	@Override
+	public Page<Profil> getPaginatedProfilsInformations(List<String> userIds, String filter, String categorie,
+			Pageable pageable) {
+		return profilRepository.getProfilsInformationsByIds(userIds, filter, categorie, pageable);
+	}
 
-    @Override
-    public Boolean isExistMail(String mail) {
-        return profilRepository.isExistMail(mail);
-    }
+	@Override
+	public Boolean isExistMail(String mail) {
+		return profilRepository.isExistMail(mail);
+	}
 
-    @Override
-    public List<Profil> findAll() {
-        return profilRepository.findAll();
-    }
+	@Override
+	public List<Profil> findAll() {
+		return profilRepository.findAll();
+	}
+
+	@Override
+	public List<Profil> getProfilsInformationsFirstName(String firstName) {
+		return profilRepository.findByFirstName(firstName);
+	}
 }

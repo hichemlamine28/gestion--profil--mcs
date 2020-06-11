@@ -34,4 +34,6 @@ public interface ProfilRepository
     Boolean isExistMail(String mail);
 
     List<Profil> findAll();
+
+	public List<Profil> findByFirstName(String firstName);
 }

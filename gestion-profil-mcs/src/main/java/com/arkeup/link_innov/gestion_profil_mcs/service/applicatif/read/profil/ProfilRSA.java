@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.neo4j.User;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PageContactsDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilAdminDTO;
@@ -61,5 +62,7 @@ public interface ProfilRSA {
 
     //TODO
 	public ProfilDTO getProfilById(String userId);
+
+	public List<Profil> getListProfilByFirstName(User sugUser);
 
 }

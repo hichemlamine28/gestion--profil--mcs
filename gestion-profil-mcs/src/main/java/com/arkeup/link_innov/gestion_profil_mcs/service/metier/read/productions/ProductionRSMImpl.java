@@ -1,155 +1,211 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.productions;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.OtherProduction;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Patent;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Project;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.OtherProduction;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Patent;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Productions;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Project;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.neo4j.User;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.favorite.FavoriteRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.repository.OtherProductionRepository;
 import com.arkeup.link_innov.gestion_profil_mcs.service.repository.PatentRepository;
 import com.arkeup.link_innov.gestion_profil_mcs.service.repository.ProjectRepository;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class ProductionRSMImpl implements ProductionRSM {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+	@Autowired
+	private ProjectRepository projectRepository;
 
-    @Autowired
-    private OtherProductionRepository otherProductionRepository;
+	@Autowired
+	private OtherProductionRepository otherProductionRepository;
 
-    @Autowired
-    private PatentRepository patentRepository;
+	@Autowired
+	private PatentRepository patentRepository;
 
-    @Autowired
-    private FavoriteRSM favoriteRSM;
+	@Autowired
+	private FavoriteRSM favoriteRSM;
 
-    @Override
-    public Page<Productions> getByOwnerId(String ownerId, Pageable pageable, String order) {
-        List<Productions> result = new ArrayList<Productions>();
+	@Autowired
+	private ProfilRSA profilRSA;
 
-        result.addAll(projectRepository.findByOwnerId(ownerId));
-        result.addAll(otherProductionRepository.findByOwnerId(ownerId));
-        result.addAll(patentRepository.findByOwnerId(ownerId));
+	@Override
+	public Page<Productions> getByOwnerId(String ownerId, Pageable pageable, String order) {
+		List<Productions> result = new ArrayList<Productions>();
 
-        switch (order) {
-            case "ASC":
-                result = result.stream()
-                        .sorted(Comparator.comparing(Productions::getCreationDate))
-                        .collect(Collectors.toList());
-                break;
-            case "DESC":
-                result = result.stream()
-                        .sorted(Comparator.comparing(Productions::getCreationDate).reversed())
-                        .collect(Collectors.toList());
-                break;
-            default:
-                result = result.stream()
-                        .sorted(Comparator.comparing(Productions::getCreationDate))
-                        .collect(Collectors.toList());
-        }
+		result.addAll(projectRepository.findByOwnerId(ownerId));
+		result.addAll(otherProductionRepository.findByOwnerId(ownerId));
+		result.addAll(patentRepository.findByOwnerId(ownerId));
 
-        Page<Productions> resultPage = new PageImpl<Productions>(result, pageable, result.size());
-        return resultPage;
-    }
+		switch (order) {
+		case "ASC":
+			result = result.stream().sorted(Comparator.comparing(Productions::getCreationDate))
+					.collect(Collectors.toList());
+			break;
+		case "DESC":
+			result = result.stream().sorted(Comparator.comparing(Productions::getCreationDate).reversed())
+					.collect(Collectors.toList());
+			break;
+		default:
+			result = result.stream().sorted(Comparator.comparing(Productions::getCreationDate))
+					.collect(Collectors.toList());
+		}
 
-    @Override
-    public List<Productions> findAllByOwnerId(String ownerId) {
-        List<Productions> result = new ArrayList<Productions>();
-        result.addAll(patentRepository.findByOwnerId(ownerId));
-        result.addAll(projectRepository.findByOwnerId(ownerId));
-        result.addAll(otherProductionRepository.findByOwnerId(ownerId));
-        return result;
-    }
+		Page<Productions> resultPage = new PageImpl<Productions>(result, pageable, result.size());
+		return resultPage;
+	}
 
-    @Override
-    public List<Productions> findAll() {
-        List<Productions> result = new ArrayList<Productions>();
-        result.addAll(patentRepository.findAll());
-        result.addAll(projectRepository.findAll());
-        result.addAll(otherProductionRepository.findAll());
-        return result;
-    }
+	@Override
+	public List<Productions> findAllByOwnerId(String ownerId) {
+		List<Productions> result = new ArrayList<Productions>();
+		result.addAll(patentRepository.findByOwnerId(ownerId));
+		result.addAll(projectRepository.findByOwnerId(ownerId));
+		result.addAll(otherProductionRepository.findByOwnerId(ownerId));
+		return result;
+	}
 
-    @Override
-    public Page<Productions> getByIds(List<String> productionIds, Pageable pageable) {
-        List<Productions> result = new ArrayList<Productions>();
-        result.addAll(projectRepository.findAllByIdIn(productionIds));
-        result.addAll(otherProductionRepository.findAllByIdIn(productionIds));
-        result.addAll(patentRepository.findAllByIdIn(productionIds));
-        Page<Productions> resultPage = new PageImpl<Productions>(result, pageable, result.size());
-        return resultPage;
-    }
+	@Override
+	public List<Productions> findAll() {
+		List<Productions> result = new ArrayList<Productions>();
+		result.addAll(patentRepository.findAll());
+		result.addAll(projectRepository.findAll());
+		result.addAll(otherProductionRepository.findAll());
+		return result;
+	}
 
-    @Override
-    public Productions findById(String id) {
-        Optional<Project> projectOptional = projectRepository.findById(id);
-        if (projectOptional.isPresent()) {
-            return projectOptional.get();
-        }
+	@Override
+	public Page<Productions> getByIds(List<String> productionIds, Pageable pageable) {
+		List<Productions> result = new ArrayList<Productions>();
+		result.addAll(projectRepository.findAllByIdIn(productionIds));
+		result.addAll(otherProductionRepository.findAllByIdIn(productionIds));
+		result.addAll(patentRepository.findAllByIdIn(productionIds));
+		Page<Productions> resultPage = new PageImpl<Productions>(result, pageable, result.size());
+		return resultPage;
+	}
 
-        Optional<OtherProduction> otherProductionOptional = otherProductionRepository.findById(id);
-        if (otherProductionOptional.isPresent()) {
-            return otherProductionOptional.get();
-        }
+	@Override
+	public Productions findById(String id) {
+		Optional<Project> projectOptional = projectRepository.findById(id);
+		if (projectOptional.isPresent()) {
+			return projectOptional.get();
+		}
 
-        Optional<Patent> patentOptional = patentRepository.findById(id);
-        if (patentOptional.isPresent()) {
-            return patentOptional.get();
-        }
+		Optional<OtherProduction> otherProductionOptional = otherProductionRepository.findById(id);
+		if (otherProductionOptional.isPresent()) {
+			return otherProductionOptional.get();
+		}
 
-        return null;
-    }
+		Optional<Patent> patentOptional = patentRepository.findById(id);
+		if (patentOptional.isPresent()) {
+			return patentOptional.get();
+		}
 
-    @Override
-    public Page<Productions> getPaginatedProductions(List<String> productionIds, String filter, String categorie, Pageable pageable) {
-        List<Productions> result = new ArrayList<>();
-        categorie = StringUtils.isEmpty(categorie) ? "all" : categorie;
-        switch (categorie.toLowerCase()) {
-            case "project":
-                Page<Project> project = projectRepository.getPaginatedProjects(productionIds, filter, pageable);
-                result.addAll(project.getContent());
-                break;
-            case "other production":
-                Page<OtherProduction> otherProduction = otherProductionRepository.getPaginatedOtherProductions(productionIds, filter, pageable);
-                result.addAll(otherProduction.getContent());
-                break;
-            case "patent":
-                Page<Patent> patent = patentRepository.getPaginatedPatent(productionIds, filter, pageable);
-                result.addAll(patent.getContent());
-                break;
-            default:
-                result.addAll(projectRepository.findAllByIdIn(productionIds));
-                result.addAll(otherProductionRepository.findAllByIdIn(productionIds));
-                result.addAll(patentRepository.findAllByIdIn(productionIds));
+		return null;
+	}
 
-                if (pageable.getSort().toString().contains("DESC")) {
-                    result.sort(Comparator.comparing(Productions::getTitle).reversed());
-                } else {
-                    result.sort(Comparator.comparing(Productions::getTitle));
-                }
+	@Override
+	public Page<Productions> getPaginatedProductions(List<String> productionIds, String filter, String categorie,
+			Pageable pageable) {
+		List<Productions> result = new ArrayList<>();
+		categorie = StringUtils.isEmpty(categorie) ? "all" : categorie;
+		switch (categorie.toLowerCase()) {
+		case "project":
+			Page<Project> project = projectRepository.getPaginatedProjects(productionIds, filter, pageable);
+			result.addAll(project.getContent());
+			break;
+		case "other production":
+			Page<OtherProduction> otherProduction = otherProductionRepository
+					.getPaginatedOtherProductions(productionIds, filter, pageable);
+			result.addAll(otherProduction.getContent());
+			break;
+		case "patent":
+			Page<Patent> patent = patentRepository.getPaginatedPatent(productionIds, filter, pageable);
+			result.addAll(patent.getContent());
+			break;
+		default:
+			result.addAll(projectRepository.findAllByIdIn(productionIds));
+			result.addAll(otherProductionRepository.findAllByIdIn(productionIds));
+			result.addAll(patentRepository.findAllByIdIn(productionIds));
 
-                int start = (int) pageable.getOffset();
-                int end = (start + pageable.getPageSize()) > productionIds.size() ? productionIds.size() : (start + pageable.getPageSize());
-                PageImpl<Productions> pageResult = new PageImpl<>(result.subList(start, end), pageable, productionIds.size());
-                return pageResult;
-        }
+			if (pageable.getSort().toString().contains("DESC")) {
+				result.sort(Comparator.comparing(Productions::getTitle).reversed());
+			} else {
+				result.sort(Comparator.comparing(Productions::getTitle));
+			}
 
-        Page<Productions> resultPage = new PageImpl<>(result, pageable, result.size());
-        return resultPage;
-    }
+			int start = (int) pageable.getOffset();
+			int end = (start + pageable.getPageSize()) > productionIds.size() ? productionIds.size()
+					: (start + pageable.getPageSize());
+			PageImpl<Productions> pageResult = new PageImpl<>(result.subList(start, end), pageable,
+					productionIds.size());
+			return pageResult;
+		}
+
+		Page<Productions> resultPage = new PageImpl<>(result, pageable, result.size());
+		return resultPage;
+	}
+
+	// TODO
+	@Override
+	public List<Profil> suggerInvitations(String ownerId) {
+
+		List<User> suggerUsers = getAuthersFromAllOtherProduction(ownerId);
+
+		List<Profil> inviteUserNameSuggestion = new ArrayList<Profil>();
+
+		if (suggerUsers != null) {
+			suggerUsers.forEach(sugUser -> {
+				List<Profil> p = profilRSA.getListProfilByFirstName(sugUser);
+				if (p != null) {
+					inviteUserNameSuggestion.addAll(p);
+				}
+			});
+		}
+		return inviteUserNameSuggestion;
+	}
+
+	private List<User> getAuthersFromAllOtherProduction(String ownerId) {
+
+		List<OtherProduction> otherProductions = otherProductionRepository.findByOwnerId(ownerId);
+
+		List<User> suggerUsers = new ArrayList<>();
+		if (otherProductions != null) {
+			otherProductions.forEach(othP -> {
+				suggerUsers.addAll(othP.getAuthors());
+			});
+		}
+
+		return suggerUsers;
+	}
+
+	@Override
+	public List<String> suggerSubscription(String ownerId) {
+		List<User> suggerUsers = getAuthersFromAllOtherProduction(ownerId);
+
+		List<String> subscribeUserNameSuggestion = new ArrayList<String>();
+		if (suggerUsers != null) {
+			suggerUsers.forEach(sugUser -> {
+				List<Profil> p = profilRSA.getListProfilByFirstName(sugUser);
+				if (p.isEmpty() || p == null) {
+					subscribeUserNameSuggestion.add(sugUser.getFirstName());
+				}
+			});
+		}
+		return subscribeUserNameSuggestion;
+	}
 
 }

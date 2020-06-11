@@ -30,4 +30,6 @@ public interface ProfilRSM {
     Boolean isExistMail(String mail);
 
     List<Profil> findAll();
+
+	List<Profil> getProfilsInformationsFirstName(String firstName);
 }

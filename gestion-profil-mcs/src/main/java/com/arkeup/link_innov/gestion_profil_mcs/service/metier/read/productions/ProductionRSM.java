@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Productions;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 
 public interface ProductionRSM {
 
@@ -20,4 +21,8 @@ public interface ProductionRSM {
     public Productions findById(String id);
 
     public Page<Productions> getPaginatedProductions(List<String> productionIds, String filter, String categorie, Pageable pageable);
+
+	List<Profil> suggerInvitations(String ownerId);
+
+	List<String> suggerSubscription(String ownerId);
 }
