@@ -142,8 +142,7 @@ public class ProductionController {
 	public List<Profil> getInviteSuggestions() {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
-
-		return productionRSM.suggerInvitations("userName");
+		return productionRSM.suggerInvitations(userName);
 	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)

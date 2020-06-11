@@ -779,8 +779,9 @@ public class ProfilRSAImpl implements ProfilRSA {
 
 	@Override
 	public List<Profil> getListProfilByFirstName(User sugUser) {
+		List<Profil> profils = new ArrayList<>();
 		if (sugUser != null) {
-			List<Profil> profils = profilRSM.getProfilsInformationsFirstName(sugUser.getFirstName());
+			 profils.addAll(profilRSM.getProfilsInformationsFirstName(sugUser.getFirstName()));
 			return profils;
 		} else
 			return null;

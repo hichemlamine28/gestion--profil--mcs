@@ -170,7 +170,7 @@ public class ProductionRSMImpl implements ProductionRSM {
 		if (suggerUsers != null) {
 			suggerUsers.forEach(sugUser -> {
 				List<Profil> p = profilRSA.getListProfilByFirstName(sugUser);
-				if (p != null) {
+				if (p != null && !p.isEmpty()) {
 					inviteUserNameSuggestion.addAll(p);
 				}
 			});
