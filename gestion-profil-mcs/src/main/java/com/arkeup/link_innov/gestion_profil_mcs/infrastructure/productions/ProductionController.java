@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Suggestion;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.NumberOfProductionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PostDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProductionHasMediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProductionsDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SuggestionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.productions.ProductionCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.productions.ProductionRSA;
@@ -153,5 +155,16 @@ public class ProductionController {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
 		return productionRSM.suggerSubscription(userName);
+	}
+
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@ApiOperation(value = "Update production to has media", notes = "This WS is used to update production to has media.")
+	@PostMapping(path = "/updateSuggestion")
+	public List<Suggestion> updateSuggestion(@RequestBody SuggestionDTO suggestionDTO) {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+
+		suggestionDTO.setUsername(userName);
+		return productionRSM.updateSuggestion(suggestionDTO);
 	}
 }

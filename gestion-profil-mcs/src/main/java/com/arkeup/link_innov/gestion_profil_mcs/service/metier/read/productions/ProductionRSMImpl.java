@@ -18,8 +18,10 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Patent;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Productions;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Project;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.neo4j.User;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Suggestion;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SuggestionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.SuggestionService;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.favorite.FavoriteRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.repository.OtherProductionRepository;
 import com.arkeup.link_innov.gestion_profil_mcs.service.repository.PatentRepository;
@@ -42,6 +44,8 @@ public class ProductionRSMImpl implements ProductionRSM {
 
 	@Autowired
 	private ProfilRSA profilRSA;
+	@Autowired
+	private SuggestionService suggestionService;
 
 	@Override
 	public Page<Productions> getByOwnerId(String ownerId, Pageable pageable, String order) {
@@ -159,53 +163,48 @@ public class ProductionRSMImpl implements ProductionRSM {
 		return resultPage;
 	}
 
-	// TODO
 	@Override
 	public List<Profil> suggerInvitations(String ownerId) {
 
-		List<User> suggerUsers = getAuthersFromAllOtherProduction(ownerId);
-
 		List<Profil> inviteUserNameSuggestion = new ArrayList<Profil>();
+		// Convert suggestion to profile
+		suggestionService.getAllInvitationSuggestions(ownerId).forEach(suggest -> {
+			inviteUserNameSuggestion.add(Suggestion.profilsFromSuggestionFrom(suggest, null));
+		});
 
-		if (suggerUsers != null) {
-			suggerUsers.forEach(sugUser -> {
-				List<Profil> p = profilRSA.getListProfilByFirstName(sugUser);
-				if (p != null && !p.isEmpty()) {
-					inviteUserNameSuggestion.addAll(p);
-				}
+		// if suggestion collection is empty
+		if (inviteUserNameSuggestion.isEmpty()) {
+			suggestionService.saveSuggestions(ownerId);
+			suggestionService.getAllInvitationSuggestions(ownerId).forEach(suggest -> {
+				inviteUserNameSuggestion.add(Suggestion.profilsFromSuggestionFrom(suggest, null));
 			});
 		}
+
 		return inviteUserNameSuggestion;
-	}
-
-	private List<User> getAuthersFromAllOtherProduction(String ownerId) {
-
-		List<OtherProduction> otherProductions = otherProductionRepository.findByOwnerId(ownerId);
-
-		List<User> suggerUsers = new ArrayList<>();
-		if (otherProductions != null) {
-			otherProductions.forEach(othP -> {
-				suggerUsers.addAll(othP.getAuthors());
-			});
-		}
-
-		return suggerUsers;
 	}
 
 	@Override
 	public List<String> suggerSubscription(String ownerId) {
-		List<User> suggerUsers = getAuthersFromAllOtherProduction(ownerId);
 
 		List<String> subscribeUserNameSuggestion = new ArrayList<String>();
-		if (suggerUsers != null) {
-			suggerUsers.forEach(sugUser -> {
-				List<Profil> p = profilRSA.getListProfilByFirstName(sugUser);
-				if (p.isEmpty() || p == null) {
-					subscribeUserNameSuggestion.add(sugUser.getFirstName());
-				}
+		// Convert suggestion to profile
+		suggestionService.getAllSubscribeSuggestions(ownerId).forEach(suggest -> {
+			subscribeUserNameSuggestion.add(suggest.getFirstname());
+		});
+
+		// if suggestion collection is empty
+		if (subscribeUserNameSuggestion.isEmpty()) {
+			suggestionService.saveSuggestions(ownerId);
+			suggestionService.getAllSubscribeSuggestions(ownerId).forEach(suggest -> {
+				subscribeUserNameSuggestion.add(suggest.getFirstname());
 			});
 		}
 		return subscribeUserNameSuggestion;
+	}
+
+	@Override
+	public List<Suggestion> updateSuggestion(SuggestionDTO suggestionDTO) {
+		return suggestionService.update(suggestionDTO);
 	}
 
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Productions;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Suggestion;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SuggestionDTO;
 
 public interface ProductionRSM {
 
@@ -25,4 +27,6 @@ public interface ProductionRSM {
 	List<Profil> suggerInvitations(String ownerId);
 
 	List<String> suggerSubscription(String ownerId);
+
+	List<Suggestion> updateSuggestion(SuggestionDTO suggestionDTO);
 }
