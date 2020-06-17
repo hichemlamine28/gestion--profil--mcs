@@ -34,6 +34,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CorporationsDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/corporation/CorporationCUDSA.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/CategoryESRepository.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Suggestion.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/businessdelegate/GestionDroitMCS.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/referential/classification/ClassificationCUDSA.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/referential/activitysector/ActivitySectorCUDSA.java
@@ -213,6 +214,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CustomPageableDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/mongo/changesets/def/NumberOfEmployeeUpdates.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/group/GroupController.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/profil/SuggestionController.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Profil.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsFollowerDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/mongo/changesets/def/ProfilUpdates.java
@@ -354,6 +356,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/GroupDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/RabbitMQUserDTOFactoryImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/ErrorsEnum.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/SuggestionMongoRepository.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/parcours/ParcoursController.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/productions/other/OtherCUDSM.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/validator/CorporationDTOValidator.java
@@ -407,6 +410,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/referential/activitysector/ActivitySectorCUDSMImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/qualification/QualificationCUDSMImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/profil/ProfilRSM.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/SuggestionService.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/ProfilViewsMongoRepository.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProfilDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Skill.java
@@ -493,6 +497,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/FunctionalInvalidDataException.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/productions/PatentController.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/referential/ThematicArea.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/SuggestionServiceImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/validator/ProfilDTOValidator.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/commun/config/SwaggerConfig.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/skill/SkillCUDSMImpl.java
@@ -640,6 +645,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsHasMediaUpdatedDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/CustomErrorException.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/category/CategoryRSA.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/SuggestionDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/referential/typology/TypologyRSAImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/profil/ProfilMapper.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/referential/TypologyMapper.java

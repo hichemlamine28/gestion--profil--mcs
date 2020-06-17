@@ -83,6 +83,7 @@ com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/category/CategoryMap
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/SignUpSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/category/CategoryRSM.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/production/ProductionMapperImpl.class
+com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/SuggestionService.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/ldap/RoleRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Role.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/CustomSortDTO.class
@@ -121,6 +122,7 @@ com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/type_publication/Typ
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/group/GroupRSM.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/notification/NotificationSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/production/other/OtherProductionMapper.class
+com/arkeup/link_innov/gestion_profil_mcs/infrastructure/profil/SuggestionController.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/information/UserInformationMapperImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/ObjectSaveException.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/referential/NumberOfEmployeeDTO.class
@@ -216,6 +218,7 @@ com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/commun/ValidationResponseDTO
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/TypePublicationMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/infrastructure/referential/KeywordController.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/utils/HelpPage.class
+com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/profil/SuggestionServiceImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/corporation/CorporationRSA.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/admin/AdminSMImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/recommandation/RecommandationMapper.class
@@ -603,13 +606,16 @@ com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/admin/AdminSM.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Corporation.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsMailSendDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/commun/config/security/authorization_server/CustomTokenEnhancer.class
+com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/SuggestionMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/businessdelegate/SubscriptionDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/skill/SkillCUDSA.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/oauth2/OAuth2AccessTokenDOMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/qualification/QualificationRSA.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/neo4j/BaseNeo4jObject.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/oauth2/OAuth2RefreshTokenDO.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/SuggestionDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/category/CategoryMapperImpl.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/Suggestion.class
 com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/read/information/UserInformationRSAImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/skill/SkillCUDSM.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/RegistrationRSM.class
