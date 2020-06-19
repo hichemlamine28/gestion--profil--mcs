@@ -122,6 +122,17 @@ public class SuggestionDTO extends BaseDTO {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Boolean issubscribed;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String inviteusername;
+
+	public String getInviteusername() {
+		return inviteusername;
+	}
+
+	public void setInviteusername(String inviteusername) {
+		this.inviteusername = inviteusername;
+	}
+
 	public String getId() {
 		return id;
 	}

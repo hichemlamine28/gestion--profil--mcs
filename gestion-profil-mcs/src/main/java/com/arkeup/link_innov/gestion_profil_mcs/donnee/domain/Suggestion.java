@@ -17,7 +17,7 @@ public class Suggestion extends BaseDTO {
 	}
 
 	public Suggestion(String username, String firstname, String lastname, String email, Boolean isInvited,
-			Boolean issubscribed) {
+			Boolean issubscribed, String inviteusername) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
@@ -25,6 +25,7 @@ public class Suggestion extends BaseDTO {
 		this.email = email;
 		this.isInvited = isInvited;
 		this.issubscribed = issubscribed;
+		this.inviteusername = inviteusername;
 	}
 
 	private String id;
@@ -69,6 +70,7 @@ public class Suggestion extends BaseDTO {
 
 	private Boolean issubscribed = false;
 
+	private String inviteusername;
 	/**
 	 * photo
 	 *
@@ -346,6 +348,14 @@ public class Suggestion extends BaseDTO {
 		this.issubscribed = issubscribed;
 	}
 
+	public String getInviteusername() {
+		return inviteusername;
+	}
+
+	public void setInviteusername(String inviteusername) {
+		this.inviteusername = inviteusername;
+	}
+
 	public Boolean getHasMedia() {
 		return hasMedia;
 	}
@@ -364,13 +374,13 @@ public class Suggestion extends BaseDTO {
 
 	public static Suggestion suggestionFromProfils(Profil profil, String ownerId) {
 		Suggestion suggestion = new Suggestion(ownerId, profil.getFirstname(), profil.getLastname(), profil.getEmail(),
-				false, false);
+				false, false, profil.getUsername());
 		return suggestion;
 	}
 
 	public static Profil profilsFromSuggestionFrom(Suggestion suggestion, String ownerId) {
 		Profil profil = new Profil();
-		profil.setUsername(suggestion.getUsername());
+		profil.setUsername(suggestion.getInviteusername());
 		profil.setFirstname(suggestion.getFirstname());
 		profil.setLastname(suggestion.getLastname());
 		profil.setEmail(suggestion.getEmail());
