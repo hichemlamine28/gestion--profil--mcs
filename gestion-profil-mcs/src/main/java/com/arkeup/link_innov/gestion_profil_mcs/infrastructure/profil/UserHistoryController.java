@@ -52,14 +52,17 @@ public class UserHistoryController {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
 		List<UserHistory> histories = personService.getAll();
+		int compteur = 0;
 		for (UserHistory userHistory : histories) {
 			for (UserHistoryActions actions : userHistory.getActions()) {
 				if (actions.getUserId().containsKey(userName)) {
-					return false;
+					compteur++;
 				}
 			}
 		}
-
+		if (compteur > 1) {
+			return false;
+		}
 		return true;
 	}
 
