@@ -1,17 +1,15 @@
 package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.profil;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
@@ -28,12 +26,6 @@ public class UserHistoryController {
 
 	@Autowired
 	private UserHistoryServiceImpl personService;
-
-//	@RequestMapping("/create")
-//	public String create(@RequestParam String actionDate, @RequestParam List<UserHistoryActions> actions) {
-//		UserHistory p = personService.create(actionDate, actions);
-//		return p.toString();
-//	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/getAll")
@@ -53,17 +45,23 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
-//	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
-//	@GetMapping("/findByToday")
-//	public List<UserHistoryDTO> findToday() {
-//
-//		String pattern = "dd-MM-yyyy";
-//		DateFormat df = new SimpleDateFormat(pattern);
-//		String todayAsString = df.format(new Date());
-//		List<UserHistory> histories = personService.getAllByDate(todayAsString);
-//
-//		return userHistoryToDTO(histories);
-//	}
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping("/isFirstConnection")
+	public boolean isFirstConnection() {
+
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+		List<UserHistory> histories = personService.getAll();
+		for (UserHistory userHistory : histories) {
+			for (UserHistoryActions actions : userHistory.getActions()) {
+				if (actions.getUserId().containsKey(userName)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	private List<UserHistoryDTO> userHistoryToDTO(List<UserHistory> histories) {
 		List<UserHistoryDTO> userHistoryDTOs = new ArrayList<>();
@@ -75,23 +73,5 @@ public class UserHistoryController {
 		}
 		return userHistoryDTOs;
 	}
-
-//	@RequestMapping("/update")
-//	public String update(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int age) {
-//		UserHistory p = personService.update(firstName, lastName, age);
-//		return p.toString();
-//	}
-
-//	@RequestMapping("/delete")
-//	public String delete(@RequestParam String firstName) {
-//		personService.delete(firstName);
-//		return "Deleted " + firstName;
-//	}
-
-//	@RequestMapping("/deleteAll")
-//	public String deleteAll() {
-//		personService.deleteAll();
-//		return "Deleted all records";
-//	}
 
 }

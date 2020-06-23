@@ -12,307 +12,306 @@ import com.googlecode.jmapper.annotations.JGlobalMap;
 @JGlobalMap
 public class ProfilDTO extends BaseDTO {
 
-    private String id;
+	private String id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String username;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String username;
 
-    private String firstname;
+	private String firstname;
 
-    private String chatId;
+	private String chatId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String lastname;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String lastname;
 
-    private String occupation;
+	private String occupation;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String zipCode;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String zipCode;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String city;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String city;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String webSite;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String webSite;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String phoneNumber;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String phoneNumber;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String email;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String email;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String pseudoName;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String pseudoName;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String resume;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String resume;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String photo;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String photo;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isProfileInitialised;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Boolean isProfileInitialised;
 
-    private List<ActivitySectorDTO> activityArea;
+	private List<ActivitySectorDTO> activityArea;
 
-    /**
-     * Les informations sur employeur de l'utilisateur.
-     */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CorporationDTO company;
+	/**
+	 * Les informations sur employeur de l'utilisateur.
+	 */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private CorporationDTO company;
 
-    /**
-     * Les informations sur le type de contact (Académique, Industrielle ou
-     * Autres)
-     */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CategoryDTO category;
+	/**
+	 * Les informations sur le type de contact (Académique, Industrielle ou Autres)
+	 */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private CategoryDTO category;
 
-    private RelationShipDTO relationShip;
+	private RelationShipDTO relationShip;
 
-    /**
-     * civilité de l'utilisateur.
-     */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean male;
+	/**
+	 * civilité de l'utilisateur.
+	 */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Boolean male;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private MediaDTO mediaDTO;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private MediaDTO mediaDTO;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String mediaId;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String mediaId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private MediaDTO backgroundDTO;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private MediaDTO backgroundDTO;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String backgroundId;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String backgroundId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private MediaDTO exportDTO;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private MediaDTO exportDTO;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String exportId;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String exportId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private DownloadStatus downloadStatus = DownloadStatus.NONE;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private DownloadStatus downloadStatus = DownloadStatus.NONE;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Date creationDate;
-    
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String domaine;
-    
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<String> langages;
-    
-    private String subscriptionName;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Date creationDate;
 
-    private Boolean contactConsultation;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String domaine;
 
-    private Date contactConsultationLastDate;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private List<String> langages;
 
-    private Boolean hasMedia = false;
+	private String subscriptionName;
 
-    private Boolean hasBackground = false;
+	private Boolean contactConsultation;
 
-    public String getId() {
-        return id;
-    }
+	private Date contactConsultationLastDate;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	private Boolean hasMedia = false;
 
-    public String getUsername() {
-        return username;
-    }
+	private Boolean hasBackground = false;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public String getOccupation() {
-        return occupation;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getResume() {
-        return resume;
-    }
-
-    public void setResume(String resume) {
-        this.resume = resume;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public CorporationDTO getCompany() {
-        return company;
-    }
-
-    public void setCompany(CorporationDTO company) {
-        this.company = company;
-    }
-
-    public CategoryDTO getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDTO category) {
-        this.category = category;
-    }
-
-    public String getWebSite() {
-        return webSite;
-    }
-
-    public void setWebSite(String webSite) {
-        this.webSite = webSite;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPseudoName() {
-        return pseudoName;
-    }
-
-    public void setPseudoName(String pseudoName) {
-        this.pseudoName = pseudoName;
-    }
-
-    public RelationShipDTO getRelationShip() {
-        return relationShip;
-    }
-
-    public void setRelationShip(RelationShipDTO relationShip) {
-        this.relationShip = relationShip;
-    }
-
-    /**
-     * @return the chatId
-     */
-    public String getChatId() {
-        return chatId;
-    }
-
-    /**
-     * @param chatId the chatId to set
-     */
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
-
-    public Boolean getMale() {
-        return male;
-    }
-
-    public void setMale(Boolean male) {
-        this.male = male;
-    }
-
-    public MediaDTO getMediaDTO() {
-        return mediaDTO;
-    }
-
-    public void setMediaDTO(MediaDTO mediaDTO) {
-        this.mediaDTO = mediaDTO;
-    }
-
-    public Boolean getIsProfileInitialised() {
-        return isProfileInitialised;
-    }
-
-    public void setIsProfileInitialised(Boolean isProfileInitialised) {
-        this.isProfileInitialised = isProfileInitialised;
-    }
-
-    public MediaDTO getBackgroundDTO() {
-        return backgroundDTO;
-    }
-
-    public void setBackgroundDTO(MediaDTO backgroundDTO) {
-        this.backgroundDTO = backgroundDTO;
-    }
-
-    public MediaDTO getExportDTO() {
-        return exportDTO;
-    }
-
-    public void setExportDTO(MediaDTO exportDTO) {
-        this.exportDTO = exportDTO;
-    }
-
-    public DownloadStatus getDownloadStatus() {
-        return downloadStatus;
-    }
-
-    public void setDownloadStatus(DownloadStatus downloadStatus) {
-        this.downloadStatus = downloadStatus;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getResume() {
+		return resume;
+	}
+
+	public void setResume(String resume) {
+		this.resume = resume;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public CorporationDTO getCompany() {
+		return company;
+	}
+
+	public void setCompany(CorporationDTO company) {
+		this.company = company;
+	}
+
+	public CategoryDTO getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryDTO category) {
+		this.category = category;
+	}
+
+	public String getWebSite() {
+		return webSite;
+	}
+
+	public void setWebSite(String webSite) {
+		this.webSite = webSite;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPseudoName() {
+		return pseudoName;
+	}
+
+	public void setPseudoName(String pseudoName) {
+		this.pseudoName = pseudoName;
+	}
+
+	public RelationShipDTO getRelationShip() {
+		return relationShip;
+	}
+
+	public void setRelationShip(RelationShipDTO relationShip) {
+		this.relationShip = relationShip;
+	}
+
+	/**
+	 * @return the chatId
+	 */
+	public String getChatId() {
+		return chatId;
+	}
+
+	/**
+	 * @param chatId the chatId to set
+	 */
+	public void setChatId(String chatId) {
+		this.chatId = chatId;
+	}
+
+	public Boolean getMale() {
+		return male;
+	}
+
+	public void setMale(Boolean male) {
+		this.male = male;
+	}
+
+	public MediaDTO getMediaDTO() {
+		return mediaDTO;
+	}
+
+	public void setMediaDTO(MediaDTO mediaDTO) {
+		this.mediaDTO = mediaDTO;
+	}
+
+	public Boolean getIsProfileInitialised() {
+		return isProfileInitialised;
+	}
+
+	public void setIsProfileInitialised(Boolean isProfileInitialised) {
+		this.isProfileInitialised = isProfileInitialised;
+	}
+
+	public MediaDTO getBackgroundDTO() {
+		return backgroundDTO;
+	}
+
+	public void setBackgroundDTO(MediaDTO backgroundDTO) {
+		this.backgroundDTO = backgroundDTO;
+	}
+
+	public MediaDTO getExportDTO() {
+		return exportDTO;
+	}
+
+	public void setExportDTO(MediaDTO exportDTO) {
+		this.exportDTO = exportDTO;
+	}
+
+	public DownloadStatus getDownloadStatus() {
+		return downloadStatus;
+	}
+
+	public void setDownloadStatus(DownloadStatus downloadStatus) {
+		this.downloadStatus = downloadStatus;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 
 	public List<ActivitySectorDTO> getActivityArea() {
 		return activityArea;
@@ -346,59 +345,59 @@ public class ProfilDTO extends BaseDTO {
 		this.subscriptionName = subscriptionName;
 	}
 
-    public Date getContactConsultationLastDate() {
-        return contactConsultationLastDate;
-    }
+	public Date getContactConsultationLastDate() {
+		return contactConsultationLastDate;
+	}
 
-    public void setContactConsultationLastDate(Date contactConsultationLastDate) {
-        this.contactConsultationLastDate = contactConsultationLastDate;
-    }
+	public void setContactConsultationLastDate(Date contactConsultationLastDate) {
+		this.contactConsultationLastDate = contactConsultationLastDate;
+	}
 
-    public Boolean getContactConsultation() {
-        return contactConsultation;
-    }
+	public Boolean getContactConsultation() {
+		return contactConsultation;
+	}
 
-    public void setContactConsultation(Boolean contactConsultation) {
-        this.contactConsultation = contactConsultation;
-    }
+	public void setContactConsultation(Boolean contactConsultation) {
+		this.contactConsultation = contactConsultation;
+	}
 
-    public String getMediaId() {
-        return mediaId;
-    }
+	public String getMediaId() {
+		return mediaId;
+	}
 
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
+	public void setMediaId(String mediaId) {
+		this.mediaId = mediaId;
+	}
 
-    public String getBackgroundId() {
-        return backgroundId;
-    }
+	public String getBackgroundId() {
+		return backgroundId;
+	}
 
-    public void setBackgroundId(String backgroundId) {
-        this.backgroundId = backgroundId;
-    }
+	public void setBackgroundId(String backgroundId) {
+		this.backgroundId = backgroundId;
+	}
 
-    public String getExportId() {
-        return exportId;
-    }
+	public String getExportId() {
+		return exportId;
+	}
 
-    public void setExportId(String exportId) {
-        this.exportId = exportId;
-    }
+	public void setExportId(String exportId) {
+		this.exportId = exportId;
+	}
 
-    public Boolean getHasMedia() {
-        return hasMedia;
-    }
+	public Boolean getHasMedia() {
+		return hasMedia;
+	}
 
-    public void setHasMedia(Boolean hasMedia) {
-        this.hasMedia = hasMedia;
-    }
+	public void setHasMedia(Boolean hasMedia) {
+		this.hasMedia = hasMedia;
+	}
 
-    public Boolean getHasBackground() {
-        return hasBackground;
-    }
+	public Boolean getHasBackground() {
+		return hasBackground;
+	}
 
-    public void setHasBackground(Boolean hasBackground) {
-        this.hasBackground = hasBackground;
-    }
+	public void setHasBackground(Boolean hasBackground) {
+		this.hasBackground = hasBackground;
+	}
 }
