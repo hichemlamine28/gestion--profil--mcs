@@ -74,6 +74,7 @@ public class ProfilMapperImpl implements ProfilMapper {
         else {
             profilDTO.setLangages( null );
         }
+        profilDTO.setOnBording( profil.getOnBording() );
         profilDTO.setMediaId( profil.getMediaId() );
         profilDTO.setBackgroundId( profil.getBackgroundId() );
         profilDTO.setExportId( profil.getExportId() );
@@ -129,6 +130,7 @@ public class ProfilMapperImpl implements ProfilMapper {
         else {
             profil.setLangages( null );
         }
+        profil.setOnBording( profilDTO.getOnBording() );
         profil.setHasMedia( profilDTO.getHasMedia() );
         profil.setHasBackground( profilDTO.getHasBackground() );
 
