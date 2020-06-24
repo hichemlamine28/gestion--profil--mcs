@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.ProfilMapper;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistoryActions;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserHistoryDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryServiceImpl;
+import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 
 import io.swagger.annotations.ApiParam;
 
@@ -26,6 +29,15 @@ public class UserHistoryController {
 
 	@Autowired
 	private UserHistoryServiceImpl personService;
+
+	@Autowired
+	private ProfilRSA profilRSA;
+
+	@Autowired
+	private ProfilCUDSM profilCUDSM;
+
+	@Autowired
+	private ProfilMapper profilFactory;
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/getAll")
@@ -51,19 +63,25 @@ public class UserHistoryController {
 
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = user.getUsername();
-		List<UserHistory> histories = personService.getAll();
-		int compteur = 0;
-		for (UserHistory userHistory : histories) {
-			for (UserHistoryActions actions : userHistory.getActions()) {
-				if (actions.getUserId().containsKey(userName)) {
-					compteur++;
-				}
-			}
-		}
-		if (compteur > 1) {
+		profilRSA.getProfil(userName);
+
+		if (profilRSA.getProfil(userName).getOnBording() != null)
+			return profilRSA.getProfil(userName).getOnBording();
+		else
 			return false;
-		}
-		return true;
+	}
+
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping("/updateOnBording")
+	public void updateOnBording() {
+
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+
+		ProfilDTO profilDTO = profilRSA.getProfil(userName);
+		profilDTO.setOnBording(true);
+
+		profilCUDSM.update(profilFactory.profilDTOToProfil(profilDTO));
 	}
 
 	private List<UserHistoryDTO> userHistoryToDTO(List<UserHistory> histories) {

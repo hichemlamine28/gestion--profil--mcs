@@ -104,6 +104,10 @@ public class ProfilDTO extends BaseDTO {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<String> langages;
+	
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Boolean onBording = false;
 
 	private String subscriptionName;
 
@@ -335,6 +339,14 @@ public class ProfilDTO extends BaseDTO {
 
 	public void setLangages(List<String> langages) {
 		this.langages = langages;
+	}
+
+	public Boolean getOnBording() {
+		return onBording;
+	}
+
+	public void setOnBording(Boolean onBording) {
+		this.onBording = onBording;
 	}
 
 	public String getSubscriptionName() {
