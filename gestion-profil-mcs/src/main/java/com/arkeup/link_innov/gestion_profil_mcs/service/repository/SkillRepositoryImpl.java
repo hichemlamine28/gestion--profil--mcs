@@ -43,7 +43,7 @@ public class SkillRepositoryImpl
 	@Override
 	public List<Skill> findByName(String skillNam) {
 		Query query = new Query();
-		if (skillNam.equals("*")) {
+		if (skillNam.equals("*") && skillNam.length() <=2) {
 			return new ArrayList<>();
 		}
 		query.addCriteria(Criteria.where("name").regex(skillNam));
