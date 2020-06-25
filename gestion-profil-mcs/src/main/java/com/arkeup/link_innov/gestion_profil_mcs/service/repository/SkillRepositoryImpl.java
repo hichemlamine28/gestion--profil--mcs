@@ -43,10 +43,10 @@ public class SkillRepositoryImpl
 	@Override
 	public List<Skill> findByName(String skillNam) {
 		Query query = new Query();
-		if (skillNam.equals("*") && skillNam.length() <=2) {
+		if (skillNam.equals("*") || skillNam.length() <=2) {
 			return new ArrayList<>();
 		}
-		query.addCriteria(Criteria.where("name").regex(skillNam));
+		query.addCriteria(Criteria.where("name").regex(skillNam,"i"));
 		List<Skill> skills = mongoTemplateDefault.find(query, Skill.class);
 		return skills;
 	}
