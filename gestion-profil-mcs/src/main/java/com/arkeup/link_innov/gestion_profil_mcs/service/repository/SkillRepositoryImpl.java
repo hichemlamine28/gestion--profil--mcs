@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,9 @@ public class SkillRepositoryImpl
 	@Override
 	public List<Skill> findByName(String skillNam) {
 		Query query = new Query();
+		if (skillNam.equals("*")) {
+			return new ArrayList<>();
+		}
 		query.addCriteria(Criteria.where("name").regex(skillNam));
 		List<Skill> skills = mongoTemplateDefault.find(query, Skill.class);
 		return skills;
