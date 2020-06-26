@@ -3,7 +3,6 @@ package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.product
 import java.util.List;
 import java.util.UUID;
 
-import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.productions.patent.PatentCUDSA;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +14,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ObjetNotFoundE
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.production.patent.PatentMapper;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Patent;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PatentDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.productions.patent.PatentCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.productions.patent.PatentRSM;
 
 @Service
@@ -46,8 +46,8 @@ public class PatentRSAImpl implements PatentRSA {
 	}
 
 	@Override
-	public Boolean publicationNumberIsAlreadyExist(String publicationNumber) {
-		return patentRSM.publicationNumberIsAlreadyExist(publicationNumber);
+	public Boolean publicationNumberIsAlreadyExist(String publicationNumber, String ownerId) {
+		return patentRSM.publicationNumberIsAlreadyExist(publicationNumber, ownerId);
 	}
 
 	@Override
@@ -59,12 +59,11 @@ public class PatentRSAImpl implements PatentRSA {
 		}
 		boolean hasEmptyMediaId = false;
 		patentDTO = patentMapper.patentToPatentDTO(patent);
-		if(StringUtils.isEmpty(patentDTO.getMediaId()))
-		{
+		if (StringUtils.isEmpty(patentDTO.getMediaId())) {
 			hasEmptyMediaId = true;
 			patentDTO.setMediaId(UUID.randomUUID().toString());
 		}
-		if(hasEmptyMediaId)
+		if (hasEmptyMediaId)
 			patentCUDSA.updatePatent(patentDTO);
 		return patentDTO;
 	}

@@ -51,7 +51,7 @@ public class PatentCUDSAImpl implements PatentCUDSA {
 			serviceSuggestionService.saveSuggestions(ownerId);
 			throw new CustomNullPointerException(patentDTO, ErrorsEnum.ERR_MCS_NULL_POINTER);
 		} else {
-			if (patentRSA.publicationNumberIsAlreadyExist(patentDTO.getPublicationNumber())) {
+			if (patentRSA.publicationNumberIsAlreadyExist(patentDTO.getPublicationNumber(), ownerId)) {
 				throw new FunctionalInvalidDataException(patentDTO, ErrorsEnum.ERR_MCS_PROFIL_0083);
 			}
 			patentDTO = patentMapper.patentToPatentDTO(patentCUDSM.createPatent(ownerId, patent));

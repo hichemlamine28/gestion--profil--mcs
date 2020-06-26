@@ -17,5 +17,5 @@ public interface PatentRSM {
 
 	public List<Patent> findAllByOwnerId(String ownerId);
 
-	public Boolean publicationNumberIsAlreadyExist(String publicationNumber);
+	public Boolean publicationNumberIsAlreadyExist(String publicationNumber, String ownerId);
 }

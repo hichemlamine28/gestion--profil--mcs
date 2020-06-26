@@ -39,8 +39,16 @@ public class PatentRSMImpl implements PatentRSM {
 	}
 
 	@Override
-	public Boolean publicationNumberIsAlreadyExist(String publicationNumber) {
-		return patentRepository.findByPublicationNumber(publicationNumber).size() > 0;
+	public Boolean publicationNumberIsAlreadyExist(String publicationNumber, String ownerId) {
+		Boolean isExist = false;
+		for (Patent patent : patentRepository.findByPublicationNumber(publicationNumber)) {
+			if (patent.getOwnerId().equals(ownerId)) {
+				isExist = true;
+				break;
+			}
+		}
+		return isExist;
+//		return patentRepository.findByPublicationNumber(publicationNumber).size() > 0;
 	}
 
 }
