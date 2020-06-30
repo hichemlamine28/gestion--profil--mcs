@@ -31,6 +31,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.ProfilDTOValidator;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CategoryDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsHasMediaUpdatedDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PageContactsDTO;
@@ -44,6 +45,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.commun.CustomPageDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.contact_consultation.ContactConsultationCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil.ProfilCUDSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.category.CategoryRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.information.UserInformationRSAImpl;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryService;
@@ -80,6 +82,9 @@ public class ProfilController {
 
 	@Autowired
 	private ProfilRSM profilRSM;
+
+	@Autowired
+	CategoryRSA categoryRSA;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilController.class);
 
@@ -366,7 +371,7 @@ public class ProfilController {
 
 	@ApiOperation(value = "update profil has Media", notes = "WS update profil has Media")
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEADMIN)
-	@PutMapping(value = { "/update_all_has_media/{type}" })
+	@PutMapping(value = { "/update_all_has_mediacc" })
 	@ResponseBody
 	public IsHasMediaUpdatedDTO updateAllHasMedia(@PathVariable("type") String type) {
 		return this.profilCUDSA.updateAllHasMedia(type);
@@ -379,5 +384,39 @@ public class ProfilController {
 		return profilRSA.getProfilByUsername(userId);
 		// return "Profils ...!!!";
 	};
+
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@ApiOperation(value = "Update user information", notes = "This WS is used to Update user information.")
+	@PutMapping(path = "/updateProfileCategory/{type}")
+	@ResponseBody
+	public ProfilDTO updateProfileCategory(@PathVariable("type") String type) {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+		ProfilDTO profilDTO = profilRSA.getProfilByUsername(userName);
+
+		String typeName = "";
+		if (type.equals("0")) {
+			typeName = "Industriel";
+		} else if (type.equals("1")) {
+			// TODO LIN-433
+			typeName = "Chercheur";
+		} else if (type.equals("2")) {
+			typeName = "Autres acteurs de l'innovation";
+		} else if (type.equals("3")) {
+			// TODO LIN-433
+			typeName = "Académique";
+		} else {
+			typeName = type;
+		}
+
+		LOGGER.info("Type name : " + typeName);
+		CategoryDTO categoryDTO = categoryRSA.findByName(typeName);
+
+		profilDTO.setCategory(categoryDTO);
+		
+		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.PROFILUPDATE.getValue(),
+				ProfilAction.PROFILIDUPDATE.getValue());
+		return profilCUDSA.update(profilDTO);
+	}
 
 }

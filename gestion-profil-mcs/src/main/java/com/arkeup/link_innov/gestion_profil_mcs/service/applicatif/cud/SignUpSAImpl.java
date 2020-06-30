@@ -676,9 +676,13 @@ public class SignUpSAImpl implements SignUpSA {
 		if (signUpDTO.getType().getName().equals("0")) {
 			typeName = "Industriel";
 		} else if (signUpDTO.getType().getName().equals("1")) {
-			typeName = "Académique";
+			// TODO LIN-433
+			typeName = "Chercheur";
 		} else if (signUpDTO.getType().getName().equals("2")) {
 			typeName = "Autres acteurs de l'innovation";
+		} else if (signUpDTO.getType().getName().equals("3")) {
+			// TODO LIN-433
+			typeName = "Académique";
 		} else {
 			typeName = signUpDTO.getType().getName();
 		}

@@ -37,8 +37,14 @@ public class CategoryCUDSAImpl implements CategoryCUDSA {
 		cat.setName("Autres acteurs de l'innovation");
 		categories.add(cat);
 
+		// TODO LIN-433
+		cat = new Category();
+		cat.setId("uuid-category-chercheur");
+		cat.setName("Chercheur");
+		categories.add(cat);
+
 		categoryRepository.saveAll(categories);
-		
+
 		CategoryDTO result = new CategoryDTO();
 		result.setMessage("Init category list");
 		result.setError(false);
