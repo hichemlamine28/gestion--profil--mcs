@@ -352,6 +352,7 @@ com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/productions/Producti
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/UserCUDSM.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/mongo/mcs/ContactConsultationMongoRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/commun/config/security/authorization_server/AuthorizationServerConfig.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsLinkValidDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/SkillRecommendationDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/UserAuth.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/numberofemployee/NumberOfEmployeeRSMImpl.class

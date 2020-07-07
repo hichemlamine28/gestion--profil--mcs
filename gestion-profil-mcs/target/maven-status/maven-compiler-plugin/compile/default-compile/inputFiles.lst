@@ -429,6 +429,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/parcours/ParcoursCUDSMImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/referential/Keyword.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/metier/cud/referential/numberofemployee/NumberOfEmployeeCUDSMImpl.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/IsLinkValidDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/referential/NumberOfEmployeesDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/applicatif/cud/referential/thematicarea/ThematicAreaCUDSAImpl.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/service/repository/GroupConsultationRepository.java
