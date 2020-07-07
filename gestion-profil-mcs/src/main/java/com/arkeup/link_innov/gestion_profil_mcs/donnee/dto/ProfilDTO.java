@@ -104,10 +104,18 @@ public class ProfilDTO extends BaseDTO {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<String> langages;
-	
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Boolean onBording = false;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String keyValidateProfil;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Date expirationKeyValidateProfil;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Boolean isActiveAccount = false;
 
 	private String subscriptionName;
 
@@ -347,6 +355,30 @@ public class ProfilDTO extends BaseDTO {
 
 	public void setOnBording(Boolean onBording) {
 		this.onBording = onBording;
+	}
+
+	public String getKeyValidateProfil() {
+		return keyValidateProfil;
+	}
+
+	public void setKeyValidateProfil(String keyValidateProfil) {
+		this.keyValidateProfil = keyValidateProfil;
+	}
+
+	public Date getExpirationKeyValidateProfil() {
+		return expirationKeyValidateProfil;
+	}
+
+	public void setExpirationKeyValidateProfil(Date expirationKeyValidateProfil) {
+		this.expirationKeyValidateProfil = expirationKeyValidateProfil;
+	}
+
+	public Boolean getIsActiveAccount() {
+		return isActiveAccount;
+	}
+
+	public void setIsActiveAccount(Boolean isActiveAccount) {
+		this.isActiveAccount = isActiveAccount;
 	}
 
 	public String getSubscriptionName() {

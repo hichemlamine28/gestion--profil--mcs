@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.UserType;
@@ -23,11 +27,15 @@ public class ProfilRepositoryImpl
 		extends CommonMongoToESRepositoryImpl<Profil, String, ProfilMongoRepository, ProfilESRepository>
 		implements ProfilRepository {
 
+
+	@Autowired
+	private MongoTemplate mongoTemplateDefault;
+	
 	@Override
 	public Profil getInformation(String username) {
 		return this.mongoRepository.findByUsername(username);
 	}
-
+	
 	@Override
 	public String findUserNameByProfileId(String id) {
 		Optional<Profil> optionalProfil = this.mongoRepository.findById(id);
@@ -83,5 +91,15 @@ public class ProfilRepositoryImpl
 	@Override
 	public List<Profil> findByFirstName(String firstName) {
 		return mongoRepository.findByfirstname(firstName);
+	}
+	
+	@Override
+	public List<Profil> getBykeyValidateProfil(String keyValidateProfil) {
+
+		Query query = new Query();
+		query.addCriteria(Criteria.where("keyValidateProfil").regex(keyValidateProfil));
+
+		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.find(query, Profil.class);
+		return profileResultBykeyValidation;
 	}
 }

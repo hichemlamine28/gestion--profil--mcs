@@ -32,4 +32,6 @@ public interface ProfilRSM {
     List<Profil> findAll();
 
 	List<Profil> getProfilsInformationsFirstName(String firstName);
+
+	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
 }

@@ -36,4 +36,6 @@ public interface ProfilRepository
     List<Profil> findAll();
 
 	public List<Profil> findByFirstName(String firstName);
+
+	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
 }

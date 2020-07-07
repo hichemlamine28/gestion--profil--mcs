@@ -34,6 +34,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.Inscription
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.SignUpDTOValidator;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.UserAuthDTORGValidator;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsImportedDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsLinkValidDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsMailSendDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserAuthDTO;
@@ -103,9 +104,9 @@ public class SignUpController {
 	public ProfilDTO signUp(
 			@ApiParam(name = "SignUpDTO", value = "{\"language\": \"fr\",\"lastName\": \"DeLaFuente\", \"firstName\": \"Jean\", \"mail\": \"abc@yopmail.com\", \"employer\": { \"id\": \"employer_id\", \"name\": \"Universite de France\" }, \"type\": { \"id\": \"uuid-category-academique\", \"name\":\"Académique\", \"male\":\"true\"}}", required = true) @Valid @RequestBody SignUpDTO signUpDTO,
 			Errors errors) {
-		LOGGER.info("/register logger is ... : " + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage() + " Type value : "
-				+ signUpDTO.getType() + " Catégorie name is : " + signUpDTO.getType().getName());
-		
+		LOGGER.info("/register logger is ... : " + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage()
+				+ " Type value : " + signUpDTO.getType() + " Catégorie name is : " + signUpDTO.getType().getName());
+
 		if (errors.hasErrors()) {
 			throw new ValidationException(errors);
 		}
@@ -183,5 +184,40 @@ public class SignUpController {
 	public ProfilDTO importBetaTestInLandingPage(
 			@ApiParam(name = "SignUpDTO", value = "{\"language\": \"fr\",\"lastName\": \"DeLaFuente\", \"firstName\": \"Jean\", \"mail\": \"abc@yopmail.com\", \"employer\": { \"id\": \"employer_id\", \"name\": \"Universite de France\" }, \"type\": { \"id\": \"uuid-category-academique\", \"name\":\"Académique\", \"male\":\"true\"}}", required = true) @RequestBody SignUpDTO signUpDTO) {
 		return signUpSA.importBetaTestInLandinPage(signUpDTO);
+	}
+
+	// TODO LIN-440
+	@ApiOperation(value = "Re-send mail validate account", notes = "Re-send mail validate account")
+	@GetMapping(value = "/inscription/isLinkValid/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public IsLinkValidDTO isLinkValid(@PathVariable("userId") String userId) {
+
+//		// Generate key validation profile
+//		UUID keyValidateProfil = UUID.randomUUID();
+//		// Generate expiration date of key validation profile
+//		Calendar c = Calendar.getInstance();
+//		c.setTime(new Date());
+//		c.add(Calendar.DATE, 2);
+//		Date expirationKeyValidateProfil = c.getTime();
+//
+//		/*
+//		 * Get profile by expirationKeyValidateProfil If not exist send Error in
+//		 * isLinkValidDTO If exist :
+//		 * verifay expirationKeyValidateProfil
+//		 * expirationKeyValidateProfil - 2 jours< If new date < expirationKeyValidateProfil
+//		 */
+//		IsLinkValidDTO isLinkValidDTO = new IsLinkValidDTO();
+//		if (userId.equals("valid")) {
+//			isLinkValidDTO.setUserName(userId);
+//			isLinkValidDTO.setIsValid(true);
+//			return isLinkValidDTO;
+//		} else if (userId.equals("invalid")) {
+//			isLinkValidDTO.setIsValid(false);
+//			return isLinkValidDTO;
+//		} else {
+//			isLinkValidDTO.setError(true);
+//			isLinkValidDTO.setErrorMessage("validation string is not found");
+//			return isLinkValidDTO;
+//		}
+		return signUpSA.isLinkValid(userId);
 	}
 }

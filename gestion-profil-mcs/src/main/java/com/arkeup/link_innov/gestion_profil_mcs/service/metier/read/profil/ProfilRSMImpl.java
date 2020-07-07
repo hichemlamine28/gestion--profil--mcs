@@ -40,6 +40,12 @@ public class ProfilRSMImpl implements ProfilRSM {
 		return profilRepository.getInformation(username);
 	}
 
+	
+	@Override
+	public List<Profil> getBykeyValidateProfil(String keyValidateProfil) {
+		return profilRepository.getBykeyValidateProfil(keyValidateProfil);
+	}
+	
 	@Override
 	public Page<Profil> getContactInformationsByIds(List<String> ids, String type, String filter, Pageable pageable) {
 		return profilRepository.getContactInformationsByIds(ids, type, filter, pageable);

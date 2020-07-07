@@ -3,7 +3,9 @@
  */
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud;
 
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import java.util.List;
+
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsLinkValidDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsMailSendDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
@@ -11,33 +13,33 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserAuthDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.InscriptionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.SignUpDTO;
 
-import java.util.List;
-
 /**
  * @author mikajy
  *
  */
 public interface SignUpSA {
 
-    public ProfilDTO doSignUp(SignUpDTO dto);
-    
-    public ProfilDTO doSignUp(InscriptionDTO dto);
+	public ProfilDTO doSignUp(SignUpDTO dto);
 
-    public UserAuthDTO choosePassword(UserAuthDTO userAuthDTO, Boolean validateAccount);
-    
-    public UserAuthDTO updatePassword(UserAuthDTO userAuthDTO, Boolean validateAccount);
+	public ProfilDTO doSignUp(InscriptionDTO dto);
 
-    public UserAuthDTO retrievePassword(UserAuthDTO userAuthDTO);
+	public UserAuthDTO choosePassword(UserAuthDTO userAuthDTO, Boolean validateAccount);
 
-    public UserAuthDTO updateMail(String userName, UserAuthDTO userAuthDTO);
-    
-    public UserAuthDTO validateAccount(UserAuthDTO userAuthDTO);
-    
-    public MediaDTO generatePictureToken(String userId);
+	public UserAuthDTO updatePassword(UserAuthDTO userAuthDTO, Boolean validateAccount);
 
-    public void importBetaTesteurs(List<SignUpDTO> signUpDTOS);
+	public UserAuthDTO retrievePassword(UserAuthDTO userAuthDTO);
 
-    IsMailSendDTO reSendMailValidate(String userId);
+	public UserAuthDTO updateMail(String userName, UserAuthDTO userAuthDTO);
 
-    ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO);
+	public UserAuthDTO validateAccount(UserAuthDTO userAuthDTO);
+
+	public MediaDTO generatePictureToken(String userId);
+
+	public void importBetaTesteurs(List<SignUpDTO> signUpDTOS);
+
+	IsMailSendDTO reSendMailValidate(String userId);
+
+	ProfilDTO importBetaTestInLandinPage(SignUpDTO signUpDTO);
+
+	IsLinkValidDTO isLinkValid(String keyValidateProfil);
 }

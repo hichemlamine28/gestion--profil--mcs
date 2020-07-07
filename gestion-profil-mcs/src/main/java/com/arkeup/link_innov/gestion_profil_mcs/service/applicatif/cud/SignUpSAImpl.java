@@ -3,6 +3,7 @@
  */
 package com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +39,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Registration;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserAuth;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CategoryDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CorporationDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsLinkValidDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsMailSendDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
@@ -220,6 +222,18 @@ public class SignUpSAImpl implements SignUpSA {
 			// Update Creation date
 			profil.setCreationDate(new Date());
 
+			// TODO LIN-440
+			// Generate key validation profile
+			UUID keyValidateProfil = UUID.randomUUID();
+			// Generate expiration date of key validation profile
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DATE, 2);
+			Date expirationKeyValidateProfil = c.getTime();
+
+			profil.setKeyValidateProfil(keyValidateProfil.toString());
+			profil.setExpirationKeyValidateProfil(expirationKeyValidateProfil);
+
 			// Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
 			// lors de la création de groupe de discussion
 			profil.setChatId(userAuthDto.getPseudoName());
@@ -238,8 +252,12 @@ public class SignUpSAImpl implements SignUpSA {
 			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
 
 			// Send Notification mail.
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+
 			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
-					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+					profil.getEmail(), registration.getId(), profil.getKeyValidateProfil().toString(),
+					profil.getFirstname());
 			notificationMCS.sendEmail(mailParametersDTO);
 
 			// send new Person Physique Action
@@ -294,6 +312,18 @@ public class SignUpSAImpl implements SignUpSA {
 			profil = profilFactory.getEntityInstance(signUpDTO);
 
 			profil.setCreationDate(new Date());
+
+			// TODO LIN-440
+			// Generate key validation profile
+			UUID keyValidateProfil = UUID.randomUUID();
+			// Generate expiration date of key validation profile
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DATE, 2);
+			Date expirationKeyValidateProfil = c.getTime();
+
+			profil.setKeyValidateProfil(keyValidateProfil.toString());
+			profil.setExpirationKeyValidateProfil(expirationKeyValidateProfil);
 
 			profil.setMediaId(UUID.randomUUID().toString());
 			profil.setBackgroundId(UUID.randomUUID().toString());
@@ -440,6 +470,7 @@ public class SignUpSAImpl implements SignUpSA {
 			registrationCUDSM.deleteByUseruid(result.getUsername());
 			// Update creation date of activated user
 			Profil profil = profilRSM.getInformation(userAuthDTO.getUsername());
+			profil.setIsActiveAccount(true);
 			if (profil != null) {
 				profil.setCreationDate(new Date());
 				profilCUDSM.update(profil);
@@ -605,6 +636,30 @@ public class SignUpSAImpl implements SignUpSA {
 		return result;
 	}
 
+	// TODO LIN-440
+	@Override
+	public IsLinkValidDTO isLinkValid(String keyValidateProfil) {
+		List<Profil> profils = profilRSM.getBykeyValidateProfil(keyValidateProfil);
+		IsLinkValidDTO isLinkValidDTO = new IsLinkValidDTO();
+
+		if (profils != null && !profils.isEmpty()) {
+			Profil profil = profils.get(0);
+			if (profil.getExpirationKeyValidateProfil().compareTo(new Date()) >= 0) {
+				isLinkValidDTO.setUserName(profil.getUsername());
+				isLinkValidDTO.setIsValid(true);
+				return isLinkValidDTO;
+			}
+
+			isLinkValidDTO.setUserName(profil.getUsername());
+			isLinkValidDTO.setIsValid(false);
+			return isLinkValidDTO;
+		} else {
+			isLinkValidDTO.setError(true);
+			isLinkValidDTO.setErrorMessage("validation string is not found or not exist");
+			return isLinkValidDTO;
+		}
+	}
+
 	@Override
 	public void importBetaTesteurs(List<SignUpDTO> signUpDTOS) {
 		signUpDTOS.forEach(signUpDTO -> doSignUpBetaTest(signUpDTO, false));
@@ -627,6 +682,19 @@ public class SignUpSAImpl implements SignUpSA {
 			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
 		}
 
+		// TODO LIN-440
+		// Generate key validation profile
+		UUID keyValidateProfil = UUID.randomUUID();
+		// Generate expiration date of key validation profile
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, 2);
+		Date expirationKeyValidateProfil = c.getTime();
+
+		profil.setKeyValidateProfil(keyValidateProfil.toString());
+		profil.setExpirationKeyValidateProfil(expirationKeyValidateProfil);
+		profilCUDSM.update(profil);
+
 		Registration registration = null;
 
 		// Create a registration mongo collection
@@ -634,8 +702,10 @@ public class SignUpSAImpl implements SignUpSA {
 		registration = registrationCUDSM.save(registration);
 
 		// Send Notification mail.
+//		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
+//				registration.getId(), profil.getUsername(), profil.getFirstname());
 		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
-				registration.getId(), profil.getUsername(), profil.getFirstname());
+				registration.getId(), profil.getKeyValidateProfil().toString(), profil.getFirstname());
 		notificationMCS.sendEmail(mailParametersDTO);
 
 		// send new Person Physique Action
