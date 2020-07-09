@@ -252,9 +252,12 @@ public class SignUpSAImpl implements SignUpSA {
 			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
 
 			// Send Notification mail.
-			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
-					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
 
+			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+					profil.getEmail(), registration.getId(), profil.getKeyValidateProfil().toString(),
+					profil.getFirstname());
 			notificationMCS.sendEmail(mailParametersDTO);
 
 			// send new Person Physique Action
@@ -421,8 +424,11 @@ public class SignUpSAImpl implements SignUpSA {
 			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
 
 			// Send Notification mail.
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
 			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
-					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+					profil.getEmail(), registration.getId(), profil.getKeyValidateProfil().toString(),
+					profil.getFirstname());
 			notificationMCS.sendEmail(mailParametersDTO);
 
 			// send new Person Physique Action
