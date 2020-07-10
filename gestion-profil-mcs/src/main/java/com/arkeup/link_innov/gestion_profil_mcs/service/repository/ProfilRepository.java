@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -38,4 +39,6 @@ public interface ProfilRepository
 	public List<Profil> findByFirstName(String firstName);
 
 	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
+
+	public Collection<? extends Profil> findByFirstNameConcatLastName(String concat);
 }

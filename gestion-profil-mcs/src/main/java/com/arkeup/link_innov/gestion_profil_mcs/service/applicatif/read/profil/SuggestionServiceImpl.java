@@ -64,7 +64,9 @@ public class SuggestionServiceImpl implements SuggestionService {
 
 		if (authors != null) {
 			authors.forEach(author -> {
-				List<Profil> p = profilRSA.getListProfilByFirstName(author);
+//				List<Profil> p = profilRSA.getListProfilByFirstName(author);
+
+				List<Profil> p = profilRSA.getListProfilByFirstNameConcatLastName(author);
 				if (p != null && !p.isEmpty()) {
 
 					inviteUserNameSuggestion.addAll(p);

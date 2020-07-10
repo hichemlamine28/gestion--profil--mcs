@@ -65,4 +65,6 @@ public interface ProfilRSA {
 
 	public List<Profil> getListProfilByFirstName(User sugUser);
 
+	public List<Profil> getListProfilByFirstNameConcatLastName(User author);
+
 }

@@ -781,7 +781,22 @@ public class ProfilRSAImpl implements ProfilRSA {
 	public List<Profil> getListProfilByFirstName(User sugUser) {
 		List<Profil> profils = new ArrayList<>();
 		if (sugUser != null) {
-			 profils.addAll(profilRSM.getProfilsInformationsFirstName(sugUser.getFirstName()));
+			profils.addAll(profilRSM.getProfilsInformationsFirstName(sugUser.getFirstName()));
+			return profils;
+		} else
+			return null;
+	}
+
+	@Override
+	public List<Profil> getListProfilByFirstNameConcatLastName(User sugUser) {
+		List<Profil> profils = new ArrayList<>();
+		if (sugUser != null) {
+			if (!StringUtils.isBlank(sugUser.getFirstName()) && !StringUtils.isBlank(sugUser.getLastName())) {
+
+				profils.addAll(profilRSM.getListProfilByFirstNameConcatLastName(
+						sugUser.getFirstName().concat(" ").concat(sugUser.getLastName())));
+			} else
+				profils.addAll(profilRSM.getListProfilByFirstNameConcatLastName(sugUser.getFirstName()));
 			return profils;
 		} else
 			return null;

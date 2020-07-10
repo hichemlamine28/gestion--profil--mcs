@@ -1,6 +1,7 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,12 +41,11 @@ public class ProfilRSMImpl implements ProfilRSM {
 		return profilRepository.getInformation(username);
 	}
 
-	
 	@Override
 	public List<Profil> getBykeyValidateProfil(String keyValidateProfil) {
 		return profilRepository.getBykeyValidateProfil(keyValidateProfil);
 	}
-	
+
 	@Override
 	public Page<Profil> getContactInformationsByIds(List<String> ids, String type, String filter, Pageable pageable) {
 		return profilRepository.getContactInformationsByIds(ids, type, filter, pageable);
@@ -101,5 +101,10 @@ public class ProfilRSMImpl implements ProfilRSM {
 	@Override
 	public List<Profil> getProfilsInformationsFirstName(String firstName) {
 		return profilRepository.findByFirstName(firstName);
+	}
+
+	@Override
+	public Collection<? extends Profil> getListProfilByFirstNameConcatLastName(String concat) {
+		return profilRepository.findByFirstNameConcatLastName(concat);
 	}
 }

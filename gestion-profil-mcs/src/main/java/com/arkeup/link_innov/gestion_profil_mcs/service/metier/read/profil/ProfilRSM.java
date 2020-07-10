@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -34,4 +35,6 @@ public interface ProfilRSM {
 	List<Profil> getProfilsInformationsFirstName(String firstName);
 
 	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
+
+	Collection<? extends Profil> getListProfilByFirstNameConcatLastName(String concat);
 }

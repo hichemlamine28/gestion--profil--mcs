@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,15 +28,14 @@ public class ProfilRepositoryImpl
 		extends CommonMongoToESRepositoryImpl<Profil, String, ProfilMongoRepository, ProfilESRepository>
 		implements ProfilRepository {
 
-
 	@Autowired
 	private MongoTemplate mongoTemplateDefault;
-	
+
 	@Override
 	public Profil getInformation(String username) {
 		return this.mongoRepository.findByUsername(username);
 	}
-	
+
 	@Override
 	public String findUserNameByProfileId(String id) {
 		Optional<Profil> optionalProfil = this.mongoRepository.findById(id);
@@ -92,7 +92,7 @@ public class ProfilRepositoryImpl
 	public List<Profil> findByFirstName(String firstName) {
 		return mongoRepository.findByfirstname(firstName);
 	}
-	
+
 	@Override
 	public List<Profil> getBykeyValidateProfil(String keyValidateProfil) {
 
@@ -101,5 +101,54 @@ public class ProfilRepositoryImpl
 
 		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.find(query, Profil.class);
 		return profileResultBykeyValidation;
+	}
+
+	@Override
+	public Collection<? extends Profil> findByFirstNameConcatLastName(String concat) {
+		String firstname = null;
+		String lastname = null;
+
+		Query query = new Query();
+
+		if (concat.contains(" ")) {
+			String[] arrOfStr = concat.split(" ");
+			firstname = arrOfStr[0];
+			lastname = arrOfStr[1];
+			//Yosra
+			//Bouyacoub
+		}
+		if (!firstname.isEmpty() && !lastname.isEmpty()) {
+
+			query.addCriteria(Criteria.where("firstname").regex(firstname)
+					.andOperator(Criteria.where("lastname").regex(lastname)));
+
+			List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
+			return profileResult;
+		}
+		if (!lastname.isEmpty()) {
+			query.addCriteria(Criteria.where("lastname").regex(firstname));
+
+			List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
+			return profileResult;
+
+		}
+
+		query.addCriteria(Criteria.where("firstname").regex(concat));
+
+		List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
+		return profileResult;
+//		AggregationOperation project = Aggregation.project()
+//				.and(StringOperators.Concat.valueOf("firstname").concatValueOf(" ").concatValueOf("lastname"))
+//				.as("newField");
+//		AggregationOperation match = Aggregation.match(Criteria.where("newField").regex(concat));
+//		Aggregation aggregation = Aggregation.newAggregation(project, match);
+//
+//		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.aggregate(aggregation, "test", Profil.class)
+//				.getMappedResults();
+
+//		Query query = new Query();
+//		query.addCriteria(Criteria.where(StringOperators.Concat.valueOf("Firstname").concatValueOf("Lastname")).as(concat));
+//
+//		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.find(query, Profil.class);
 	}
 }
