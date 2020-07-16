@@ -16,8 +16,6 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +48,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilAdminDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PublicProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.QualificationDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SkillsDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ActiveSubscriptionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ReseauSocialUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.SubscriptionDTO;
@@ -60,6 +59,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.parcours
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.productions.ProductionRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.productions.patent.PatentRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.qualification.QualificationRSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.skill.SkillRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.AbonnementMCS;
 import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.MediaMCS;
 import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.ReseauxSociauxMCS;
@@ -120,11 +120,9 @@ public class ProfilRSAImpl implements ProfilRSA {
 	private AbonnementMCS abonnementMCS;
 
 	@Autowired
-	private UserHistoryService userHistoryService;
+	private SkillRSA skillRSA;
 
 	public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MMMM/yyyy HH:mm");
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilRSAImpl.class);
 
 	/**
 	 * Ticket : http://jira.arkeup.com/browse/LKV-2402
@@ -200,6 +198,8 @@ public class ProfilRSAImpl implements ProfilRSA {
 			} else {
 				profilDTO.setContactConsultation(false);
 			}
+			int pourcentage = profilIsCompet(entity);
+			profilDTO.setPorcentage(pourcentage);
 			profilDTO.setError(false);
 			profilDTO.setMessage("User information");
 		}
@@ -210,8 +210,74 @@ public class ProfilRSAImpl implements ProfilRSA {
 			profilDTO.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0007.getErrorMessage());
 			profilDTO.setErrorCode("ERR_MCS_PROFIL_007");
 		}
-
 		return profilDTO;
+	}
+
+	private int profilIsCompet(Profil profil) {
+		int pourcentage = 0;
+		if (profil.getMediaId() != null && !profil.getMediaId().equals("df2567b9-158d-443b-8d38-a7f775549367")) {
+			// photo
+			pourcentage += 10;
+		}
+		if (profil.getFirstname() != null && profil.getLastname() != null) {
+			// nom et prénom
+			pourcentage += 10;
+		}
+		if (profil.getOccupation() != null) {
+			// profession
+			pourcentage += 10;
+		}
+		if (profil.getCompany() != null) {
+			// entreprise
+			pourcentage += 10;
+		}
+		if (profil.getZipCode() != null) {
+			// codepostal
+			pourcentage += 5;
+		}
+		if (profil.getCity() != null) {
+			// ville
+			pourcentage += 3;
+		}
+		if (profil.getResume() != null) {
+			// résumé
+			pourcentage += 5;
+		}
+		if (profil.getActivityArea() != null) {
+			// dans quel secteur travaillez-vous?
+			pourcentage += 10;
+		}
+		if (profil.getPhoneNumber() != null) {
+			// téléphone
+			pourcentage += 2;
+		}
+		// Production
+		List<ProductionsDTO> productionsDTOs = productionRSA.findAllByOwnerId(profil.getUsername());
+		if (productionsDTOs != null && !productionsDTOs.isEmpty()) {
+			pourcentage += 10;
+		}
+		// Parcour
+		Pageable pageableParcour = PageRequest.of(0, 100);
+		List<ParcoursDTO> parcoursDTOsPerPage = parcoursRSA.getParcours(profil.getUsername(), pageableParcour)
+				.getListParcoursDTO().getContent();
+		if (parcoursDTOsPerPage != null && !parcoursDTOsPerPage.isEmpty()) {
+			pourcentage += 10;
+		}
+		// Qualification
+		Pageable pageableQualification = PageRequest.of(10, 1000);
+		List<QualificationDTO> qualificationsDTOsPerPage = qualificationRSA
+				.listQualification(profil.getUsername(), pageableQualification).getQualificationDTOs().getContent();
+		if (qualificationsDTOsPerPage != null && !qualificationsDTOsPerPage.isEmpty()) {
+			pourcentage += 5;
+		}
+		// Skill
+		Pageable pageableSkill = PageRequest.of(10, 1000);
+		SkillsDTO skillsDTO = skillRSA.findSkill(profil.getUsername(), pageableSkill);
+		if (skillsDTO != null) {
+			pourcentage += 10;
+		}
+
+		return pourcentage;
 	}
 
 	@Override

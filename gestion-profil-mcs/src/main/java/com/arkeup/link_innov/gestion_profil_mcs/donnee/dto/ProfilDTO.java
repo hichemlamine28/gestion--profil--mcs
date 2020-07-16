@@ -55,6 +55,8 @@ public class ProfilDTO extends BaseDTO {
 
 	private List<ActivitySectorDTO> activityArea;
 
+	private int percentage;
+
 	/**
 	 * Les informations sur employeur de l'utilisateur.
 	 */
@@ -444,4 +446,13 @@ public class ProfilDTO extends BaseDTO {
 	public void setHasBackground(Boolean hasBackground) {
 		this.hasBackground = hasBackground;
 	}
+
+	public int getPorcentage() {
+		return percentage;
+	}
+
+	public void setPorcentage(int porcentage) {
+		this.percentage = porcentage;
+	}
+
 }
