@@ -41,4 +41,6 @@ public interface ProfilRepository
 	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
 
 	public Collection<? extends Profil> findByFirstNameConcatLastName(String concat);
+
+	public Collection<? extends Profil> findLastCreatedProfil();
 }

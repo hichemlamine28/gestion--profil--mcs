@@ -413,10 +413,23 @@ public class ProfilController {
 		CategoryDTO categoryDTO = categoryRSA.findByName(typeName);
 
 		profilDTO.setCategory(categoryDTO);
-		
+
 		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.PROFILUPDATE.getValue(),
 				ProfilAction.PROFILIDUPDATE.getValue());
 		return profilCUDSA.update(profilDTO);
+	}
+
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping(value = { "/getAll" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<Profil> getAll(@RequestBody ProfilDTO profilDTO) {
+		return profilRSA.getAllProfils(profilDTO);
+	}
+
+	// TODO count profile number
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping(value = { "/count" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public long count(@RequestBody ProfilDTO profilDTO) {
+		return profilRSM.count();
 	}
 
 }

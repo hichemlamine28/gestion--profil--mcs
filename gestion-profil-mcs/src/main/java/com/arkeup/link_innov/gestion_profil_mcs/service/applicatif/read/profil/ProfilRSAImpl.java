@@ -867,4 +867,20 @@ public class ProfilRSAImpl implements ProfilRSA {
 		} else
 			return null;
 	}
+
+	@Override
+	public List<Profil> getAllProfils(ProfilDTO profilDTO) {
+		List<Profil> profils = new ArrayList<>();
+		if (profilDTO.getShouldFetchAll()) {
+
+			profils.addAll(profilRSM.findAll());
+			return profils;
+		} else {
+			// TODO Today -7
+			profils.addAll(profilRSM.findLastCreatedProfil());
+			return profils;
+
+		}
+
+	}
 }

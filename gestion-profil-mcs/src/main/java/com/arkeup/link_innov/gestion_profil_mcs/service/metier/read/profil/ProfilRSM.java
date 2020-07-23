@@ -37,4 +37,8 @@ public interface ProfilRSM {
 	List<Profil> getBykeyValidateProfil(String keyValidateProfil);
 
 	Collection<? extends Profil> getListProfilByFirstNameConcatLastName(String concat);
+
+	long count();
+
+	Collection<? extends Profil> findLastCreatedProfil();
 }

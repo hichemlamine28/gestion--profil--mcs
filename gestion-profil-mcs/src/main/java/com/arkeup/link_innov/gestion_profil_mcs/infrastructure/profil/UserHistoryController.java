@@ -1,6 +1,8 @@
 package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.profil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,7 @@ public class UserHistoryController {
 	@Autowired
 	private ProfilMapper profilFactory;
 
+	// First data fetching
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/getAll")
 	public List<UserHistoryDTO> getAll() {
@@ -47,12 +50,25 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
+	// Data by date
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/findByDate")
 	public List<UserHistoryDTO> findByDate(
 			@ApiParam(name = "RecommandationDTO", value = "{\"actionDate\":\"uid\"}", required = true) @RequestBody UserHistoryDTO userHistoryDTO) {
 
 		List<UserHistory> histories = personService.getAllByDate(userHistoryDTO.getActionDate());
+
+		return userHistoryToDTO(histories);
+	}
+
+	// TODO Data now
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping("/findNow")
+	public List<UserHistoryDTO> findNow(
+			@ApiParam(name = "RecommandationDTO", value = "{\"actionDate\":\"uid\"}", required = true) @RequestBody UserHistoryDTO userHistoryDTO) {
+		Date now = new Date();
+		String nowFormattedDate = new SimpleDateFormat("dd/MM/yyyy").format(now);
+		List<UserHistory> histories = personService.getAllByDate(nowFormattedDate);
 
 		return userHistoryToDTO(histories);
 	}

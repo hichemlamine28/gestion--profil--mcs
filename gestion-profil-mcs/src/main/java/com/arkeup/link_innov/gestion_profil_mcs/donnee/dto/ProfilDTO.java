@@ -57,6 +57,10 @@ public class ProfilDTO extends BaseDTO {
 
 	private int percentage;
 
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Boolean shouldFetchAll = false;
+	
 	/**
 	 * Les informations sur employeur de l'utilisateur.
 	 */
@@ -453,6 +457,14 @@ public class ProfilDTO extends BaseDTO {
 
 	public void setPorcentage(int porcentage) {
 		this.percentage = porcentage;
+	}
+
+	public Boolean getShouldFetchAll() {
+		return shouldFetchAll;
+	}
+
+	public void setShouldFetchAll(Boolean shouldFetchAll) {
+		this.shouldFetchAll = shouldFetchAll;
 	}
 
 }

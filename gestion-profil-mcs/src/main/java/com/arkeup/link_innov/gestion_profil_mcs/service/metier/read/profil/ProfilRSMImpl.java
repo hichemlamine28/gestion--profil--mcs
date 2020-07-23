@@ -99,6 +99,11 @@ public class ProfilRSMImpl implements ProfilRSM {
 	}
 
 	@Override
+	public long count() {
+		return profilRepository.count();
+	}
+
+	@Override
 	public List<Profil> getProfilsInformationsFirstName(String firstName) {
 		return profilRepository.findByFirstName(firstName);
 	}
@@ -106,5 +111,11 @@ public class ProfilRSMImpl implements ProfilRSM {
 	@Override
 	public Collection<? extends Profil> getListProfilByFirstNameConcatLastName(String concat) {
 		return profilRepository.findByFirstNameConcatLastName(concat);
+	}
+
+	@Override
+	public Collection<? extends Profil> findLastCreatedProfil() {
+		return profilRepository.findLastCreatedProfil();
+
 	}
 }

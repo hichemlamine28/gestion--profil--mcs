@@ -1,10 +1,12 @@
 package com.arkeup.link_innov.gestion_profil_mcs.service.repository;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -114,8 +116,8 @@ public class ProfilRepositoryImpl
 			String[] arrOfStr = concat.split(" ");
 			firstname = arrOfStr[0];
 			lastname = arrOfStr[1];
-			//Yosra
-			//Bouyacoub
+			// Yosra
+			// Bouyacoub
 		}
 		if (!firstname.isEmpty() && !lastname.isEmpty()) {
 
@@ -137,18 +139,17 @@ public class ProfilRepositoryImpl
 
 		List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
 		return profileResult;
-//		AggregationOperation project = Aggregation.project()
-//				.and(StringOperators.Concat.valueOf("firstname").concatValueOf(" ").concatValueOf("lastname"))
-//				.as("newField");
-//		AggregationOperation match = Aggregation.match(Criteria.where("newField").regex(concat));
-//		Aggregation aggregation = Aggregation.newAggregation(project, match);
-//
-//		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.aggregate(aggregation, "test", Profil.class)
-//				.getMappedResults();
 
-//		Query query = new Query();
-//		query.addCriteria(Criteria.where(StringOperators.Concat.valueOf("Firstname").concatValueOf("Lastname")).as(concat));
-//
-//		List<Profil> profileResultBykeyValidation = mongoTemplateDefault.find(query, Profil.class);
+	}
+
+	@Override
+	public Collection<? extends Profil> findLastCreatedProfil() {
+		Date endDate = DateUtils.addDays(new Date(), -7);
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("creationDate").gte(endDate).lte(new Date()));
+
+		List<Profil> profils = mongoTemplateDefault.find(query, Profil.class);
+		return profils;
 	}
 }
