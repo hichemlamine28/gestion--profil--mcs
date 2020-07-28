@@ -1,5 +1,6 @@
 package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.profil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -146,6 +147,21 @@ public class ProfilController {
 		return profilRSA.getProfil(userName);
 	}
 
+	
+
+//no need ! 	
+	
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@ApiOperation(value = "get user firstname", notes = "This WS is used to get    firstname + lastname + email only .")
+	@GetMapping(value = { "/getSimpleInfo" })
+	public String getFirstLastName() {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = user.getUsername();
+		return profilRSA.getProfil(userName).getFirstname()+"  "+profilRSA.getProfil(userName).getLastname()+" "+profilRSA.getProfil(userName).getEmail();
+	}
+	
+
+	
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user information", notes = "This WS is used to get user information.")
 	@GetMapping(value = { "/getInformation/{username}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -420,9 +436,10 @@ public class ProfilController {
 	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
-	@GetMapping(value = { "/getAll" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(value = { "/getAll" }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<Profil> getAll(@RequestBody ProfilDTO profilDTO) {
 		return profilRSA.getAllProfils(profilDTO);
+	
 	}
 
 	// TODO count profile number
