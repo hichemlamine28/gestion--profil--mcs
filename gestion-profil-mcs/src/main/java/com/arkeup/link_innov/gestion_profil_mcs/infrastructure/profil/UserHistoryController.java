@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,9 +52,10 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
-	// Data by date
+	// Data by date    
+	// change method to Post to use body param
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
-	@GetMapping("/findByDate")
+	@PostMapping("/findByDate")
 	public List<UserHistoryDTO> findByDate(
 			@ApiParam(name = "RecommandationDTO", value = "{\"actionDate\":\"uid\"}", required = true) @RequestBody UserHistoryDTO userHistoryDTO) {
 
@@ -61,6 +64,20 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
+	
+	//  Data by Date param date 
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping("/findByDates/{date}")
+	public List<UserHistoryDTO> findNow2(@PathVariable(value = "date") String date ,  UserHistoryDTO userHistoryDTO) {
+		//@SuppressWarnings("deprecation")
+		//int d=date.getDate();//= new Date();
+		//String nowFormattedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);		
+		List<UserHistory> histories = personService.getAllByDate(date.replace("-", "/"));
+
+		return userHistoryToDTO(histories);
+	}
+	
+		
 	// TODO Data now
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/findNow")
@@ -72,6 +89,15 @@ public class UserHistoryController {
 
 		return userHistoryToDTO(histories);
 	}
+	
+	
+	
+	
+
+	
+	
+	
+	
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/isFirstConnection")
