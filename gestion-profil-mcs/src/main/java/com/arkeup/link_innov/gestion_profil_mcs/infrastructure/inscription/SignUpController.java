@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,6 +61,7 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @Api("Inscription")
+//@RequestMapping(value = "/inscription")
 public class SignUpController {
 
 	@Autowired
@@ -218,7 +220,7 @@ public class SignUpController {
 //			return isLinkValidDTO;
 //		} else {
 //			isLinkValidDTO.setError(true);
-//			isLinkValidDTO.setErrorMessage("validation string is not found");
+//			isLinkValidDTO.setErrorMessage("validation string is not found or not exit");
 //			return isLinkValidDTO;
 //		}
 		return signUpSA.isLinkValid(userId);
