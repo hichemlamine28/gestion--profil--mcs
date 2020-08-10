@@ -244,8 +244,8 @@ public class SignUpSAImpl implements SignUpSA {
 			registrationCUDSM.save(registration);
 
 			// Create RabbitMq user credential
-			rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
-			rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
+//			rabbitMQUserDTO = rabbitMQUserDTOFactory.getInstance(profil.getUsername());
+//			rabbitMQUsersMCS.createUser(rabbitMQUserDTO);
 
 //			// Create Neo4j node 
 			ReseauSocialUserDTO reseauSocialUserDTO = reseauSocialUserDTOFactory.getInstance(profil);

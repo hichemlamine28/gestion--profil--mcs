@@ -61,7 +61,7 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @Api("Inscription")
-@RequestMapping(value = "/inscription")
+//@RequestMapping(value = "/inscription")
 public class SignUpController {
 
 	@Autowired
