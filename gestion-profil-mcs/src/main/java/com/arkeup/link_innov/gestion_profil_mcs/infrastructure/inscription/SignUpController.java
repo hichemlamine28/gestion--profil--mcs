@@ -61,7 +61,7 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @Api("Inscription")
-//@RequestMapping(value = "/inscription")
+@RequestMapping(value = "/inscription")
 public class SignUpController {
 
 	@Autowired
@@ -109,8 +109,8 @@ public class SignUpController {
 	public ProfilDTO signUp(
 			@ApiParam(name = "SignUpDTO", value = "{\"language\": \"fr\",\"lastName\": \"DeLaFuente\", \"firstName\": \"Jean\", \"mail\": \"abc@yopmail.com\", \"employer\": { \"id\": \"employer_id\", \"name\": \"Universite de France\" }, \"type\": { \"id\": \"uuid-category-academique\", \"name\":\"Académique\", \"male\":\"true\"}}", required = true) @Valid @RequestBody SignUpDTO signUpDTO,
 			Errors errors) {
-		LOGGER.info("/register logger is ... : " + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage()
-				+ " Type value : " + signUpDTO.getType() + " Catégorie name is : " + signUpDTO.getType().getName());
+//		LOGGER.info("/register logger is ... : " + signUpDTO.toString() + " Language is :" + signUpDTO.getLanguage()
+//				+ " Type value : " + signUpDTO.getType() + " Catégorie name is : " + signUpDTO.getType().getName());
 
 		if (errors.hasErrors()) {
 			throw new ValidationException(errors);

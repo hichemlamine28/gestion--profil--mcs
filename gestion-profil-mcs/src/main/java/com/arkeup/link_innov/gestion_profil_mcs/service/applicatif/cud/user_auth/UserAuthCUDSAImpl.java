@@ -78,7 +78,7 @@ public class UserAuthCUDSAImpl implements UserAuthCUDSA {
 
         // set random password for ldap creation, user can change it while validating
         // this account(mail link)
-//        userAuthDTO.setPassword(UUID.randomUUID().toString());
+        userAuthDTO.setPassword(UUID.randomUUID().toString());
         // ajouter un username (qui sera different de sont email)
 
         if(StringUtils.isEmpty(userAuthDTO.getUsername()))

@@ -12,7 +12,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.Mail
  *
  */
 @Component
-public class MailParametersDTOFactoryImpl implements MailParametersDTOFactory{
+public class MailParametersDTOFactoryImpl implements MailParametersDTOFactory {
 
 	@Override
 	public MailParametersDTO getInstance() {
@@ -20,9 +20,10 @@ public class MailParametersDTOFactoryImpl implements MailParametersDTOFactory{
 	}
 
 	@Override
-	public MailParametersDTO getInstance(int type, String language, String mail, String registrationId, String userName, String firstName) {
+	public MailParametersDTO getInstance(int type, String language, String mail, String registrationId, String userName,
+			String firstName) {
 		MailParametersDTO mailParametersDTO = new MailParametersDTO();
-		//  type = 1 if new account creation and = 2 when password changing
+		// type = 1 if new account creation and = 2 when password changing
 		mailParametersDTO.setType(type);
 		mailParametersDTO.setLanguage(language);
 		mailParametersDTO.setUserName(userName);
@@ -31,5 +32,20 @@ public class MailParametersDTOFactoryImpl implements MailParametersDTOFactory{
 		mailParametersDTO.setFirstName(firstName);
 		return mailParametersDTO;
 	}
-	
+
+	@Override
+	public MailParametersDTO getInstance(int type, String language, String mail, String registrationId, String userName,
+			String firstName, String keyValidateProfil) {
+		MailParametersDTO mailParametersDTO = new MailParametersDTO();
+		// type = 1 if new account creation and = 2 when password changing
+		mailParametersDTO.setType(type);
+		mailParametersDTO.setLanguage(language);
+		mailParametersDTO.setUserName(userName);
+		mailParametersDTO.setRegistrationId(registrationId);
+		mailParametersDTO.setMail(mail);
+		mailParametersDTO.setFirstName(firstName);
+		mailParametersDTO.setKeyValidateProfil(keyValidateProfil);
+		return mailParametersDTO;
+	}
+
 }

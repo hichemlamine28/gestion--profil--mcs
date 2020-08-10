@@ -23,4 +23,6 @@ public interface MailParametersDTOFactory {
 	 * @return
 	 */
 	MailParametersDTO getInstance(int type, String language, String userName, String registrationId, String profileId, String lastName);
+
+	MailParametersDTO getInstance(int type, String language, String userName, String registrationId, String profileId, String lastName,String keyValidateProfil);
 }
