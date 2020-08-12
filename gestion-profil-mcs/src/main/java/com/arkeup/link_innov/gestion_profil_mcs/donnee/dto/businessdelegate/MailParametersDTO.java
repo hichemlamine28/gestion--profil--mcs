@@ -80,7 +80,7 @@ public class MailParametersDTO extends BaseDTO {
 		this.keyValidateProfil = keyValidateProfil;
 	}
 
-	public String getKeyValidateProfil(String keyValidateProfil) {
+	public String getKeyValidateProfil() {
 		return this.keyValidateProfil;
 	}
 
