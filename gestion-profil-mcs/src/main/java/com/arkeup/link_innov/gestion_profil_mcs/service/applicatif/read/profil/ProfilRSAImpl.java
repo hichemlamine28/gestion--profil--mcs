@@ -66,6 +66,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.Reseaux
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.information.UserInformationRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
+import com.google.common.base.Strings;
 import com.opencsv.CSVWriter;
 
 /**
@@ -215,15 +216,16 @@ public class ProfilRSAImpl implements ProfilRSA {
 
 	private int profilIsCompet(Profil profil) {
 		int pourcentage = 0;
-		if (profil.getMediaId() != null && !profil.getMediaId().equals("df2567b9-158d-443b-8d38-a7f775549367")) {
+		if (!Strings.isNullOrEmpty(profil.getMediaId())
+				&& !profil.getMediaId().equals("df2567b9-158d-443b-8d38-a7f775549367")) {
 			// photo
 			pourcentage += 10;
 		}
-		if (profil.getFirstname() != null && profil.getLastname() != null) {
+		if (!Strings.isNullOrEmpty(profil.getFirstname()) && Strings.isNullOrEmpty(profil.getLastname())) {
 			// nom et prénom
 			pourcentage += 10;
 		}
-		if (profil.getOccupation() != null) {
+		if (!Strings.isNullOrEmpty(profil.getOccupation()) && !profil.getOccupation().equals("A préciser")) {
 			// profession
 			pourcentage += 10;
 		}
@@ -231,19 +233,19 @@ public class ProfilRSAImpl implements ProfilRSA {
 			// entreprise
 			pourcentage += 10;
 		}
-		if (profil.getZipCode() != null) {
+		if (!Strings.isNullOrEmpty(profil.getZipCode())) {
 			// codepostal
 			pourcentage += 5;
 		}
-		if (profil.getCity() != null) {
+		if (!Strings.isNullOrEmpty(profil.getCity())) {
 			// ville
 			pourcentage += 3;
 		}
-		if (profil.getResume() != null) {
+		if (!Strings.isNullOrEmpty(profil.getResume())) {
 			// résumé
 			pourcentage += 5;
 		}
-		if (profil.getActivityArea() != null) {
+		if (!CollectionUtils.isEmpty(profil.getActivityArea())) {
 			// dans quel secteur travaillez-vous?
 			pourcentage += 10;
 		}
@@ -253,21 +255,21 @@ public class ProfilRSAImpl implements ProfilRSA {
 		}
 		// Production
 		List<ProductionsDTO> productionsDTOs = productionRSA.findAllByOwnerId(profil.getUsername());
-		if (productionsDTOs != null && !productionsDTOs.isEmpty()) {
+		if (!CollectionUtils.isEmpty(productionsDTOs)) {
 			pourcentage += 10;
 		}
 		// Parcour
 		Pageable pageableParcour = PageRequest.of(0, 100);
 		List<ParcoursDTO> parcoursDTOsPerPage = parcoursRSA.getParcours(profil.getUsername(), pageableParcour)
 				.getListParcoursDTO().getContent();
-		if (parcoursDTOsPerPage != null && !parcoursDTOsPerPage.isEmpty()) {
+		if (!CollectionUtils.isEmpty(parcoursDTOsPerPage)) {
 			pourcentage += 10;
 		}
 		// Qualification
 		Pageable pageableQualification = PageRequest.of(10, 1000);
 		List<QualificationDTO> qualificationsDTOsPerPage = qualificationRSA
 				.listQualification(profil.getUsername(), pageableQualification).getQualificationDTOs().getContent();
-		if (qualificationsDTOsPerPage != null && !qualificationsDTOsPerPage.isEmpty()) {
+		if (!CollectionUtils.isEmpty(qualificationsDTOsPerPage)) {
 			pourcentage += 5;
 		}
 		// Skill

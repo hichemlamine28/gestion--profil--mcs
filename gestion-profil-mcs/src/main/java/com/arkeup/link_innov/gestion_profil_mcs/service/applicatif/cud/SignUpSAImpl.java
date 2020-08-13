@@ -252,12 +252,12 @@ public class SignUpSAImpl implements SignUpSA {
 			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
 
 			// Send Notification mail.
-//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
-//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
-
 			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
-					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname(),profil.getKeyValidateProfil());
-					notificationMCS.sendEmail(mailParametersDTO);
+					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname(),
+//					profil.getKeyValidateProfil());
 			notificationMCS.sendEmail(mailParametersDTO);
 
 			// send new Person Physique Action
@@ -424,11 +424,11 @@ public class SignUpSAImpl implements SignUpSA {
 			reseauxSociauxOAuthCredentialsMCS.createUser(reseauSocialUserDTO);
 
 			// Send Notification mail.
-//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
-//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
 			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
-					profil.getEmail(), registration.getId(), profil.getKeyValidateProfil().toString(),
-					profil.getFirstname());
+					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, inscriptionDTO.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getKeyValidateProfil().toString(),
+//					profil.getFirstname());
 			notificationMCS.sendEmail(mailParametersDTO);
 
 			// send new Person Physique Action
@@ -679,11 +679,11 @@ public class SignUpSAImpl implements SignUpSA {
 		if (profil == null)
 			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
 
-//		UserAuth userAuth = userAuthRSM.findByUserName(userId);
+		UserAuth userAuth = userAuthRSM.findByUserName(userId);
 
-//		if (userAuth == null) {
-//			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
-//		}
+		if (userAuth == null) {
+			throw new ObjetNotFoundException(new Profil(), ErrorsEnum.ERR_MCS_PROFIL_0007);
+		}
 
 		// TODO LIN-440
 		// Generate key validation profile
@@ -698,31 +698,24 @@ public class SignUpSAImpl implements SignUpSA {
 		profil.setExpirationKeyValidateProfil(expirationKeyValidateProfil);
 		profilCUDSM.update(profil);
 
-//		Registration registration = null;
+		Registration registration = null;
 
 		// Create a registration mongo collection
-//		registration = registrationFactory.getEntityInstance(userAuth.getUsername(), userAuth.getMail());
-//		registration = registrationCUDSM.save(registration);
+		registration = registrationFactory.getEntityInstance(userAuth.getUsername(), userAuth.getMail());
+		registration = registrationCUDSM.save(registration);
 
 		// Send Notification mail.
-//		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
-//				registration.getId(), profil.getUsername(), profil.getFirstname());
-//		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
-//				registration.getId(), profil.getKeyValidateProfil().toString(), profil.getFirstname());
-//		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
-//		null, profil.getKeyValidateProfil().toString(), profil.getFirstname());
-		
-		
-		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr",
-				profil.getEmail(), null, profil.getUsername(), profil.getFirstname(),profil.getKeyValidateProfil());
-		
+		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(),
+				registration.getId(), profil.getUsername(), profil.getFirstname());
+
+//		MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, "fr", profil.getEmail(), null,
+//				profil.getUsername(), profil.getFirstname(), profil.getKeyValidateProfil());
+
 		notificationMCS.sendEmail(mailParametersDTO);
 
-		
-		
 		// send new Person Physique Action
-//		notificationSA.sendNewPPHAction(userAuth.getUsername());
-//		isMailSendDTO.setMailSend(true);
+		notificationSA.sendNewPPHAction(userAuth.getUsername());
+		isMailSendDTO.setMailSend(true);
 
 		return isMailSendDTO;
 	}

@@ -146,21 +146,6 @@ public class ProfilController {
 		String userName = user.getUsername();
 		return profilRSA.getProfil(userName);
 	}
-
-	
-
-//no need ! 	
-	
-	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
-	@ApiOperation(value = "get user firstname", notes = "This WS is used to get    firstname + lastname + email only .")
-	@GetMapping(value = { "/getSimpleInfo" })
-	public String getFirstLastName() {
-		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String userName = user.getUsername();
-		return profilRSA.getProfil(userName).getFirstname()+"  "+profilRSA.getProfil(userName).getLastname()+" "+profilRSA.getProfil(userName).getEmail();
-	}
-	
-
 	
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user information", notes = "This WS is used to get user information.")
