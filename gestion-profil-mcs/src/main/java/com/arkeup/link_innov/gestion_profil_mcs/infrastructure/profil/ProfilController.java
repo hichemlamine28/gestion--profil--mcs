@@ -1,6 +1,5 @@
 package com.arkeup.link_innov.gestion_profil_mcs.infrastructure.profil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.ProfilDTOValidator;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
@@ -100,9 +100,9 @@ public class ProfilController {
 	public ProfilDTO updateProfil(
 			@ApiParam(name = "ProfilDTO", value = "{\"id\":\"uuid\",\"firstname\":\"firstName\",\"lastname\":\"lastName\",	\"mediaDTO\":{\"id\":\"mediaUuid\"}}", required = true) @Valid @RequestBody ProfilDTO profilDTO,
 			Errors errors) {
-//		if (errors.hasErrors()) {
-//			throw new ValidationException(errors);
-//		}
+		if (errors.hasErrors()) {
+			throw new ValidationException(errors);
+		}
 
 		LOGGER.info("update : Begin to save user history from connection");
 		userHistoryService.addOrUbdateHistory(profilDTO.getUsername(), ProfilAction.PROFILUPDATE.getValue(),
