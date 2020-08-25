@@ -146,7 +146,7 @@ public class ProfilController {
 		String userName = user.getUsername();
 		return profilRSA.getProfil(userName);
 	}
-	
+
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@ApiOperation(value = "get user information", notes = "This WS is used to get user information.")
 	@GetMapping(value = { "/getInformation/{username}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -422,13 +422,12 @@ public class ProfilController {
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@PostMapping(value = { "/getAll" }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<Profil> getAll(@RequestBody ProfilDTO profilDTO) {
-		return profilRSA.getAllProfils(profilDTO);
-	
+	public List<ProfilDTO> getAll(@RequestBody ProfilDTO profilDTO) {
+		List<ProfilDTO> profils = profilRSA.getAllProfils(profilDTO);
+		return profils;
+
 	}
 
-	
-	
 	// TODO count profile number
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping(value = { "/count" }, produces = { MediaType.APPLICATION_JSON_VALUE })
