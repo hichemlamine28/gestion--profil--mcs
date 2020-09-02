@@ -373,9 +373,14 @@ public class Suggestion extends BaseDTO {
 	}
 
 	public static Suggestion suggestionFromProfils(Profil profil, String ownerId) {
-		Suggestion suggestion = new Suggestion(ownerId, profil.getFirstname(), profil.getLastname(), profil.getEmail(),
-				false, false, profil.getUsername());
-		return suggestion;
+		if (!profil.getUsername().equals(ownerId)) {
+
+			Suggestion suggestion = new Suggestion(ownerId, profil.getFirstname(), profil.getLastname(),
+					profil.getEmail(), false, false, profil.getUsername());
+			return suggestion;
+		} else {
+			return null;
+		}
 	}
 
 	public static Profil profilsFromSuggestionFrom(Suggestion suggestion, String ownerId) {

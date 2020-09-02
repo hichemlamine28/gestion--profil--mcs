@@ -173,13 +173,15 @@ public class SuggestionServiceImpl implements SuggestionService {
 
 		Query query = new Query();
 		// verify if invitation suggestion exist
-		if (!StringUtil.isNullOrEmpty(suggestion.getEmail()) && !StringUtil.isNullOrEmpty(suggestion.getFirstname())) {
+		if (suggestion != null && !StringUtil.isNullOrEmpty(suggestion.getEmail())
+				&& !StringUtil.isNullOrEmpty(suggestion.getFirstname())) {
 			query.addCriteria(Criteria.where(USER_NAME).regex(suggestion.getUsername())
 					.andOperator(Criteria.where(EMAIL).regex(suggestion.getEmail())));
 		}
 
 		// verify if subscribe suggestion exist
-		if (StringUtil.isNullOrEmpty(suggestion.getEmail()) && !StringUtil.isNullOrEmpty(suggestion.getFirstname())) {
+		if (suggestion != null && StringUtil.isNullOrEmpty(suggestion.getEmail())
+				&& !StringUtil.isNullOrEmpty(suggestion.getFirstname())) {
 			query.addCriteria(Criteria.where(USER_NAME).regex(suggestion.getUsername())
 					.andOperator(Criteria.where("firstname").regex(suggestion.getFirstname())));
 		}

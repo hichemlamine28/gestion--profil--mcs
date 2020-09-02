@@ -2,6 +2,7 @@ package com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.productions
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -180,7 +181,8 @@ public class ProductionRSMImpl implements ProductionRSM {
 			});
 		}
 
-		return inviteUserNameSuggestion;
+		List<Profil> listWithoutDuplicates = new ArrayList<>(new HashSet<>(inviteUserNameSuggestion));
+		return listWithoutDuplicates;
 	}
 
 	@Override
@@ -199,7 +201,8 @@ public class ProductionRSMImpl implements ProductionRSM {
 				subscribeUserNameSuggestion.add(suggest.getFirstname());
 			});
 		}
-		return subscribeUserNameSuggestion;
+		List<String> listWithoutDuplicates = new ArrayList<>(new HashSet<>(subscribeUserNameSuggestion));
+		return listWithoutDuplicates;
 	}
 
 	@Override
