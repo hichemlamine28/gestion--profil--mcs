@@ -31,10 +31,10 @@ public class ProfilDTOValidator implements Validator {
 			errors.rejectValue("firstname", "ERR_MCS_PROFIL_0003", ErrorsEnum.ERR_MCS_PROFIL_0003.getErrorMessage());
 		}
 
-		if (profilDTO.getCompany() != null && StringUtils.isEmpty(profilDTO.getCompany().getName())) {
-			profilDTO.setError(true);
-			errors.rejectValue("company", "ERR_MCS_PROFIL_0008", ErrorsEnum.ERR_MCS_PROFIL_0008.getErrorMessage());
-		}
+//		if (profilDTO.getCompany() != null && StringUtils.isEmpty(profilDTO.getCompany().getName())) {
+//			profilDTO.setError(true);
+//			errors.rejectValue("company", "ERR_MCS_PROFIL_0008", ErrorsEnum.ERR_MCS_PROFIL_0008.getErrorMessage());
+//		}
 
 		if (profilDTO.getCategory() != null && StringUtils.isEmpty(profilDTO.getCategory().getName())) {
 			profilDTO.setError(true);
