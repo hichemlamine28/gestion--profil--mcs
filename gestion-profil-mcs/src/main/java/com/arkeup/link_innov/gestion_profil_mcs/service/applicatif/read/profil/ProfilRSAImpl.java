@@ -230,11 +230,14 @@ public class ProfilRSAImpl implements ProfilRSA {
 			// profession
 			pourcentage += 10;
 		}
-		if (profil.getCompany() != null) {
+		if (profil.getCompany() != null && !Strings.isNullOrEmpty(profil.getCompany().getName())) {
 			// entreprise
 			pourcentage += 10;
+
 		}
-		if (!Strings.isNullOrEmpty(profil.getZipCode())) {
+		if (!Strings.isNullOrEmpty(profil.getZipCode()))
+
+		{
 			// codepostal
 			pourcentage += 5;
 		}
@@ -250,7 +253,7 @@ public class ProfilRSAImpl implements ProfilRSA {
 			// dans quel secteur travaillez-vous?
 			pourcentage += 10;
 		}
-		if (profil.getPhoneNumber() != null) {
+		if (!Strings.isNullOrEmpty(profil.getPhoneNumber())) {
 			// téléphone
 			pourcentage += 2;
 		}
