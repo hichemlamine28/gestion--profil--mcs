@@ -838,7 +838,7 @@ public class ProfilRSAImpl implements ProfilRSA {
 //		throw new ObjetNotFoundException(new ProfilDTO(), ErrorsEnum.ERR_MCS_PROFIL_0082);
 
 		throw new ObjectAccessException(
-				"this user Name ... " + username + " Error message " + ErrorsEnum.ERR_MCS_PROFIL_0082);
+				"This user Name ... " + username + " Error message " + ErrorsEnum.ERR_MCS_PROFIL_0082);
 	}
 
 	// TODO
