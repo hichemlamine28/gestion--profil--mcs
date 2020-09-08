@@ -68,6 +68,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.information.
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
 import com.google.common.base.Strings;
 import com.opencsv.CSVWriter;
+import com.thoughtworks.xstream.converters.reflection.ObjectAccessException;
 
 /**
  * @author bona
@@ -834,7 +835,10 @@ public class ProfilRSAImpl implements ProfilRSA {
 			return profilFactory.profilToProfilDTO(profil);
 		}
 
-		throw new ObjetNotFoundException(new ProfilDTO(), ErrorsEnum.ERR_MCS_PROFIL_0082);
+//		throw new ObjetNotFoundException(new ProfilDTO(), ErrorsEnum.ERR_MCS_PROFIL_0082);
+
+		throw new ObjectAccessException(
+				"this user Name ... " + username + " Error message " + ErrorsEnum.ERR_MCS_PROFIL_0082);
 	}
 
 	// TODO
