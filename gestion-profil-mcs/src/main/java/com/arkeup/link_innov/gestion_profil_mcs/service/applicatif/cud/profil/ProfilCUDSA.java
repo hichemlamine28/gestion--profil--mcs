@@ -33,4 +33,8 @@ public interface ProfilCUDSA {
     ProfilDTO setProfilHasMedia(ProfilHasMediaDTO profilHasMediaDTO);
 
     IsHasMediaUpdatedDTO updateAllHasMedia(String type);
+
+	void sendNewAnnounceToBO(ProfilForBODTO profilForBODTO);
+
+	void sendUpdateAnnounceToBO(ProfilForBODTO announceDTO);
 }

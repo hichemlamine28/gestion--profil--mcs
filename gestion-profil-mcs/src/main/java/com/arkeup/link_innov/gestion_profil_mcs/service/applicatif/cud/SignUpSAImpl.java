@@ -43,6 +43,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsLinkValidDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.IsMailSendDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilForBODTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserAuthDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.MailParametersDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.RabbitMQUserDTO;
@@ -51,6 +52,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.Inscripti
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.inscription.SignUpDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.category.CategoryCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.notification.NotificationSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.profil.ProfilCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.user_auth.UserAuthCUDSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.category.CategoryRSA;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.CorporationRSA;
@@ -88,6 +90,9 @@ public class SignUpSAImpl implements SignUpSA {
 
 	@Autowired
 	private ProfilCUDSM profilCUDSM;
+
+	@Autowired
+	private ProfilCUDSA profilCUDSA;
 
 	@Autowired
 	private ProfilRSM profilRSM;
@@ -241,6 +246,9 @@ public class SignUpSAImpl implements SignUpSA {
 
 			// Create a registration mongo collection
 			registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
+
+			// Send to Back office
+
 			registrationCUDSM.save(registration);
 
 			// Create RabbitMq user credential
@@ -270,6 +278,7 @@ public class SignUpSAImpl implements SignUpSA {
 					registration == null ? null : registration.getId());
 			throw e;
 		}
+		profilCUDSA.sendNewAnnounceToBO(new ProfilForBODTO(profil));
 		return profilMapper.profilToProfilDTO(profil);
 	}
 
@@ -409,6 +418,9 @@ public class SignUpSAImpl implements SignUpSA {
 			// Stocker le pseudoName dans MongoDB pour être disponible depuis le Front Chat
 			// lors de la création de groupe de discussion
 			profil.setChatId(userAuthDto.getPseudoName());
+
+			// Send to Back office
+			profilCUDSA.sendUpdateAnnounceToBO(new ProfilForBODTO(profil));
 			profilCUDSM.update(profil);
 
 			// Create a registration mongo collection

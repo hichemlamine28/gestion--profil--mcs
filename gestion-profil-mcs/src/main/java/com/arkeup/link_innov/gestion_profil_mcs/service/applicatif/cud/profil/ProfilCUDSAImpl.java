@@ -9,9 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.arkeup.link_innov.gestion_profil_mcs.ConvertMongoToDate;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ErrorsEnum;
@@ -32,6 +34,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.MediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PostDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilAdminDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilForBODTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilHasMediaDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ReseauSocialUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.cud.corporation.CorporationCUDSA;
@@ -47,6 +50,8 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.Reseaux
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.corporation.CorporationRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
 
@@ -69,6 +74,9 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 
 	@Autowired
 	private ProfilRSM profilRSM;
+
+	@Autowired
+	private ProfilCUDSA profilCUDSA;
 
 	@Autowired
 	private CorporationRSA corporationRSA;
@@ -99,6 +107,9 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 
 	@Autowired
 	private UserHistoryServiceImpl personService;
+
+	@Value("${bo.link.send.profil}")
+	private String UrlSendRepportToBo;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilCUDSAImpl.class);
 
@@ -145,6 +156,9 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 			profilDTO.setBackgroundId(UUID.randomUUID().toString());
 		}
 		Profil profil = profilCUDSM.update(profilFactory.profilDTOToProfil(profilDTO));
+
+		// Send to Back office
+		profilCUDSA.sendUpdateAnnounceToBO(new ProfilForBODTO(profil));
 
 		// Update Neo4j node
 		if (profil != null) {
@@ -518,6 +532,36 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 			break;
 		}
 		return isHasMediaUpdatedDTO;
+	}
+
+	@Override
+	public void sendNewAnnounceToBO(ProfilForBODTO profilForBODTO) {
+
+		// Send request to BO
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.postForObject(UrlSendRepportToBo + "create", profilForBODTO, String.class);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(profilForBODTO);
+			System.out.println("ResultingJSONstring = " + json);
+			// System.out.println(json);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("...." + result);
+	}
+
+	@Override
+	public void sendUpdateAnnounceToBO(ProfilForBODTO profilForBODTO) {
+
+		// Send request to BO
+		RestTemplate restTemplate = new RestTemplate();
+
+		String result = restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getId(),
+				profilForBODTO, String.class);
+		System.out.println("...." + result);
 	}
 
 	private boolean updateProfilHasMedia() {

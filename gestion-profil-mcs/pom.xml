@@ -610,6 +610,7 @@
 					<excludes>
 						<exclude>**/SSLUtilities.java</exclude>
 						<exclude>**/User**.java</exclude>
+						<exclude>**/**Profil**.java</exclude>
 					</excludes>
 				</configuration>
 				<dependencies>
