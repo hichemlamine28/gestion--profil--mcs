@@ -357,6 +357,7 @@ com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/SkillRecommendationDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/UserAuth.class
 com/arkeup/link_innov/gestion_profil_mcs/service/metier/read/referential/numberofemployee/NumberOfEmployeeRSMImpl.class
 com/arkeup/link_innov/gestion_profil_mcs/contrainte/errors/CustomNullPointerException.class
+com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProfilForBODTO.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProfilDTO.class
 com/arkeup/link_innov/gestion_profil_mcs/service/repository/elastic_search/SkillESRepository.class
 com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/referential/ThematicAreaDTO.class

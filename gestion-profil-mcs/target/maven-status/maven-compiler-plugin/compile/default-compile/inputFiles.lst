@@ -368,6 +368,7 @@
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/contrainte/factory/type_publication/TypePublicationMapper.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/domain/TypePublication.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/constants/UserType.java
+/home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/ProfilForBODTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/infrastructure/favorite/FavoriteController.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/GroupMembersRelationshipsDTO.java
 /home/bp1/WorkSTS/SVN-2020-03-25/Full/GestionProfilMCS/branches/BP_NOTIF/gestion-profil-mcs/src/main/java/com/arkeup/link_innov/gestion_profil_mcs/donnee/dto/commun/RabbitMqErrorDTO.java
