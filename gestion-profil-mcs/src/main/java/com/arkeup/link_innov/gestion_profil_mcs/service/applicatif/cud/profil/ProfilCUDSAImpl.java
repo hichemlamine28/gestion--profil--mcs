@@ -50,8 +50,6 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.Reseaux
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.corporation.CorporationRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
 
@@ -539,18 +537,8 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 
 		// Send request to BO
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.postForObject(UrlSendRepportToBo + "create", profilForBODTO, String.class);
+		restTemplate.postForObject(UrlSendRepportToBo + "create", profilForBODTO, String.class);
 
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String json = mapper.writeValueAsString(profilForBODTO);
-			System.out.println("ResultingJSONstring = " + json);
-			// System.out.println(json);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("...." + result);
 	}
 
 	@Override
@@ -559,9 +547,8 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 		// Send request to BO
 		RestTemplate restTemplate = new RestTemplate();
 
-		String result = restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getId(),
+		restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getUsername(),
 				profilForBODTO, String.class);
-		System.out.println("...." + result);
 	}
 
 	private boolean updateProfilHasMedia() {
