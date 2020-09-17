@@ -36,6 +36,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.Public
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.DownloadStatus;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.MediaType;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Skill;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserAuth;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.neo4j.User;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ContactConsultationDTO;
@@ -48,7 +49,6 @@ import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilAdminDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.PublicProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.QualificationDTO;
-import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.SkillsDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ActiveSubscriptionDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.ReseauSocialUserDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.businessdelegate.SubscriptionDTO;
@@ -66,6 +66,7 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.businessdelegate.Reseaux
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.information.UserInformationRSM;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
+import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.skill.SkillRSM;
 import com.google.common.base.Strings;
 import com.opencsv.CSVWriter;
 import com.thoughtworks.xstream.converters.reflection.ObjectAccessException;
@@ -123,6 +124,9 @@ public class ProfilRSAImpl implements ProfilRSA {
 
 	@Autowired
 	private SkillRSA skillRSA;
+
+	@Autowired
+	private SkillRSM skillRSM;
 
 	public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MMMM/yyyy HH:mm");
 
@@ -270,16 +274,15 @@ public class ProfilRSAImpl implements ProfilRSA {
 			pourcentage += 10;
 		}
 		// Qualification
-		Pageable pageableQualification = PageRequest.of(10, 1000);
+		Pageable pageableQualification = PageRequest.of(0, 1000);
 		List<QualificationDTO> qualificationsDTOsPerPage = qualificationRSA
 				.listQualification(profil.getUsername(), pageableQualification).getQualificationDTOs().getContent();
-		if (!CollectionUtils.isEmpty(qualificationsDTOsPerPage)) {
+		if (qualificationsDTOsPerPage.get(0) != null) {
 			pourcentage += 5;
 		}
 		// Skill
-		Pageable pageableSkill = PageRequest.of(10, 1000);
-		SkillsDTO skillsDTO = skillRSA.findSkill(profil.getUsername(), pageableSkill);
-		if (skillsDTO != null) {
+		List<Skill> skills = skillRSM.listSkill(profil.getUsername(), pageableQualification).getContent();
+		if (skills.get(0) != null) {
 			pourcentage += 10;
 		}
 
