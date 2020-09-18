@@ -119,15 +119,15 @@ public class ProfilRepositoryImpl
 			// Yosra
 			// Bouyacoub
 		}
-		if (!firstname.isEmpty() && !lastname.isEmpty()) {
-
+//		if (!firstname.isEmpty() && !lastname.isEmpty()) {
+		if (!StringUtils.isBlank(firstname) && !StringUtils.isBlank(lastname)) {
 			query.addCriteria(Criteria.where("firstname").regex(firstname)
 					.andOperator(Criteria.where("lastname").regex(lastname)));
 
 			List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
 			return profileResult;
 		}
-		if (!lastname.isEmpty()) {
+		if (!StringUtils.isBlank(lastname)) {
 			query.addCriteria(Criteria.where("lastname").regex(firstname));
 
 			List<Profil> profileResult = mongoTemplateDefault.find(query, Profil.class);
