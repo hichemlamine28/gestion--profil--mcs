@@ -277,12 +277,12 @@ public class ProfilRSAImpl implements ProfilRSA {
 		Pageable pageableQualification = PageRequest.of(0, 1000);
 		List<QualificationDTO> qualificationsDTOsPerPage = qualificationRSA
 				.listQualification(profil.getUsername(), pageableQualification).getQualificationDTOs().getContent();
-		if (qualificationsDTOsPerPage.get(0) != null) {
+		if (!CollectionUtils.isEmpty(qualificationsDTOsPerPage) && qualificationsDTOsPerPage.get(0) != null) {
 			pourcentage += 5;
 		}
 		// Skill
 		List<Skill> skills = skillRSM.listSkill(profil.getUsername(), pageableQualification).getContent();
-		if (skills.get(0) != null) {
+		if (!CollectionUtils.isEmpty(skills) && skills.get(0) != null) {
 			pourcentage += 10;
 		}
 
