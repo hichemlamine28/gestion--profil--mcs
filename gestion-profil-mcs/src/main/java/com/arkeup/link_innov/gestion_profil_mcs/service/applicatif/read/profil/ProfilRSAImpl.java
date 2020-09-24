@@ -226,7 +226,7 @@ public class ProfilRSAImpl implements ProfilRSA {
 			// photo
 			pourcentage += 10;
 		}
-		if (!Strings.isNullOrEmpty(profil.getFirstname()) && Strings.isNullOrEmpty(profil.getLastname())) {
+		if (!Strings.isNullOrEmpty(profil.getFirstname()) && !Strings.isNullOrEmpty(profil.getLastname())) {
 			// nom et prénom
 			pourcentage += 10;
 		}
