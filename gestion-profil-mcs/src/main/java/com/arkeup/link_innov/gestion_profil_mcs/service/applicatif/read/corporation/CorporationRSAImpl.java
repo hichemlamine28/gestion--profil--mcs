@@ -31,181 +31,201 @@ import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.corporation.
 @Service
 public class CorporationRSAImpl implements CorporationRSA {
 
-    @Autowired
-    private CorporationRSM corporationRSM;
+	@Autowired
+	private CorporationRSM corporationRSM;
 
-    @Autowired
-    private CorporationMapper corporationMapper;
+	@Autowired
+	private CorporationMapper corporationMapper;
 
-    @Autowired
-    private ReseauxSociauxMCS reseauxSociauxMCS;
+	@Autowired
+	private ReseauxSociauxMCS reseauxSociauxMCS;
 
-    @Autowired
-    private PageableFactory<Corporation> pageableFactory;
+	@Autowired
+	private PageableFactory<Corporation> pageableFactory;
 
-    @Override
-    public CorporationDTO getCorporation(String id) {
-        Optional<Corporation> res = corporationRSM.getCorporation(id);
-        CorporationDTO result = new CorporationDTO();
-        if (!res.isPresent()) {
-            result.setError(true);
-            result.setErrorCode("ERR_MCS_PROFIL_0016");
-            result.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0016.getErrorMessage() + id);
-            return result;
-        }
-        Corporation corporation = res.get();
-        if(StringUtils.isEmpty(corporation.getMediaId())){
-            corporation.setMediaId(UUID.randomUUID().toString());
-        }
-        if(StringUtils.isEmpty(corporation.getBackgroundId())){
-            corporation.setBackgroundId(UUID.randomUUID().toString());
-        }
+	@Override
+	public CorporationDTO getCorporation(String id) {
+		Optional<Corporation> res = corporationRSM.getCorporation(id);
+		CorporationDTO result = new CorporationDTO();
+		if (!res.isPresent()) {
+			result.setError(true);
+			result.setErrorCode("ERR_MCS_PROFIL_0016");
+			result.setErrorMessage(ErrorsEnum.ERR_MCS_PROFIL_0016.getErrorMessage() + id);
+			return result;
+		}
+		Corporation corporation = res.get();
+		if (StringUtils.isEmpty(corporation.getMediaId())) {
+			corporation.setMediaId(UUID.randomUUID().toString());
+		}
+		if (StringUtils.isEmpty(corporation.getBackgroundId())) {
+			corporation.setBackgroundId(UUID.randomUUID().toString());
+		}
 
-        result = corporationMapper.corporationToCorporationDTO(corporation);
+		result = corporationMapper.corporationToCorporationDTO(corporation);
 
-        result.setIsFollow(reseauxSociauxMCS.isFollowedByUser(id).getIsFollower());
+		result.setIsFollow(reseauxSociauxMCS.isFollowedByUser(id).getIsFollower());
 
-        result.setError(false);
-        result.setMessage("Corporation information");
-        return result;
-    }
+		result.setError(false);
+		result.setMessage("Corporation information");
+		return result;
+	}
 
-    @Override
-    public CorporationsDTO listCorporation(Pageable pageable) {
-        CorporationsDTO result = new CorporationsDTO();
-        Page<Corporation> res = corporationRSM.listCorporation(pageable);
-        result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
-        result.setError(false);
-        result.setMessage("Corporation list");
-        return result;
-    }
+	@Override
+	public CorporationsDTO listCorporation(Pageable pageable) {
+		CorporationsDTO result = new CorporationsDTO();
+		Page<Corporation> res = corporationRSM.listCorporation(pageable);
+		result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
+		result.setError(false);
+		result.setMessage("Corporation list");
+		return result;
+	}
 
-    @Override
-    public CorporationsDTO findCorporation(String name, Pageable pageable) {
-        CorporationsDTO result = new CorporationsDTO();
-        Page<Corporation> res = corporationRSM.findCorporation(name, pageable);
-        result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
-        result.setError(false);
-        result.setMessage("Corporation list");
-        return result;
-    }
+	@Override
+	public CorporationsDTO findCorporation(String name, Pageable pageable) {
+		CorporationsDTO result = new CorporationsDTO();
+		Page<Corporation> res = corporationRSM.findCorporation(name, pageable);
+		result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
+		result.setError(false);
+		result.setMessage("Corporation list");
+		return result;
+	}
 
-    @Override
-    public CorporationsDTO listCorporationByAdmin(String admin, Pageable pageable) {
-        CorporationsDTO result = new CorporationsDTO();
-        Page<Corporation> res = corporationRSM.listCorporationByAdmin(admin, pageable);
-        result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
-        result.setError(false);
-        result.setMessage("Corporation list");
-        return result;
-    }
+	@Override
+	public CorporationsDTO listCorporationByAdmin(String admin, Pageable pageable) {
+		CorporationsDTO result = new CorporationsDTO();
+		Page<Corporation> res = corporationRSM.listCorporationByAdmin(admin, pageable);
+		result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
+		result.setError(false);
+		result.setMessage("Corporation list");
+		return result;
+	}
 
-    @Override
-    public List<String> listCorporationIdsByAdmin(String admin, Pageable pageable) {
-        CorporationsDTO corporationsDTO = listCorporationByAdmin(admin, pageable);
-        List<String> ids = new ArrayList<>();
-        if (corporationsDTO != null && corporationsDTO.getCorporationDTOs() != null) {
-            corporationsDTO.getCorporationDTOs().getContent().forEach(corporationDTO -> ids.add(corporationDTO.getId()));
-        }
-        return ids;
-    }
+	@Override
+	public List<String> listCorporationIdsByAdmin(String admin, Pageable pageable) {
+		CorporationsDTO corporationsDTO = listCorporationByAdmin(admin, pageable);
+		List<String> ids = new ArrayList<>();
+		if (corporationsDTO != null && corporationsDTO.getCorporationDTOs() != null) {
+			corporationsDTO.getCorporationDTOs().getContent()
+					.forEach(corporationDTO -> ids.add(corporationDTO.getId()));
+		}
+		return ids;
+	}
 
-    /* (non-Javadoc)
-     * @see com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.CorporationRSA#getCorporationAdmins(java.lang.String)
-     */
-    @Override
-    public CustomListDTO getCorporationAdmins(String id) {
-    	Optional<Corporation> res = corporationRSM.getCorporation(id);
-        CustomListDTO result = new CustomListDTO();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.
+	 * CorporationRSA#getCorporationAdmins(java.lang.String)
+	 */
+	@Override
+	public CustomListDTO getCorporationAdmins(String id) {
+		Optional<Corporation> res = corporationRSM.getCorporation(id);
+		CustomListDTO result = new CustomListDTO();
 
-        if (!res.isPresent()) {
-            throw new ObjetNotFoundException(result, ErrorsEnum.ERR_MCS_PROFIL_0016);
-        }
+		if (!res.isPresent()) {
+			throw new ObjetNotFoundException(result, ErrorsEnum.ERR_MCS_PROFIL_0016);
+		}
 
-        CorporationDTO corporationDTO = corporationMapper.corporationToCorporationDTO(res.get());
+		CorporationDTO corporationDTO = corporationMapper.corporationToCorporationDTO(res.get());
 
-        List<String> admins = new ArrayList<>();
-        admins.addAll(corporationDTO.getAdmins());
+		List<String> admins = new ArrayList<>();
+		admins.addAll(corporationDTO.getAdmins());
 
-        final String superAdminId = corporationDTO.getSuperAdmin();
+		final String superAdminId = corporationDTO.getSuperAdmin();
 
-        // Avoid duplicate id
-        if(!admins.contains(superAdminId)) {
-        	admins.add(superAdminId);
-        }
+		// Avoid duplicate id
+		if (!admins.contains(superAdminId)) {
+			admins.add(superAdminId);
+		}
 
-        result.setCorporationAdmins(admins);
-        result.setCorporationName(corporationDTO.getName());
+		result.setCorporationAdmins(admins);
+		result.setCorporationName(corporationDTO.getName());
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public List<ReseauSocialUserDTO> getCertifiedUsers(String corporationId) {
-        return reseauxSociauxMCS.getCertifiedUsers(corporationId);
-    }
+	@Override
+	public List<ReseauSocialUserDTO> getCertifiedUsers(String corporationId) {
+		return reseauxSociauxMCS.getCertifiedUsers(corporationId);
+	}
 
-    /* (non-Javadoc)
-     * @see com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.CorporationRSA#getPMInformation(java.lang.String)
-     */
-    @Override
-    public CorporationDTO getPMInformation(String id) {
-        Optional<Corporation> res = corporationRSM.getCorporation(id);
-        CorporationDTO result = new CorporationDTO();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.corporation.
+	 * CorporationRSA#getPMInformation(java.lang.String)
+	 */
+	@Override
+	public CorporationDTO getPMInformation(String id) {
+		Optional<Corporation> res = corporationRSM.getCorporation(id);
+		CorporationDTO result = new CorporationDTO();
 
-        if (!res.isPresent()) {
-            throw new ObjetNotFoundException(result, ErrorsEnum.ERR_MCS_PROFIL_0016);
-        }
+		if (!res.isPresent()) {
+			throw new ObjetNotFoundException(result, ErrorsEnum.ERR_MCS_PROFIL_0016);
+		}
 
-        result = corporationMapper.corporationToCorporationDTO(res.get());
-        result.setError(false);
-        result.setMessage("Corporation information");
+		result = corporationMapper.corporationToCorporationDTO(res.get());
+		result.setError(false);
+		result.setMessage("Corporation information");
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public CorporationAdminDTO verifyPermission(String corporationId) {
-        return reseauxSociauxMCS.hasPermission(corporationId);
-    }
+	@Override
+	public CorporationAdminDTO verifyPermission(String corporationId) {
+		return reseauxSociauxMCS.hasPermission(corporationId);
+	}
 
-    @Override
-    public CustomPageDTO<CorporationDTO> getPaginatedCorporationByIds(List<String> corporationIds, Pageable pageable) {
-        CustomPageDTO<CorporationDTO> customPageDTO = new CustomPageDTO<>();
-        Page<Corporation> corporations = corporationRSM.getPaginatedCorporationsInformationsByIds(corporationIds, pageable);
-        HelpPage<Corporation> helpPageCorporation = pageableFactory.pageToHelpPage(corporations);
-        HelpPage<CorporationDTO> helpPageCorporationDTO = corporationMapper.helpPageCorporationToHelpPageCorporationDTOs(helpPageCorporation);
+	@Override
+	public CustomPageDTO<CorporationDTO> getPaginatedCorporationByIds(List<String> corporationIds, Pageable pageable) {
+		CustomPageDTO<CorporationDTO> customPageDTO = new CustomPageDTO<>();
+		Page<Corporation> corporations = corporationRSM.getPaginatedCorporationsInformationsByIds(corporationIds,
+				pageable);
+		HelpPage<Corporation> helpPageCorporation = pageableFactory.pageToHelpPage(corporations);
+		HelpPage<CorporationDTO> helpPageCorporationDTO = corporationMapper
+				.helpPageCorporationToHelpPageCorporationDTOs(helpPageCorporation);
 
-        customPageDTO.setPageDTOs(helpPageCorporationDTO);
+		customPageDTO.setPageDTOs(helpPageCorporationDTO);
 
-        return customPageDTO;
-    }
+		return customPageDTO;
+	}
 
-    @Override
-    public CustomPageDTO<CorporationDTO> corporationPageableList(int pageIndex, int pageSize) {
+	@Override
+	public CustomPageDTO<CorporationDTO> corporationPageableList(int pageIndex, int pageSize) {
 
-        CustomPageDTO<CorporationDTO> res = new CustomPageDTO<>();
-        if (pageSize > 100) {
-            throw new FunctionalLimitExceededException(res, ErrorsEnum.ERR_MCS_MAX_PAGE_SIZE);
-        }
-        HelpPageable helpPageable = new HelpPageable(pageIndex, pageSize);
+		CustomPageDTO<CorporationDTO> res = new CustomPageDTO<>();
+		if (pageSize > 100) {
+			throw new FunctionalLimitExceededException(res, ErrorsEnum.ERR_MCS_MAX_PAGE_SIZE);
+		}
+		HelpPageable helpPageable = new HelpPageable(pageIndex, pageSize);
 
-        HelpPage<CorporationDTO> helpPageDto = corporationMapper.helpPageCorporationToHelpPageCorporationDTOs(
-                corporationRSM.listPageCorporation(helpPageable));
+		HelpPage<CorporationDTO> helpPageDto = corporationMapper
+				.helpPageCorporationToHelpPageCorporationDTOs(corporationRSM.listPageCorporation(helpPageable));
 
-        res.setPageDTOs(helpPageDto);
-        return res;
-    }
+		res.setPageDTOs(helpPageDto);
+		return res;
+	}
 
-    @Override
-    public CustomPageDTO<CorporationDTO> getPaginatedCorporation(List<String> corporationIds, String filter, String categorie, Pageable pageable) {
-        CustomPageDTO<CorporationDTO> customPageDTO = new CustomPageDTO<>();
-        Page<Corporation> corporations = corporationRSM.getPaginatedCorporationsInformations(corporationIds, filter, categorie, pageable);
-        HelpPage<Corporation> helpPageCorporation = pageableFactory.pageToHelpPage(corporations);
-        HelpPage<CorporationDTO> helpPageCorporationDTO = corporationMapper.helpPageCorporationToHelpPageCorporationDTOs(helpPageCorporation);
+	@Override
+	public CustomPageDTO<CorporationDTO> getPaginatedCorporation(List<String> corporationIds, String filter,
+			String categorie, Pageable pageable) {
+		CustomPageDTO<CorporationDTO> customPageDTO = new CustomPageDTO<>();
+		Page<Corporation> corporations = corporationRSM.getPaginatedCorporationsInformations(corporationIds, filter,
+				categorie, pageable);
+		HelpPage<Corporation> helpPageCorporation = pageableFactory.pageToHelpPage(corporations);
+		HelpPage<CorporationDTO> helpPageCorporationDTO = corporationMapper
+				.helpPageCorporationToHelpPageCorporationDTOs(helpPageCorporation);
 
-        customPageDTO.setPageDTOs(helpPageCorporationDTO);
+		customPageDTO.setPageDTOs(helpPageCorporationDTO);
 
-        return customPageDTO;
-    }
+		return customPageDTO;
+	}
+
+	@Override
+	public List<Corporation> listAllCorporation() {
+		return corporationRSM.findAll();
+
+	}
 }

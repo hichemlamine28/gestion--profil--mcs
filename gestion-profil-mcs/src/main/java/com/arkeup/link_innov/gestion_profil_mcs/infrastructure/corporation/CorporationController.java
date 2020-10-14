@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.errors.ValidationException;
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.validator.CorporationDTOValidatorHandler;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Corporation;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.AdminDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.AdminListDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.CorporationAdminDTO;
@@ -146,6 +147,15 @@ public class CorporationController {
 	public CorporationsDTO listCorporation(Pageable pageable) {
 
 		return corporationRSA.listCorporation(pageable);
+	}
+
+	// TODO End_point getAll corporation
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping(value = { "/listAllCorporation" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ApiOperation(value = "get corporations list")
+	public List<Corporation> listAllCorporation() {
+
+		return corporationRSA.listAllCorporation();
 	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
