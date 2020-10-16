@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arkeup.link_innov.gestion_profil_mcs.contrainte.factory.profil.ProfilMapper;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.constants.ProfilAction;
+import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.Profil;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.domain.UserHistory;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.ProfilDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.donnee.dto.UserHistoryDTO;
 import com.arkeup.link_innov.gestion_profil_mcs.infrastructure.utils.PermissionsAndStatusUtils;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.ProfilRSA;
+import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryService;
 import com.arkeup.link_innov.gestion_profil_mcs.service.applicatif.read.profil.UserHistoryServiceImpl;
 import com.arkeup.link_innov.gestion_profil_mcs.service.metier.cud.profil.ProfilCUDSM;
+import com.arkeup.link_innov.gestion_profil_mcs.service.metier.read.profil.ProfilRSM;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -43,6 +49,12 @@ public class UserHistoryController {
 	@Autowired
 	private ProfilMapper profilFactory;
 
+	@Autowired
+	private ProfilRSM profilRSM;
+
+	@Autowired
+	private UserHistoryService userHistoryService;
+
 	// First data fetching
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/getAll")
@@ -52,7 +64,7 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
-	// Data by date    
+	// Data by date
 	// change method to Post to use body param
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@PostMapping("/findByDate")
@@ -64,20 +76,15 @@ public class UserHistoryController {
 		return userHistoryToDTO(histories);
 	}
 
-	
-	//  Data by Date param date 
+	// Data by Date param date
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/findByDates/{date}")
-	public List<UserHistoryDTO> findNow2(@PathVariable(value = "date") String date ,  UserHistoryDTO userHistoryDTO) {
-		//@SuppressWarnings("deprecation")
-		//int d=date.getDate();//= new Date();
-		//String nowFormattedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);		
+	public List<UserHistoryDTO> findNow2(@PathVariable(value = "date") String date, UserHistoryDTO userHistoryDTO) {
 		List<UserHistory> histories = personService.getAllByDate(date.replace("-", "/"));
 
 		return userHistoryToDTO(histories);
 	}
-	
-		
+
 	// TODO Data now
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/findNow")
@@ -89,15 +96,6 @@ public class UserHistoryController {
 
 		return userHistoryToDTO(histories);
 	}
-	
-	
-	
-	
-
-	
-	
-	
-	
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping("/isFirstConnection")
@@ -124,6 +122,18 @@ public class UserHistoryController {
 		profilDTO.setOnBording(true);
 
 		profilCUDSM.update(profilFactory.profilDTOToProfil(profilDTO));
+	}
+
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@ApiOperation(value = "UserHistory", notes = "This WS is used to add or update connect UserHistory collection")
+	@GetMapping(value = { "/addOrUpdate" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ProfilDTO getAuth() {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// Save User History
+		Profil entity = profilRSM.getInformation(user.getUsername());
+		userHistoryService.addOrUbdateHistory(entity.getUsername(), ProfilAction.PROFILCONNECT.getValue(),
+				ProfilAction.PROFILIDCONNECT.getValue());
+		return profilRSA.getProfil(user.getUsername());
 	}
 
 	private List<UserHistoryDTO> userHistoryToDTO(List<UserHistory> histories) {

@@ -113,11 +113,6 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 
 		}
 	}
-	// Delete operation
-//	@Override
-//	public void deleteAll() {
-//		personRepository.deleteAll();
-//	}
 
 	private void updateOccurence(String userID, Map<String, Integer> ExistinguserIDs) {
 		boolean userisNew = true;
@@ -138,9 +133,4 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 		}
 	}
 
-//	@Override
-//	public void delete(String firstName) {
-//		UserHistory p = personRepository.findByFirstName(firstName);
-//		personRepository.delete(p);
-//	}
 }
