@@ -282,6 +282,44 @@ public class SignUpSAImpl implements SignUpSA {
 		return profilMapper.profilToProfilDTO(profil);
 	}
 
+	// Test
+//	@Override
+//	public ProfilDTO doSignUp(SignUpDTO signUpdto) {
+//		Profil profil = null;
+//		Registration registration = null;
+//			profil = profilFactory.getEntityInstance(signUpdto);
+////
+//			profil.setMediaId(UUID.randomUUID().toString());
+//			profil.setBackgroundId(UUID.randomUUID().toString());
+//			profil.setExportId(UUID.randomUUID().toString());
+////
+////			// Update Creation date
+//			profil.setCreationDate(new Date());
+//
+////			// TODO LIN-440
+////			// Generate key validation profile
+//			UUID keyValidateProfil = UUID.randomUUID();
+//			// Generate expiration date of key validation profile
+//			Calendar c = Calendar.getInstance();
+//			c.setTime(new Date());
+//			c.add(Calendar.DATE, 2);
+//			Date expirationKeyValidateProfil = c.getTime();
+//
+//			profil.setKeyValidateProfil(keyValidateProfil.toString());
+//			profil.setExpirationKeyValidateProfil(expirationKeyValidateProfil);
+////			// Create a registration mongo collection
+//			registration = registrationFactory.getEntityInstance(profil.getUsername(), profil.getEmail());
+//
+//			// Send Notification mail.
+//			MailParametersDTO mailParametersDTO = mailParametersDTOFactory.getInstance(1, signUpdto.getLanguage(),
+//					profil.getEmail(), registration.getId(), profil.getUsername(), profil.getFirstname());
+//
+//			notificationMCS.sendEmail(mailParametersDTO);
+//
+//
+//		return profilMapper.profilToProfilDTO(profil);
+//	}
+
 	private ProfilDTO doSignUpBetaTest(SignUpDTO signUpDTO, boolean isInLandingPage) {
 		Profil profil = null;
 		Registration registration = null;
