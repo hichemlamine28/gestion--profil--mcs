@@ -105,9 +105,14 @@ public class UserHistoryController {
 		String userName = user.getUsername();
 		profilRSA.getProfil(userName);
 
-		if (profilRSA.getProfil(userName).getOnBording() != null)
+		if (profilRSA.getProfil(userName).getOnBording() != null) {
+
+			Profil entity = profilRSM.getInformation(user.getUsername());
+			userHistoryService.addOrUbdateHistory(entity.getUsername(), ProfilAction.PROFILCONNECT.getValue(),
+					ProfilAction.PROFILIDCONNECT.getValue());
+
 			return profilRSA.getProfil(userName).getOnBording();
-		else
+		} else
 			return false;
 	}
 
