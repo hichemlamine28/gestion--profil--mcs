@@ -527,6 +527,8 @@ public class SignUpSAImpl implements SignUpSA {
 			if (profil != null) {
 				profil.setCreationDate(new Date());
 				profilCUDSM.update(profil);
+				// Send to Back office
+				profilCUDSA.sendUpdateAnnounceToBO(new ProfilForBODTO(profil));
 			}
 		}
 		return result;
