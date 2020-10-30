@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -106,8 +105,9 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	@Autowired
 	private UserHistoryServiceImpl personService;
 
-	@Value("${bo.link.send.profil}")
-	private String UrlSendRepportToBo;
+	// TODO BO remettre
+//	@Value("${bo.link.send.profil}")
+//	private String UrlSendRepportToBo;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfilCUDSAImpl.class);
 
@@ -253,6 +253,10 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 
 	@Override
 	public ProfilDTO updateUserCorporation(String userName, String corporationId) {
+		RestTemplate restTemplate = new RestTemplate();
+		//
+//	restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getUsername(),
+//			profilForBODTO, String.class);
 		ProfilDTO res = new ProfilDTO();
 		ProfilDTO profilDTO = profilRSA.getProfil(userName);
 
@@ -536,8 +540,9 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	public void sendNewAnnounceToBO(ProfilForBODTO profilForBODTO) {
 
 		// Send request to BO
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForObject(UrlSendRepportToBo + "create", profilForBODTO, String.class);
+		// TODO BO remettre
+//		RestTemplate restTemplate = new RestTemplate();
+//		restTemplate.postForObject(UrlSendRepportToBo + "create", profilForBODTO, String.class);
 
 	}
 
@@ -545,10 +550,11 @@ public class ProfilCUDSAImpl implements ProfilCUDSA {
 	public void sendUpdateAnnounceToBO(ProfilForBODTO profilForBODTO) {
 
 		// Send request to BO
-		RestTemplate restTemplate = new RestTemplate();
-
-		restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getUsername(),
-				profilForBODTO, String.class);
+		// TODO BO remettre
+//		RestTemplate restTemplate = new RestTemplate();
+//
+//		restTemplate.postForObject(UrlSendRepportToBo + "update/" + profilForBODTO.getProfil().getUsername(),
+//				profilForBODTO, String.class);
 	}
 
 	private boolean updateProfilHasMedia() {
