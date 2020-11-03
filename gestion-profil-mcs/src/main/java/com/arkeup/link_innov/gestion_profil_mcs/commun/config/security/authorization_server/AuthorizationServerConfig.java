@@ -47,6 +47,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private UserDetailsConfig userDetailsService;
 
+	private final int REFRESHTOKENVALIDITYSECONDS = 60 * 60 * 24 * 30;// one month
+	private final int ACCESSTOKENVALIDITYSECONDS = 60 * 60 * 24 * 2; // two day
+
 	@Override
 	public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
 		configurer
@@ -56,7 +59,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.authorizedGrantTypes("refresh_token", "password","client_credentials") 
 		        .scopes("read", "write")
 		        .resourceIds(resourceIds)
-		        .accessTokenValiditySeconds(3600);
+		        .accessTokenValiditySeconds(ACCESSTOKENVALIDITYSECONDS)
+		        .refreshTokenValiditySeconds(REFRESHTOKENVALIDITYSECONDS);
 	}
 
 	@Override
