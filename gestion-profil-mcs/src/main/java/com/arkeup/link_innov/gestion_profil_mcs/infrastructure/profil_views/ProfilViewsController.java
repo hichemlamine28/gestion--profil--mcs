@@ -42,7 +42,7 @@ public class ProfilViewsController {
         return profilViewsCUDSA.save(connectedUserId, userId);
     }
 
-    @PreAuthorize(PermissionsAndStatusUtils.ROLECONSULTVIEWERS)
+    @PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
     @ApiOperation(value = "Get number of connected user profil views", notes = "This WS is used to get number of connected user profil views.")
     @GetMapping(value = {"/count"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public NumberOfViewsDTO getNbProfilViews() {
