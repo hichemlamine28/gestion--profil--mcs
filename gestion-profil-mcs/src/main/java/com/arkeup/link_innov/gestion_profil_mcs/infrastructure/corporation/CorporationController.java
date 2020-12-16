@@ -159,7 +159,7 @@ public class CorporationController {
 	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
-	@GetMapping(value = { "/findCorporation/{name}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = { "/findCorporations/{name}" }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ApiOperation(value = "get corporations list from name")
 	public CorporationsDTO findCorporation(@PathVariable("name") String name, Pageable pageable) {
 
