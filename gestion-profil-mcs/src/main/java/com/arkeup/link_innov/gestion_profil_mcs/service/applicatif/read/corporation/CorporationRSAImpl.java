@@ -89,7 +89,15 @@ public class CorporationRSAImpl implements CorporationRSA {
 		result.setMessage("Corporation list");
 		return result;
 	}
-
+	@Override
+	public CorporationsDTO findCorporationByTypeAndName(String type,String name, Pageable pageable) {
+		CorporationsDTO result = new CorporationsDTO();
+		Page<Corporation> res = corporationRSM.findCorporationByTypeAndName(type,name, pageable);
+		result.setCorporationDTOs(corporationMapper.corporationPageToCorporationDtoPage(res, pageable));
+		result.setError(false);
+		result.setMessage("Corporation list");
+		return result;
+	}
 	@Override
 	public CorporationsDTO listCorporationByAdmin(String admin, Pageable pageable) {
 		CorporationsDTO result = new CorporationsDTO();

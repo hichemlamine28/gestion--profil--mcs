@@ -165,6 +165,13 @@ public class CorporationController {
 
 		return corporationRSA.findCorporation(name, pageable);
 	}
+	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
+	@GetMapping(value = {"/findCorporationByTypeAndName/{type}/{name}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ApiOperation(value = "get corporations list  with type and name")
+	public CorporationsDTO findCorporationByTypeAndName(@PathVariable("type") String type,@PathVariable("name") String name, Pageable pageable) {
+
+		return corporationRSA.findCorporationByTypeAndName(type,name, pageable);
+	}
 
 	@PreAuthorize(PermissionsAndStatusUtils.ROLEUSER)
 	@GetMapping(value = { "/listCorporationByAdmin" }, produces = { MediaType.APPLICATION_JSON_VALUE })

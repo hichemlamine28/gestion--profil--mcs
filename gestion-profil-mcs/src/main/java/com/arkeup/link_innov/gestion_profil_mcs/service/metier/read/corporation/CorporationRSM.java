@@ -18,6 +18,8 @@ public interface CorporationRSM {
 
     public Page<Corporation> findCorporation(String name, Pageable pageable);
 
+    public Page<Corporation> findCorporationByTypeAndName(String type,String name, Pageable pageable);
+
     public Page<Corporation> listCorporationByAdmin(String admin, Pageable pageable);
 
     public Page<Corporation> getPaginatedCorporationsInformationsByIds(List<String> corporationIds, Pageable pageable);

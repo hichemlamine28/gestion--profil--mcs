@@ -37,7 +37,10 @@ public class CorporationRSMImpl implements CorporationRSM {
     public Page<Corporation> findCorporation(String name, Pageable pageable) {
         return corporationRepository.findCorporation(name, pageable);
     }
-
+    @Override
+    public Page<Corporation> findCorporationByTypeAndName(String type,String name, Pageable pageable) {
+        return corporationRepository.findCorporationByTypeAndName(type,name, pageable);
+    }
     @Override
     public Page<Corporation> listCorporationByAdmin(String admin, Pageable pageable) {
         return corporationRepository.listCorporationByAdmin(admin, pageable);

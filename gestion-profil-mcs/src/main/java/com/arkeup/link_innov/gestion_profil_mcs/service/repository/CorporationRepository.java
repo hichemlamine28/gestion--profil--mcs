@@ -19,6 +19,8 @@ public interface CorporationRepository extends CommonMongoToESRepository<Corpora
 
     Page<Corporation> findCorporation(String name, Pageable pageable);
 
+    Page<Corporation> findCorporationByTypeAndName(String type,String name, Pageable pageable);
+
     Page<Corporation> listCorporationByAdmin(String admin, Pageable pageable);
 
     Page<Corporation> getCorporationsInformationsByIds(List<String> corporationIds, Pageable pageable);

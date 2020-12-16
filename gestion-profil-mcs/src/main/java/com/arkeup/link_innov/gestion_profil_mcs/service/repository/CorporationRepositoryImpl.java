@@ -31,7 +31,10 @@ public class CorporationRepositoryImpl extends CommonMongoToESRepositoryImpl<Cor
     public Page<Corporation> findCorporation(String name, Pageable pageable) {
         return this.mongoRepository.findByNameContaining(name, pageable);
     }
-
+    @Override
+    public Page<Corporation> findCorporationByTypeAndName(String type,String name, Pageable pageable) {
+        return this.mongoRepository.findByTypeNameAndNameContainingIgnoreCase(type,name, pageable);
+    }
     @Override
     public Page<Corporation> listCorporationByAdmin(String admin, Pageable pageable) {
         return this.mongoRepository.findByAdminsOrSuperAdmin(admin, admin, pageable);

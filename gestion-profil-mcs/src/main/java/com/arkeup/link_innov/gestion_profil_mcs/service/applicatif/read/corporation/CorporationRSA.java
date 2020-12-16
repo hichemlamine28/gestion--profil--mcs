@@ -20,6 +20,8 @@ public interface CorporationRSA {
 
 	public CorporationsDTO findCorporation(String name, Pageable pageable);
 
+	public CorporationsDTO findCorporationByTypeAndName(String type,String name, Pageable pageable);
+
 	public CorporationsDTO listCorporationByAdmin(String admin, Pageable pageable);
 
 	public List<String> listCorporationIdsByAdmin(String admin, Pageable pageable);

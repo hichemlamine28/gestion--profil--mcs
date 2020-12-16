@@ -14,6 +14,8 @@ public interface CorporationMongoRepository extends MongoRepository<Corporation,
     @Query("{name: { $regex: ?0 } })")
     Page<Corporation> findByNameContaining(String name, Pageable pageable);
 
+    Page<Corporation> findByTypeNameAndNameContainingIgnoreCase(String type,String name, Pageable pageable);
+
     Page<Corporation> findByAdminsOrSuperAdmin(String admin, String superadmin, Pageable pageable);
 
     Page<Corporation> findAllByIdIn(List<String> corporationIds, Pageable pageable);
